@@ -5,9 +5,6 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-<<<<<<< Updated upstream
-    extend: {},
-=======
     extend: {
       colors: {
         'Roxo': '#25183E',
@@ -15,7 +12,6 @@ export default {
         'Rosa': '#E6007E',
       }
     }
->>>>>>> Stashed changes
   },
   plugins: [],
 }
