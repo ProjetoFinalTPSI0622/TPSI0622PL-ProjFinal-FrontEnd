@@ -11,7 +11,7 @@ export default {
         'Azul': '#009FE3',
         'Rosa': '#E6007E',
       }
-    },
+    }
   },
   plugins: [],
 }
