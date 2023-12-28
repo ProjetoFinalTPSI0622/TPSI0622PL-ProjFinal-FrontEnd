@@ -1,10 +1,10 @@
 <script setup>
+import AccountSettings from './components/Settings/AccountSettings.vue';
+
 
 import Navbar from './components/Navbar.vue'
 import SideBar from './components/SideBar.vue'
 
-
-</script>
 
 <template>
   <div class="h-screen w-screen">
@@ -16,4 +16,8 @@ import SideBar from './components/SideBar.vue'
   </div>
 </template>
 
-<style scoped></style>
+
+<style scoped>
+  
+</style>
+
