@@ -11,7 +11,7 @@ export default {
         'secondary': '#009FE3',     // Azul claro
         'alternative': '#E6007E',   // Rosa vibrante
         'neutral': '#F6F6F6',       // Cizento Claro
-        'background' : '#FFFFF',    // Branco
+        'background' : '#FFFFFF',    // Branco
       }
     }
   },
