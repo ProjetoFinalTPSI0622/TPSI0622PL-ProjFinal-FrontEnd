@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'Roxo': '#25183E',       
+        'Azul': '#009FE3',     
+        'Rosa': '#E6007E',   
+        'Cinzento': '#CCC7C7',
+      },
+    },
   },
   plugins: [],
 }
