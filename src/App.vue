@@ -1,13 +1,15 @@
 <script setup>
+import AccountSettings from './components/Settings/AccountSettings.vue';
+
 
 </script>
 
 <template>
 
-  <Navbar />
+ <AccountSettings />
 
 </template>
 
 <style scoped>
-
+  
 </style>

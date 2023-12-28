@@ -7,9 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        'Roxo': '#25183E',
-        'Azul': '#009FE3',
-        'Rosa': '#E6007E',
+        'primary': '#25183E',       // Roxo escuro
+        'secondary': '#009FE3',     // Azul claro
+        'alternative': '#E6007E',   // Rosa vibrante
+        'neutral': '#F6F6F6',       // Cizento Claro
+        'background' : '#FFFFF',    // Branco
       }
     }
   },
