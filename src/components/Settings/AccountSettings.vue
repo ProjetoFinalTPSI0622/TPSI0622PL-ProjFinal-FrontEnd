@@ -1,7 +1,7 @@
 <template>
-  <div class="flex gap-5">
+  <div class="md:flex md:gap-5">
     <OptionsBar />
-    <div class="flex flex-col gap-5 w-full">
+    <div class="flex flex-col w-full md:gap-5">
       <UploadImage />
       <FormInfo />
     </div>
