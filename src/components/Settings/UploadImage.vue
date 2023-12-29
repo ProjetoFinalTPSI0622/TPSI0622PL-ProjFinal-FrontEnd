@@ -22,9 +22,9 @@
                         </div>
                     </form>
                 </section>
-                <section class="flex flex-col items-center w-[21%] ml-5 max-md:w-full max-md:ml-0">
+                <section class="flex flex-col items-center w-[21%] ml-5 max-md:w-full max-md:ml-0 justify-center">
                     <button
-                        class="text-white text-2xl whitespace-nowrap justify-center bg-purple w-full my-auto px-9 py-3 rounded-md max-md:mt-10 max-md:px-5"
+                        class="text-white text-2xl whitespace-nowrap bg-purple w-full px-9 py-3 rounded-md max-md:my-5 max-md:px-5"
                         aria-label="Update"> Update </button>
                 </section>
             </header>
