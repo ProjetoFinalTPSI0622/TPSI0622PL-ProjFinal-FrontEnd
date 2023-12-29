@@ -6,7 +6,6 @@ const routes = [
     // add other routes here
 
     { path: '/', component: AccountSettings },
-    { path: '/1', page: NotificationSettings },
 ]
 
 const router = createRouter({

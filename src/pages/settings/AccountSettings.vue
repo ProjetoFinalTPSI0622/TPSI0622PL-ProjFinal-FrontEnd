@@ -9,15 +9,15 @@
 </template>
 
 <script>
-import OptionsBar from './components/settings/OptionsBar.vue';
-import UploadImage from './components/settings/UploadImage.vue';
-import FormInfo from './components/settings/FormInfo.vue';
-export default {
-  components: {
-    OptionsBar,
-    UploadImage,
-    FormInfo
-  }
+  import OptionsBar from '../../components/settings/OptionsBar.vue';
+  import UploadImage from '../../components/settings/UploadImage.vue';
+  import FormInfo from '../../components/settings/FormInfo.vue';
+  export default {
+    components: {
+      OptionsBar,
+      UploadImage,
+      FormInfo
+    }
 }
 </script>
 
