@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-Roxo flex flex-col w-20 h-full p-5 place-content-between">
+    <div class="bg-purple flex flex-col w-20 h-full p-5 place-content-between">
         <div class="flex flex-col gap-10">
             <img src="../assets/home.svg">
             <img src="../assets/ticket.svg">

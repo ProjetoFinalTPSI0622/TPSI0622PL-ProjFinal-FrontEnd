@@ -1,10 +1,8 @@
 <script setup>
-import AccountSettings from './components/Settings/AccountSettings.vue';
 
-
-import Navbar from './components/Navbar.vue'
-import SideBar from './components/SideBar.vue'
-
+import Navbar from './components/master/Navbar.vue'
+import SideBar from './components/master/SideBar.vue'
+</script>
 
 <template>
   <div class="h-screen w-screen">
