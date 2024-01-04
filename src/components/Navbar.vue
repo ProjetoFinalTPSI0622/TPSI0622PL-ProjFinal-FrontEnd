@@ -1,19 +1,19 @@
 <template>
-    <div class="bg-Branco flex w-full h-[10%] px-5 shadow-md place-content-between">
+    <div class="bg-Branco flex w-full h-[8%] px-5 shadow-md place-content-between">
 
-        <img src="../assets/logo.png" >
+        <img src="../assets/logo.png">
 
-        <div class="flex flex-row h-full w-1/2 justify-end items-center gap-5">
-            <div class="bg-Roxo flex flex-row h-11 w-60 rounded-3xl p-5 text-white items-center justify-center text-2xl">
-                Conversations 0
+        <div class="flex flex-row h-full py-3.5 justify-end items-center sm:gap-4 ">
+            <div class="bg-Roxo hidden sm:flex flex-row h-full rounded-3xl p-5 items-center justify-center ">
+                <p class="text-white text-2xl">Conversations 0</p>
             </div>
-            <div class="bg-Roxo flex rounded-3xl w-16 h-11 items-center justify-center">
-                <img src="../assets/Bell.svg" >
+            <div class="bg-Roxo flex flex-row h-full rounded-3xl p-5 items-center justify-center">
+                <img class="object-cover min-w-9" src="../assets/Bell.svg">
             </div>
-            <div class="bg-Roxo flex rounded-3xl h-11 items-center justify-center gap-5 pl-5">
-                <img src="../assets/Chevron Down.svg" >
-                <p class=" text-white text-2xl flex items-center">Jorge Alberto</p>
-                <img src="../assets/Ellipse 5.svg" >
+            <div class="bg-Roxo hidden sm:flex flex-row h-full rounded-3xl items-center content-between py-5 pl-2 sm:gap-3 sm:pl-5">
+                <img src="../assets/Chevron Down.svg">
+                <p class="hidden sm:block text-white text-2xl">Jorge Alberto</p>
+                <img class="w-12 sm:w-16" src="../assets/Ellipse 5.svg">
             </div>
         </div>
     </div>
