@@ -1,5 +1,4 @@
 <script setup>
-
 import Navbar from './components/master/Navbar.vue'
 import SideBar from './components/master/SideBar.vue'
 </script>
@@ -7,7 +6,7 @@ import SideBar from './components/master/SideBar.vue'
 <template>
   <div class="h-screen w-screen">
     <Navbar />
-    <div class="flex flex-row h-[90%] w-full">
+    <div class="flex h-[90%] w-full">
       <SideBar />
       <router-view />
     </div>
@@ -15,7 +14,5 @@ import SideBar from './components/master/SideBar.vue'
 </template>
 
 
-<style scoped>
-  
-</style>
+<style scoped></style>
 

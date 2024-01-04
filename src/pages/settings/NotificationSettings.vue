@@ -8,7 +8,7 @@
 </template>
 
 <script>
-    import OptionsBar from './components/settings/OptionsBar.vue';
+    import OptionsBar from '../../components/settings/OptionsBar.vue';
     export default {
         components: {
             OptionsBar
@@ -16,6 +16,3 @@
     }
 </script>
 
-<style lang="scss" scoped>
-
-</style>

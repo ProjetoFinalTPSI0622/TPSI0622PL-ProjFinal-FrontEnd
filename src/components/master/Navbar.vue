@@ -1,7 +1,7 @@
 <template>
     <div class="bg-white flex w-full h-[10%] px-5 shadow-md place-content-between">
 
-        <img src="../../assets/logo.png" >
+        <img class="w-[5%]" src="../../assets/logo.png" >
 
         <div class="flex flex-row h-full w-1/2 justify-end items-center gap-5">
             <div class="bg-purple hoverButton flex flex-row h-11 w-60 rounded-3xl p-5 text-white items-center justify-center text-2xl">
