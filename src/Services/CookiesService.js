@@ -1,6 +1,6 @@
 import VueCookies from 'vue-cookies'
 
-export const CookiesService = {
+export const CookieService = {
     saveTokenToCookie: async (token) => {
         VueCookies.set('token', token, '30d', null, null, true, 'Strict');
     },
