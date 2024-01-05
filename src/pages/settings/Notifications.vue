@@ -2,7 +2,6 @@
     <div class="md:flex md:gap-5">
         <OptionsBar/>
         <div class="flex flex-col w-full gap-5 p-3">
-            <FilterType/>
             <div class="flex flex-col gap-5 w-full">
                 <NotificationShell>
                     <NotificationGroup title="General Notifications">
