@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex flex-row w-full pr-3">
-            <div class="text-purple text-lg font-bold my-auto w-full">
+            <div class="text-purple text-base font-bold my-auto w-full">
                 General Notifications
             </div>
             <CheckBox />

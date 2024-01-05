@@ -5,7 +5,6 @@
             <FilterType/>
             <div class="flex flex-col gap-8 w-full">
                 <NotificationGroup />
-                <NotificationGroup />
             </div>
         </div>
     </div>
