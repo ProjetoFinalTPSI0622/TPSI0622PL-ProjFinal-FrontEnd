@@ -1,7 +1,7 @@
 <template>
-    <div class="md:flex md:gap-5">
+    <div class="md:flex w-full">
         <OptionsBar/>
-        <div class="flex flex-col w-full gap-5 p-3">
+        <div class="flex flex-col w-full p-2 md:p-6 lg:p-10 lg:mr-8 xl:mr-8">
             <div class="flex flex-col gap-5 w-full">
                 <NotificationShell>
                     <NotificationGroup title="General Notifications">

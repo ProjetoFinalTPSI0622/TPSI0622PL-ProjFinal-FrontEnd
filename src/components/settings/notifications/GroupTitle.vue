@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="flex flex-col w-full">
-            <div class="flex flex-row justify-between text-purple text-base font-bold my-auto w-full pl-1 pb-2 border-b-2 border-purple">{{ title }}
-                <FilterType />
+            <div class="flex flex-row justify-between text-purple text-base md:text-lg lg:text-xl font-bold my-auto w-full pl-1 pb-2 border-b-2 border-purple">{{ title }}
+                <FilterType class="lg:pr-2 xl:pl-10 xl:w-3/12"/>
             </div>
         </div>
     </div>

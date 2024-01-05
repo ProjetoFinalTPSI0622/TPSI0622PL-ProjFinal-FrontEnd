@@ -1,5 +1,5 @@
 <template>
-    <div class="flex gap-5 w-2/5 justify-center items-center pr-3">
+    <div class="flex gap-5 w-2/5 justify-center items-center pr-3 xl:w-3/12 lg:gap-6 xl:gap-8">
         <button class="bg-stone-300 flex w-[20px] shrink-0 h-[20px] rounded-md"></button>
         <button class="bg-stone-300 flex w-[20px] shrink-0 h-[20px] rounded-md"></button>
         <button class="bg-stone-300 flex w-[20px] shrink-0 h-[20px] rounded-md"></button>
