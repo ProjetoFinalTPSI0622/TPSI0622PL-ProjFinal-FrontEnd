@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-row w-full pr-3">
+    <div class="flex flex-row w-full pr-5">
         <OptionText />
         <CheckBox />
     </div>

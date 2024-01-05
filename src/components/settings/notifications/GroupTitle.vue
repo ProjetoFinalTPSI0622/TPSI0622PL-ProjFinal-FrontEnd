@@ -4,7 +4,7 @@
             <div class="text-purple text-base font-bold my-auto w-full">
                 General Notifications
             </div>
-            <CheckBox />
+            <!-- <CheckBox /> -->
         </div>
     </div>
 </template>
