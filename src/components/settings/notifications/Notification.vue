@@ -1,18 +1,24 @@
 <template>
-    <div class="flex flex-row w-full pr-5">
-        <OptionText />
+    <div class="flex flex-row w-full my-1">
+        <OptionDescription :textDescription="optionDescriptionText" />
         <CheckBox />
     </div>
 </template>
 
 <script>
-import OptionText from './OptionText.vue';
 import CheckBox from './CheckBox.vue';
+import OptionDescription from './OptionDescription.vue';
 export default {
     components: {
-        OptionText,
-        CheckBox
-    }
+        CheckBox,
+        OptionDescription
+    },
+    props: {
+        optionDescriptionText: {
+            type: String,
+            required: true
+        }
+    },
 }
 </script>
 
