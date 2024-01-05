@@ -10,12 +10,12 @@ const routes = [
     {
         path: '/settings/account',
         name: 'account',
-        component: () => import('./pages/settings/AccountSettings.vue')
+        component: () => import('./pages/settings/Account.vue')
     },
     {
         path: '/settings/notifications',
         name: 'notifications',
-        component: () => import('./pages/settings/NotificationSettings.vue')
+        component: () => import('./pages/settings/Notifications.vue')
     },
 ]
 

@@ -1,6 +1,5 @@
 <template>
-  <button v-for="option in options"
-    class="flex flex-col items-center shadow-sm bg-white py-2.5 rounded-md md:items-start">
+  <button v-for="option in options" v-bind:key="option.name" class="flex flex-col items-center shadow-sm bg-white py-2.5 rounded-md md:items-start">
     <div class="flex flex-col px-5 md:items-start">
       <h1 class="text-primary text-xl bold whitespace-nowrap md:text-2xl">{{ option.name }}</h1>
       <h3 class="text-primary text-xs whitespace-nowrap mt-2 md:text-sm">{{ option.description }}</h3>
@@ -32,4 +31,3 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
