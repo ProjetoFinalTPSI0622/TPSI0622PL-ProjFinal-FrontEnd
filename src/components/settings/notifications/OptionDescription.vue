@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-        <div class="text-purple text-sm pl-2 md:pl-4 pr-4 lg:text-base">{{ textDescription }}</div>
+        <div class="text-purple text-sm pl-2 md:pl-4 pr-4 xl:text-lg">{{ textDescription }}</div>
     </div>
 </template>
 
