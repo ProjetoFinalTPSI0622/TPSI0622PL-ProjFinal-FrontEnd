@@ -1,5 +1,5 @@
 <template>
-    <div class="shadow-sm bg-grey flex max-w-[880px] flex-col px-10 py-8 rounded-md max-md:px-5 border-b-opacity-50 border-b">
+    <div class="bg-grey flex flex-col px-10 py-8 rounded-md max-md:px-5 border-b-opacity-50 border-b">
         <h1 class="text-purple text-3xl font-bold max-md:max-w-full ">User Information</h1>
         <div class="flex justify-between gap-5 mt-5 max-md:max-w-full max-md:flex-wrap">
             <div class=" flex grow basis-[0%] flex-col">
@@ -18,12 +18,6 @@
             <input type="text" placeholder="Insert your address" required v-model="address"
             class="flex-wrap justify-center text-purple text-xl whitespace-nowrap items-stretch border bg-white pl-2.5 py-1.5 rounded-xl border-solid border-purple max-md:max-w-full">
         </div>
-
-        <!-- <div
-            class="justify-center text-purple text-xl items-stretch border bg-white pl-2.5 py-1.5 rounded-xl border-solid border-purple max-md:max-w-full">
-            4612 Araújo Travessa, Samora Correia, TX 0642
-        </div> -->
-
         <div class="items-stretch flex justify-between gap-5 mt-5 max-md:max-w-full max-md:flex-wrap">
             <div class=" flex grow basis-[0%] flex-col">
                 <label class="text-pink text-sm">City*</label>

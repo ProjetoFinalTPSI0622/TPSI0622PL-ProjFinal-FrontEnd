@@ -1,9 +1,9 @@
 <template>
-    <div class="w-full flex flex-col place-content-center border-b-opacity-50 border-b">
-        <div class="shadow-sm bg-grey max-w-[880px] px-10 rounded-md max-md:px-5">
-            <header class="flex gap-5 max-md:flex-col max-md:items-stretch max-md:gap-0">
-                <section class="flex flex-col items-stretch w-[79%] max-md:w-full max-md:ml-0">
-                    <form class="grow py-5 max-md:max-w-full max-md:mt-10">
+    <div class="w-full flex flex-col place-content-center mt-5">
+        <div class=" bg-grey m-5 px-10 rounded-md max-md:px-5 border-b-opacity-50 border-b">
+            <div class="flex gap-5 max-md:flex-col max-md:items-stretch max-md:gap-0">
+                <section class="flex flex-col w-[80%] max-md:w-full max-md:ml-0">
+                    <div class="grow py-5 max-md:max-w-full max-md:mt-5">
                         <div class="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
                             <section class="flex flex-col w-full max-md:ml-0 items-center justify-center md:w-60">
                                 <img loading="lazy"
@@ -11,23 +11,24 @@
                                     class="aspect-square object-contain object-center w-[100px] overflow-hidden shrink-0 max-w-full rounded-[50%] " />
                             </section>
                             <section class="flex flex-col w-[64%] ml-5 max-md:w-full max-md:ml-0">
-                                <div class="flex flex-col my-auto max-md:mt-10 items-center md:items-start">
-                                    <h2 class="text-primary text-3xl whitespace-nowrap" aria-label="Upload New Photo">
+                                <div class="flex flex-col my-auto max-md:mt-5 items-center md:items-start">
+                                    <h2 class="text-primary text-2xl">
                                         Upload New Photo
                                     </h2>
-                                    <p class="text-primary text-opacity-50 text-xl whitespace-nowrap mt-2.5"
+                                    <p class="text-primary text-opacity-50 text-base whitespace-nowrap mt-2.5"
                                         aria-label="file_name.jpg"> file_name.jpg </p>
                                 </div>
                             </section>
                         </div>
-                    </form>
+                    </div>
                 </section>
-                <section class="flex flex-col items-center md:w-[21%] ml-5 max-md:w-full max-md:ml-0 justify-center">
+                <section class="flex flex-col items-center md:w-[20%]  max-md:w-full max-md:ml-0 justify-center">
                     <button
-                        class="text-white text-xl font-bold whitespace-nowrap bg-purple w-60 md:w-full px-9 py-3 rounded-md max-md:my-5 max-md:px-5"
-                        aria-label="Update"> Update </button>
+                        class="text-white text-lg font-bold bg-purple w-36 md:w-full px-9 py-3 rounded-md max-md:mb-5 max-md:px-5"
+                        aria-label="Update"> Update 
+                    </button>
                 </section>
-            </header>
+            </div>
         </div>
     </div>
 </template>
@@ -38,5 +39,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

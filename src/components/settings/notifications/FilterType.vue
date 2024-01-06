@@ -8,7 +8,7 @@
             </div>
             <div class="flex flex-col items-center gap-1">
                 <div class="text-purple text-center text-xs place-items-center lg:text-sm xl:text-base"> 
-                    Brower
+                    Browser
                 </div>
             </div>
             <div class="flex flex-col items-center gap-1">
