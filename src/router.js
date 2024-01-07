@@ -2,20 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import LoginPage from './components/pages/LoginPage.vue'
 import HomePage from './components/pages/HomePage.vue'
-import { useAuthStore } from "./Stores/AuthStore.js";
-
-const authGuard = (to, from, next) => {
-
-    const authStore = useAuthStore();
-
-    console.log(authStore.getIsAuthed)
-
-    if (to.meta.requiresAuth && !authStore.getIsAuthed) {
-        next('/login');
-    } else {
-        next();
-    }
-};
+import { AuthService } from "./Services/AuthService.js";
 
 const routes = [
     // example route { path: '/', component: Main },
@@ -40,6 +27,22 @@ const router = createRouter({
     routes,
 })
 
-router.beforeEach(authGuard);
-
+router.beforeEach((to, from, next) => {
+    if(to.matched.some(record => record.meta.requiresAuth)) {
+        if(!AuthService.checkAuth().success) {
+            console.log("not authed")
+            next({
+                name: 'login',
+                query: {redirect: to.fullPath}
+            })
+        }
+        else{
+            console.log("authed")
+            next();
+        }
+    }
+    else{
+        next();
+    }
+})
 export default router
