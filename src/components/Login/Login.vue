@@ -70,7 +70,7 @@ const submitHandler = async (e) => {
               </div>
 
 <!--              SUBMIT FORM BUTTON-->
-              <button @click="submitHandler" type="submit" class="w-full bg-Roxo text-white focus:ring-4 focus:outline-none focus:ring-2 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
+              <button @click="submitHandler" type="submit" class="w-full bg-purple text-white focus:ring-4 focus:outline-none focus:ring-2 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
             </form>
           </div>
         </div>
