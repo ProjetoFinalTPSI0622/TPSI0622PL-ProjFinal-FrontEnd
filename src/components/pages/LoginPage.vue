@@ -1,6 +1,6 @@
 <script setup>
 
-import LoginComponent from '../login/Login.vue'
+import LoginComponent from '../Login/Login.vue'
 
 </script>
 
