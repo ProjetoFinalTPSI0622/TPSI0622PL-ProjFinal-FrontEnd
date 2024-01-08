@@ -14,6 +14,7 @@
                 <img src="../assets/Chevron Down.svg">
                 <p class="hidden sm:block text-white text-2xl">Jorge Alberto</p>
                 <img class="w-12 sm:w-16" src="../assets/Ellipse 5.svg">
+
             </div>
         </div>
     </div>
