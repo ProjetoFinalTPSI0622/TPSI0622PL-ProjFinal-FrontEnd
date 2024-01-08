@@ -13,6 +13,7 @@ const routes = [
     // add other routes here
 
 
+
     {
         path: '/',
         name: 'home',
@@ -32,6 +33,7 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
+
 
     },
     {
