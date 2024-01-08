@@ -1,0 +1,19 @@
+<script setup>
+
+import Navbar from "../Navbar.vue";
+import SideBar from "../SideBar.vue";
+</script>
+
+<template>
+  <div class="h-screen w-screen">
+    <Navbar />
+    <div class="flex flex-row h-[90%] w-full">
+      <SideBar />
+      <router-view />
+    </div>
+  </div>
+</template>
+
+<style scoped lang="scss">
+
+</style>
