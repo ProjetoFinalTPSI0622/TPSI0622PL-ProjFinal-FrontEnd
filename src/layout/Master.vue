@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="w-full flex flex-col">
         <div class="flex-none">
             <slot name="header"></slot>
@@ -10,4 +10,4 @@
             <slot></slot>
         </div>
     </div>
-</template>
+</template> -->

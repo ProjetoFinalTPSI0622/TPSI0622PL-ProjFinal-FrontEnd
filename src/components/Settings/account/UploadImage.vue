@@ -22,11 +22,8 @@
                         </div>
                     </div>
                 </section>
-                <section class="flex flex-col items-center md:w-[20%]  max-md:w-full max-md:ml-0 justify-center">
-                    <button
-                        class="text-white text-lg font-bold bg-purple w-36 md:w-full px-9 py-3 rounded-md max-md:mb-5 max-md:px-5"
-                        aria-label="Update"> Update 
-                    </button>
+                <section class="flex flex-col items-center md:w-[20%] max-md:w-full max-md:ml-0 justify-center">
+                    <submit-button btn-label="Update"></submit-button>
                 </section>
             </div>
         </div>
@@ -34,9 +31,11 @@
 </template>
 
 <script>
+import SubmitButton from '../../../components/SubmitButton.vue';
 export default {
-
+    components: {
+        SubmitButton
+    }
 }
 </script>
 
-<style lang="scss" scoped></style>

@@ -11,7 +11,7 @@
 <script>
   import OptionsBar from '../../components/settings/OptionsBar.vue';
   import UploadImage from '../../components/settings/account/UploadImage.vue';
-  import FormInfo from '../../components/settings/FormInfo.vue';
+  import FormInfo from '../../components/FormInfo.vue';
   export default {
     components: {
       OptionsBar,
