@@ -27,22 +27,30 @@ const router = createRouter({
     routes,
 })
 
-router.beforeEach((to, from, next) => {
-    if(to.matched.some(record => record.meta.requiresAuth)) {
-        if(!AuthService.checkAuth().success) {
-            console.log("not authed")
+router.beforeEach(async (to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        try {
+
+            const authResult = await AuthService.checkAuth();
+
+            if (!authResult.success) {
+                next({
+                    name: 'login',
+                    query: { redirect: to.fullPath }
+                });
+            } else {
+                next();
+            }
+        } catch (error) {
+            console.error('Error during authentication:', error);
             next({
                 name: 'login',
-                query: {redirect: to.fullPath}
-            })
+                query: { redirect: to.fullPath }
+            });
         }
-        else{
-            console.log("authed")
-            next();
-        }
-    }
-    else{
+    } else {
         next();
     }
-})
+});
+
 export default router
