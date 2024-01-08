@@ -26,14 +26,15 @@ const submitHandler = async (e) => {
 </script>
 
 <template>
-  <div class="h-screen w-screen">
+  <div class="h-screen w-screen ">
     <section>
-      <div class="flex flex-col items-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div class="flex flex-col items-center md:justify-center px-6 py-20 mx-auto h-screen lg:py-0 md:max-w-screen-md  ">
+
 
 <!--        IMAGE-->
-        <img class="mt-10 w-48 mr-2 object-contain" src="../../assets/logo.png" >
-        <div class="w-full rounded-lg shadow">
-          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <div class="w-full rounded-lg shadow flex flex-col items-center">
+          <img class="mt-10 w-48 mr-2 object-contain" src="../../assets/logo.png" >
+          <div class="w-full p-6 space-y-4 md:space-y-6 sm:p-8">
 
 <!--            TITLE-->
             <h1 class="text-xl font-bold leading-tight tracking-tight">
@@ -79,6 +80,8 @@ const submitHandler = async (e) => {
 
 </template>
 
-<style scoped lang="scss">
+<style scoped>
+
+
 
 </style>
