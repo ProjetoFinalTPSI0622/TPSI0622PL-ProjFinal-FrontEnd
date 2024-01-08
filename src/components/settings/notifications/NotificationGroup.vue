@@ -7,7 +7,7 @@
 
 <script>
 import GroupTitle from './GroupTitle.vue';
-import Notification from './Notification.vue';
+import Notification from '../../../pages/Notification.vue';
 export default {
     components: {
         GroupTitle,

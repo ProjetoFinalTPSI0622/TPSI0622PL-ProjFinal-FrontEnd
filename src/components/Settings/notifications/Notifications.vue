@@ -33,7 +33,7 @@
 import OptionsBar from '../OptionsBar.vue';
 import FilterType from './FilterType.vue';
 import NotificationGroup from './NotificationGroup.vue';
-import Notification from './Notification.vue';
+import Notification from '../../../pages/Notification.vue';
 import NotificationShell from '../../../layout/NotificationShell.vue';
 export default {
     components: {
