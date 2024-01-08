@@ -1,32 +1,15 @@
 <template>
-     <div class="flex flex-col w-full bg-neutral max-w-[480px] p-12 border-r-opacity-50 border-r ">
-      <button class="shadow-sm bg-background flex flex-col items-center py-2.5 rounded-md md:items-start">
-        <div class="flex flex-col px-5 md:items-start">
-          <h1 class="text-primary text-2xl whitespace-nowrap">Account Settings</h1>
-          <div class="text-primary text-sm whitespace-nowrap mt-2.5">Details about your personal settings</div>
-        </div>
-      </button>
-      <button class="shadow-sm bg-background flex flex-col mt-5 items-center py-2.5 rounded-md md:items-start">
-        <div class="flex flex-col px-5 md:items-start">
-          <h1 class="text-primary text-2xl whitespace-nowrap">Notifications</h1>
-          <div class="text-primary text-sm whitespace-nowrap mt-2.5">Details about your notifications system</div>
-        </div>
-      </button>
-      <button class="shadow-sm bg-background flex flex-col items-center mt-5 py-2.5 rounded-md md:items-start">
-        <div class="flex flex-col px-5 md:items-start">
-          <h1 class="text-primary text-2xl whitespace-nowrap">Password &amp; Security</h1>
-          <div class="text-primary text-sm whitespace-nowrap mt-2.5">Details about your password settings</div>
-        </div>
-      </button>
-    </div>
+  <div class="flex flex-col gap-5 w-full md:w-[65%] lg:w-[50%] xl:w-[35%] bg-grey p-10 md:px-5 border-b border-b-opacity-50 md:border-r md:border-r-opacity-50 md:border-t md:border-t-opacity-100">
+    <OptionButton />
+  </div>
 </template>
 
 <script>
-    export default {
-        
-    }
+import OptionButton from './OptionButton.vue';
+export default {
+  components: { 
+    OptionButton, 
+  }
+}
 </script>
 
-<style lang="scss" scoped>
-
-</style>
