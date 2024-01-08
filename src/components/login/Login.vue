@@ -1,11 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import {onBeforeMount, ref} from 'vue'
 import { AuthService } from '../../Services/AuthService.js';
+import router from "../../router.js";
 
 const emailInputData = ref(null);
 const passwordInputData = ref(null);
 
-const submitHandler = (e) => {
+const submitHandler = async (e) => {
   e.preventDefault();
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
@@ -14,7 +15,11 @@ const submitHandler = (e) => {
     return
   }
 
-  AuthService.login(emailInputData.value, passwordInputData.value);
+  const authResult = await AuthService.login(emailInputData.value, passwordInputData.value);
+
+  if(authResult.success){
+    router.push({name: 'home'}).then();
+  }
 
 }
 

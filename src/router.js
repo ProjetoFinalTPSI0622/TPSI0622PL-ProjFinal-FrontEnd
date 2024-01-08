@@ -19,6 +19,15 @@ const routes = [
         path: '/login',
         name: 'login',
         component: (LoginPage),
+        beforeEnter: async (to, from, next) => { //check if user is already logged in and redirect to home page
+            const authResult = await AuthService.checkAuth();
+
+            if (authResult.success) {
+                next({ name: 'home' });
+            } else {
+                next();
+            }
+        }
     },
 ]
 
