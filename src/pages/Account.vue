@@ -9,9 +9,9 @@
 </template>
 
 <script>
-  import OptionsBar from '../OptionsBar.vue';
-  import UploadImage from '../account/UploadImage.vue';
-  import FormInfo from '../FormInfo.vue';
+  import OptionsBar from '../components/Settings/OptionsBar.vue';
+  import UploadImage from '../components/Settings/account/UploadImage.vue';
+  import FormInfo from '../components/Settings/FormInfo.vue';
   export default {
     components: {
       OptionsBar,
