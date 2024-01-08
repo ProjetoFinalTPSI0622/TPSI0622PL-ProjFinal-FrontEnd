@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .hoverButton {
-  @apply hover:bg-Azul hover:cursor-pointer;
+  @apply hover:bg-blue hover:cursor-pointer;
 }

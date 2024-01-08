@@ -1,5 +1,6 @@
 <script setup>
 
+
 </script>
 
 
@@ -10,7 +11,5 @@
 </template>
 
 
-<style scoped>
-  
-</style>
+<style scoped></style>
 
