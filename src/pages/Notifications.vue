@@ -30,10 +30,9 @@
 </template>
 
 <script>
-import OptionsBar from '../OptionsBar.vue';
-import FilterType from './FilterType.vue';
-import NotificationGroup from './NotificationGroup.vue';
-import Notification from '../../../pages/Notification.vue';
+import OptionsBar from './components/settings/OptionsBar.vue';
+import FilterType from './components/settings/notifications/FilterType.vue';
+import NotificationGroup from './components/settings/notifications/NotificationGroup.vue';
 import NotificationShell from '../../../layout/NotificationShell.vue';
 export default {
     components: {
