@@ -14,6 +14,12 @@ const routes = [
 
 
     {
+        path: '/',
+        name: 'home',
+        component: (HomePage),
+        meta: { requiresAuth: true }
+    },
+    {
         path: '/settings/account',
         name: 'account',
         component: (Account),
@@ -24,14 +30,7 @@ const routes = [
         name: 'notifications',
         component: (Notifications),
         meta: { requiresAuth: true }
-    }
-    {
-        path: '/',
-        name: 'home',
-        component: (HomePage),
-        meta: { requiresAuth: true }
     },
-
     {
         path: '/Login',
         name: 'login',
