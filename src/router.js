@@ -2,17 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { AuthService } from "./Services/AuthService.js";
 
 
-import Login from "./pages/Login.vue";
 import LoginPage from './pages/LoginPage.vue'
 import HomePage from './pages/HomePage.vue'
-import Account from './components/Settings/notifications/Account.vue'
-import Notifications from './components/Settings/notifications/Notifications.vue'
 
 const routes = [
     // example route { path: '/', component: Main },
     // add other routes here
-
-
 
     {
         path: '/',
@@ -20,22 +15,7 @@ const routes = [
         component: (HomePage),
         meta: { requiresAuth: true }
     },
-    {
-        path: '/settings/account',
-        name: 'account',
-        component: (Account),
-        meta: { requiresAuth: true}
-    },
-    {
-        path: '/settings/notifications',
-        name: 'notifications',
-        component: (Notifications),
-        meta: { requiresAuth: true }
-    },
-    {
-
-
-    },
+    
     {
         path: '/Login',
         name: 'login',
