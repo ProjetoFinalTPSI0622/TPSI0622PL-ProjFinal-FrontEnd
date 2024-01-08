@@ -12,13 +12,9 @@
             </div>
             <div class="bg-purple hidden md:flex flex-row h-full rounded-3xl items-center content-between py-5 pl-2 sm:gap-3 sm:pl-5">
                 <img src="../assets/Chevron Down.svg">
-<<<<<<< Updated upstream
                 <p class="hidden sm:block text-white text-2xl">Jorge Alberto</p>
                 <img class="w-12 sm:w-16" src="../assets/Ellipse 5.svg">
-=======
-                <p class="hidden sm:block text-white text-xl md:text-2xl">Jorge Alberto</p>
-                <img class="w-12 " src="../assets/Ellipse 5.svg">
->>>>>>> Stashed changes
+
             </div>
         </div>
     </div>
