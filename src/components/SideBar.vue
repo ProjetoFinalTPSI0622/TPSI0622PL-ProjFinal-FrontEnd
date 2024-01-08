@@ -6,7 +6,6 @@
             <img src="../assets/user.svg">
             <img src="../assets/pie-chart.svg">
         </div>
-            <img src="../assets/settings.svg">
     </div>
 </template>
 
