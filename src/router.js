@@ -3,10 +3,10 @@ import { AuthService } from "./Services/AuthService.js";
 
 
 import Login from "./pages/Login.vue";
-import LoginPage from './components/pages/LoginPage.vue'
-import HomePage from './components/pages/HomePage.vue'
-import Account from './pages/settings/Account.vue'
-import Notifications from './pages/settings/Notifications.vue'
+import LoginPage from './pages/LoginPage.vue'
+import HomePage from './pages/HomePage.vue'
+import Account from './components/Settings/notifications/Account.vue'
+import Notifications from './components/Settings/notifications/Notifications.vue'
 
 const routes = [
     // example route { path: '/', component: Main },
@@ -30,6 +30,9 @@ const routes = [
         name: 'notifications',
         component: (Notifications),
         meta: { requiresAuth: true }
+    },
+    {
+
     },
     {
         path: '/Login',
