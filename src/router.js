@@ -31,41 +31,28 @@ const routes = [
       //   component: Notifications,
       //   //meta: { requiresAuth: true }
       // },
-         {
-                path: '/ShowTicket',
-                name: 'showTicket',
-                component: (ShowTicketPage),
-                //meta: { requiresAuth: true }
-            },
+      {
+        path: '/ShowTicket',
+        name: 'showTicket',
+        component: (ShowTicketPage),
+        //meta: { requiresAuth: true }
+      },
     ],
   },
 
   {
-    path: "/Login",
-    name: "login",
-    component: LoginPage,
-    beforeEnter: async (to, from, next) => {
-      //check if user is already logged in and redirect to home page
+    path: '/Login',
+    name: 'login',
+    component: (LoginPage),
+    beforeEnter: async (to, from, next) => { //check if user is already logged in and redirect to home page
       const authResult = await AuthService.checkAuth();
 
-        children: [
-       
-        ]
-    },
-    
-    {
-        path: '/Login',
-        name: 'login',
-        component: (LoginPage),
-        beforeEnter: async (to, from, next) => { //check if user is already logged in and redirect to home page
-            const authResult = await AuthService.checkAuth();
-
-          if (authResult.success) {
+      if (authResult.success) {
         next({ name: "home" });
       } else {
         next();
       }
-    },
+    }
   },
 ];
 
