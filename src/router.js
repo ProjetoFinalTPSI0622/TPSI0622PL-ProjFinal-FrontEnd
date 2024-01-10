@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { AuthService } from "./Services/AuthService.js";
 
-import LoginPage from "./pages/LoginPage.vue";
-import HomePage from "./pages/HomePage.vue";
 import Account from './pages/Account.vue';
 // import Notifications from './pages/Notifications.vue'
+
+import LoginPage from './pages/LoginPage.vue'
+import HomePage from './pages/HomePage.vue'
+import ShowTicketPage from './pages/ShowTicketPage.vue'
 
 const routes = [
   // example route { path: '/', component: Main },
@@ -29,6 +31,12 @@ const routes = [
       //   component: Notifications,
       //   //meta: { requiresAuth: true }
       // },
+         {
+                path: '/ShowTicket',
+                name: 'showTicket',
+                component: (ShowTicketPage),
+                //meta: { requiresAuth: true }
+            },
     ],
   },
 
@@ -40,7 +48,19 @@ const routes = [
       //check if user is already logged in and redirect to home page
       const authResult = await AuthService.checkAuth();
 
-      if (authResult.success) {
+        children: [
+       
+        ]
+    },
+    
+    {
+        path: '/Login',
+        name: 'login',
+        component: (LoginPage),
+        beforeEnter: async (to, from, next) => { //check if user is already logged in and redirect to home page
+            const authResult = await AuthService.checkAuth();
+
+          if (authResult.success) {
         next({ name: "home" });
       } else {
         next();
