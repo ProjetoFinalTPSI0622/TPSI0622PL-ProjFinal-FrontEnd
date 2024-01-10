@@ -2,7 +2,7 @@
     <FormShell>
         <template v-slot:FormTitle>
             <div class="flex flex-col w-full">
-                <FormTitle title="User Information" />
+                <FormTitle FormTitle="User Information" />
             </div>
         </template>
         <template v-slot:Form>
