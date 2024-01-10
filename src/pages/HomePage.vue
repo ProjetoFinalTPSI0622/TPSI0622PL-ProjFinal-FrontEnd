@@ -1,7 +1,6 @@
 <script setup>
-
-import Navbar from "../components/Navbar.vue";
-import SideBar from "../components/SideBar.vue";
+  import Navbar from "../components/Navbar.vue";
+  import SideBar from "../components/SideBar.vue";
 </script>
 
 <template>
@@ -13,7 +12,3 @@ import SideBar from "../components/SideBar.vue";
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-
-</style>
