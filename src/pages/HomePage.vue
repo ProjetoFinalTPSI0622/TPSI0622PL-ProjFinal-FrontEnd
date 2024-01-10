@@ -7,9 +7,13 @@ import SideBar from "../components/SideBar.vue";
 <template>
   <div class="h-screen w-screen">
     <Navbar />
-    <router-view />
-    <SideBar />
+    <div class="flex flex-row h-[92%] w-full">
+      <SideBar />
+      <router-view />
+    </div>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+
+</style>

@@ -5,9 +5,7 @@
 
 
 <template>
-
   <router-view />
-
 </template>
 
 
