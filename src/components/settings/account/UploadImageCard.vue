@@ -1,7 +1,7 @@
 <template>
     <div class="w-full flex flex-col place-content-center mt-5">
         <div class="bg-grey m-5 px-10 md:px-0 rounded-md max-md:px-5 border-b-opacity-50 border-b">
-            <div class="flex gap-5 max-md:flex-col p-5">
+            <div class="flex gap-5 max-md:flex-col p-3">
                 <section class="flex flex-col w-[80%] max-md:w-full max-md:ml-0">
                     <div class="grow max-md:max-w-full max-md:mt-5">
                         <div class="gap-5 flex max-md:flex-col">
@@ -33,6 +33,8 @@
 import DisplayImage from './DisplayImage.vue';
 
 export default {
-    components: { DisplayImage }
+    components: { 
+        DisplayImage 
+    }
 }
 </script>

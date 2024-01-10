@@ -6,7 +6,7 @@
         <div class="flex-none">
             <slot name="sidebar"></slot>
         </div>
-        <div class="flex-1 relative">
+        <div class="flex-1 fixed bottom-0">
             <slot></slot>
         </div>
     </div>

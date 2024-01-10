@@ -1,9 +1,9 @@
 <template>
   <div class="md:flex w-full">
     <OptionsBar />
-    <div class="flex flex-col w-full md:gap-5 justify-center gap-5">
+    <div class="flex flex-col w-full justify-center">
       <UploadImageCard />
-      <FormInfo />
+      <Form/>
     </div>
   </div>
 </template>
@@ -11,12 +11,12 @@
 <script>
   import OptionsBar from '../components/Settings/OptionsBar.vue';
   import UploadImageCard from '../components/Settings/account/UploadImageCard.vue';
-  import FormInfo from '../components/Settings/FormInfo.vue';
+  import Form from '../components/Form.vue';
   export default {
     components: {
       OptionsBar,
       UploadImageCard,
-      FormInfo
+      Form
     }
 }
 </script>
