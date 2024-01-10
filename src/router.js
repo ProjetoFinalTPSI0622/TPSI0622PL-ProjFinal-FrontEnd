@@ -4,6 +4,7 @@ import { AuthService } from "./Services/AuthService.js";
 
 import LoginPage from './pages/LoginPage.vue'
 import HomePage from './pages/HomePage.vue'
+import ShowTicketPage from './pages/ShowTicketPage.vue'
 
 const routes = [
     // example route { path: '/', component: Main },
@@ -14,6 +15,15 @@ const routes = [
         name: 'home',
         component: (HomePage),
         //meta: { requiresAuth: true }
+
+        children: [
+            {
+                path: '/ShowTicket',
+                name: 'showTicket',
+                component: (ShowTicketPage),
+                //meta: { requiresAuth: true }
+            },
+        ]
     },
     
     {
