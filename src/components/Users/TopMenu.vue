@@ -6,7 +6,7 @@ import SearchBox from '../SearchBox.vue';
 <template>
     <span
         class="text-purple flex sm:text-2xl text-xl whitespace-nowrap justify-between p-4 border-b-purple border-b-opacity-30 border-b border-solid items-start">
-        <div>All Tickets</div>
+        <div>All Users</div>
         <SimpleButton />
     </span>
     <div
@@ -22,7 +22,7 @@ import SearchBox from '../SearchBox.vue';
         </div>
     </div>
     <span class="flex justify-between px-5 py-2 border-b-black border-b-opacity-30 border-b border-solid">
-        <div class="text-black text-opacity-60 sm:text-xl">1,253 tickets</div>
+        <div class="text-black text-opacity-60 sm:text-xl">1,253 Users</div>
         <div class="flex sm:gap-2.5">
             <span
                 class="text-white sm:text-xl bg-purple aspect-[0.8148148148148148] justify-center px-1.5 py-0.5 rounded-md self-start">1</span><span
@@ -33,10 +33,10 @@ import SearchBox from '../SearchBox.vue';
         </div>
     </span>
     <span
-        class=" flex justify-between p-5 sm:pl-5 md:pr-10 lg:pr-28 py-3 border-b-black border-b-opacity-30 border-b border-solid">
-        <div class="text-black text-opacity-60 text-sm sm:text-lg">REQUESTER</div>
-        <div class="text-black text-opacity-60 text-sm sm:text-lg">TITLE</div>
-        <div class="text-black text-opacity-60 text-sm sm:text-lg">ASSIGNEE</div>
-        <div class="text-black text-opacity-60 text-sm sm:text-lg">STATUS</div>
+        class=" flex justify-between p-5 sm:pl-5 md:pr-10 lg:px-60 py-3 border-b-black border-b-opacity-30 border-b border-solid">
+        <div class="text-black text-opacity-60 text-sm sm:text-lg">NAME</div>
+        <div class="text-black text-opacity-60 text-sm sm:text-lg">EMAIL</div>
+        <div class="text-black text-opacity-60 text-sm sm:text-lg">CLASS</div>
+        <div class="text-black text-opacity-60 text-sm sm:text-lg">INTERNAL CODE</div>
     </span>
 </template>
