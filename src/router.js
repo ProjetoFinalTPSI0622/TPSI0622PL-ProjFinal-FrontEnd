@@ -5,7 +5,7 @@ import Account from './pages/Account.vue';
 // import Notifications from './pages/Notifications.vue'
 
 import LoginPage from './pages/LoginPage.vue'
-import HomePage from './pages/HomePage.vue'
+import Layout from './pages/Layout.vue'
 import ShowTicketPage from './pages/ShowTicketPage.vue'
 
 const routes = [
@@ -15,7 +15,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: HomePage,
+    component: Layout,
     //meta: { requiresAuth: true }
 
     children: [
