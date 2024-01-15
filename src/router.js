@@ -33,12 +33,6 @@ const routes = [
         //meta: { requiresAuth: true }
       },
       {
-        path: "/settings/security",
-        name: "Security",
-        component: Security,
-        //meta: { requiresAuth: true }
-      },
-      {
         path: '/ShowTicket',
         name: 'showTicket',
         component: (ShowTicketPage),
