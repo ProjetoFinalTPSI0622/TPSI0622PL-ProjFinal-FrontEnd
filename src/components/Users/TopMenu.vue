@@ -7,7 +7,7 @@ import SearchBox from '../SearchBox.vue';
     <span
         class="text-purple flex sm:text-2xl text-xl whitespace-nowrap justify-between p-4 border-b-purple border-b-opacity-30 border-b border-solid items-start">
         <div>All Users</div>
-        <SimpleButton />
+        <SimpleButton> + Add User </SimpleButton>
     </span>
     <div
         class="flex flex-row justify-between p-3 border-b-black border-b-opacity-30 border-b border-solid items-start">
