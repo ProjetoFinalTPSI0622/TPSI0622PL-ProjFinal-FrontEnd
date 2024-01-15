@@ -3,6 +3,7 @@ import { AuthService } from "./Services/AuthService.js";
 
 import Account from './pages/Account.vue';
 import Notifications from './pages/Notifications.vue'
+import Security from './pages/security.vue'
 
 import LoginPage from './pages/LoginPage.vue'
 import HomePage from './pages/HomePage.vue'
@@ -29,6 +30,12 @@ const routes = [
         path: "/settings/notifications",
         name: "Notifications",
         component: Notifications,
+        //meta: { requiresAuth: true }
+      },
+      {
+        path: "/settings/security",
+        name: "Security",
+        component: Security,
         //meta: { requiresAuth: true }
       },
       {
