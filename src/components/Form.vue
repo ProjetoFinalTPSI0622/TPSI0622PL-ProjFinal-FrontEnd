@@ -13,12 +13,12 @@
                 </div>
                 <Input LabelTitle="Address" type="address" placeholder="Insert your address" required v-model="address"
                     class="mt-5" />
-                <div class="flex flex-col gap-5 mt-5">
+                <div class="flex flex-col gap-5 mt-5 md:flex-row">
                     <Input LabelTitle="City" type="" placeholder="Insert your city" required v-model="city" />
                     <Input LabelTitle="State/Province" type="" placeholder="Insert your state/province" required
                         v-model="state" />
                 </div>
-                <div class="flex flex-col gap-5 mt-5">
+                <div class="flex flex-col gap-5 mt-5 md:flex-row">
                     <Input LabelTitle="Zip Code" type="number" placeholder="Insert your zip code" required
                         v-model="zipCode" />
                     <Input LabelTitle="Country" type="" placeholder="Insert your country" required v-model="country" />

@@ -1,6 +1,6 @@
 <template>
     <div
-        class="bg-purple flex flex-row w-full h-14 py-4 px-8 place-content-between fixed bottom-0 sm:flex-col md:w-[8%] md:h-full md:p-4 md:relative md:place-content-start md:gap-10">
+        class="bg-purple flex flex-row w-full h-14 py-4 px-8 place-content-between fixed bottom-0 sm:flex-col md:w-[8%] md:h-full md:p-6 md:relative md:place-content-start md:gap-10 xl:p-8">
             <img src="../assets/home.svg">
             <img src="../assets/ticket.svg" alt="ticket">
             <img src="../assets/user.svg">

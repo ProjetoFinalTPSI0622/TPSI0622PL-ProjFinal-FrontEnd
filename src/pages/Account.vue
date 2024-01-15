@@ -1,7 +1,7 @@
 <template>
   <div class="md:flex w-full">
     <OptionsBar />
-    <div class="flex flex-col justify-center h-fit md:w-[70%]">
+    <div class="flex flex-col h-fit w-full">
       <ImageCard />
       <Form/>
     </div>

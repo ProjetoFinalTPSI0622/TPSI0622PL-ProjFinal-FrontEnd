@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col place-content-center mt-5" >
-        <div class="bg-grey m-5 p-5 md:px-0 rounded-md max-md:px-5 border-b-opacity-50 border-b">
+        <div class="bg-grey m-5 p-5 rounded-md border-b-opacity-50 border-b lg:flex">
             <slot name="ImageCard">
                 <slot></slot>
             </slot>
