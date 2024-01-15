@@ -6,8 +6,9 @@ import Notifications from './pages/Notifications.vue'
 import Security from './pages/security.vue'
 
 import LoginPage from './pages/LoginPage.vue'
-import HomePage from './pages/HomePage.vue'
+import Layout from './pages/Layout.vue'
 import ShowTicketPage from './pages/ShowTicketPage.vue'
+import UsersPage from './pages/UsersPage.vue'
 
 const routes = [
   // example route { path: '/', component: Main },
@@ -16,7 +17,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: HomePage,
+    component: Layout,
     //meta: { requiresAuth: true }
 
     children: [
@@ -42,6 +43,12 @@ const routes = [
         path: '/ShowTicket',
         name: 'showTicket',
         component: (ShowTicketPage),
+        //meta: { requiresAuth: true }
+      },
+      {
+        path: '/Users',
+        name: 'Users',
+        component: (UsersPage),
         //meta: { requiresAuth: true }
       },
     ],
