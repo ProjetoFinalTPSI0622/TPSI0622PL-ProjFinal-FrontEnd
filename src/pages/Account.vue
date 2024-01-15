@@ -11,7 +11,7 @@
 <script>
   import OptionsBar from '../components/Settings/OptionsBar.vue';
   import ImageCard from '../components/Settings/account/ImageCard.vue';
-  import Form from '../components/Form.vue';
+  import Form from '../components/settings/account/ShowAccount.vue';
   export default {
     components: {
       OptionsBar,

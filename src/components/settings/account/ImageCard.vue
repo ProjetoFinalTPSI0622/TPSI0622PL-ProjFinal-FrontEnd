@@ -20,7 +20,7 @@
 import ImageCardShell from '../../../layout/ImageCardShell.vue';
 import DisplayImage from './DisplayImage.vue';
 import ImageText from './ImageText.vue';
-import ButtonSubmit from '../../ButtonSubmit.vue';
+import ButtonSubmit from '../../../components/Form/ButtonSubmit.vue';
 
 export default {
     components: {
