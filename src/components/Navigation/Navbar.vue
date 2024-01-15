@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-Branco flex w-full h-[8%] px-5 shadow-md place-content-between">
+    <div class="bg-white flex w-full h-[8%] px-5 shadow-md place-content-between">
 
         <img src="../../assets/logo.png">
 
