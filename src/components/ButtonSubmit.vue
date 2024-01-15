@@ -1,6 +1,6 @@
 <template>
     <button type="submit"
-        class="text-white text-center text-xl mx-10 md:mx-0 font-bold whitespace-nowrap justify-center items-center bg-purple mt-8 mb-4 px-16 py-3 rounded-md max-md:max-w-full max-md:px-5">
+        class="text-white text-center text-lg w-full font-bold justify-center items-center bg-purple py-3 rounded-md ">
         {{ textButton }}
     </button>
 </template>

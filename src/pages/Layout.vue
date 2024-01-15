@@ -13,7 +13,3 @@ import SideBar from "../components/Navigation/SideBar.vue";
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-
-</style>
