@@ -11,6 +11,8 @@ import UserItem from '../components/Users/UserItem.vue';
         <span class="flex flex-col w-full">
             <TopMenu />
             <UserItem />
+            <UserItem />
+            <UserItem />
         </span>
     </div>
 </template>

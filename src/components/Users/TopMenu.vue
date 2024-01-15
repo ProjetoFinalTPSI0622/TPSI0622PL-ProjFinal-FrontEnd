@@ -17,7 +17,7 @@ import SearchBox from '../SearchBox.vue';
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/0510fad93eca8f0eb44f11602487e1815b688bf1e81320ed0afe33b8cdcc0f34?apiKey=a9b902b8934746c7aacbbad131e88c89&"
                 class=" w-6 sm:aspect-[1.04] object-contain object-center " />
         </span>
-        <div class="lg:hidden">
+        <div class="">
             <SearchBox />
         </div>
     </div>
@@ -33,9 +33,9 @@ import SearchBox from '../SearchBox.vue';
         </div>
     </span>
     <span
-        class=" flex justify-between p-5 sm:pl-5 md:pr-10 lg:px-60 py-3 border-b-black border-b-opacity-30 border-b border-solid">
+        class=" flex justify-between p-5 md:px-20 lg:px-40 xl:px-60 py-3 border-b-black border-b-opacity-30 border-b border-solid">
         <div class="text-black text-opacity-60 text-sm sm:text-lg">NAME</div>
-        <div class="text-black text-opacity-60 text-sm sm:text-lg">EMAIL</div>
+        <div class="hidden lg:block text-black text-opacity-60 text-sm sm:text-lg">EMAIL</div>
         <div class="text-black text-opacity-60 text-sm sm:text-lg">CLASS</div>
         <div class="text-black text-opacity-60 text-sm sm:text-lg">INTERNAL CODE</div>
     </span>
