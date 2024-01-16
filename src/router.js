@@ -18,7 +18,7 @@ const routes = [
     path: "/",
     name: "home",
     component: Layout,
-    //meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
 
     children: [
       {
@@ -49,7 +49,7 @@ const routes = [
         path: '/Users',
         name: 'Users',
         component: (UsersPage),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
     ],
   },
