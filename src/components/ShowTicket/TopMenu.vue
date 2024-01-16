@@ -6,7 +6,7 @@ import { RouterLink } from 'vue-router';
 
 <template>
     <span
-        class="text-purple flex sm:text-2xl text-xl whitespace-nowrap justify-between p-4 border-b-purple border-b-opacity-30 border-b border-solid items-start">
+        class="text-purple flex sm:text-2xl text-xl whitespace-nowrap justify-between p-4 h-[9vh] border-b-purple border-b-opacity-30 border-b border-solid items-start">
         <div>All Tickets</div>
         <router-link to="/CreateTicket">
             <SimpleButton> + Add Ticket </SimpleButton>
