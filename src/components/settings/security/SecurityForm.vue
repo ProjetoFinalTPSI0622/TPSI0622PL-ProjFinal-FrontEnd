@@ -24,9 +24,9 @@
 
 <script>
     import FormShell from '../../../layout/FormShell.vue';
-    import FormTitle from '../../FormTitle.vue';
-    import Input from '../../Input.vue';
-    import ButtonSubmit from '../../ButtonSubmit.vue';
+    import FormTitle from '../../Form/FormTitle.vue';
+    import Input from '../../Form/Input.vue';
+    import ButtonSubmit from '../../Form/ButtonSubmit.vue';
     export default {
         components: {
             FormShell,

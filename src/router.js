@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage.vue'
 import Layout from './pages/Layout.vue'
 import ShowTicketPage from './pages/ShowTicketPage.vue'
 import UsersPage from './pages/UsersPage.vue'
+import CreateUsersPage from './pages/CreateUsersPage.vue'
 import CreateTicketPage from './pages/CreateTicketPage.vue'
 
 const routes = [
@@ -23,21 +24,21 @@ const routes = [
 
     children: [
       {
-        path: "/settings/account",
-        name: "Account",
-        component: Account,
+        path: '/Settings/Account',
+        name: 'Account',
+        component: (Account),
         //meta: { requiresAuth: true }
       },
       {
-        path: "/settings/notifications",
-        name: "Notifications",
-        component: Notifications,
+        path: '/Settings/Notifications',
+        name: 'Notifications',
+        component: (Notifications),
         //meta: { requiresAuth: true }
       },
       {
-        path: "/settings/security",
-        name: "Security",
-        component: Security,
+        path: '/Settings/Security',
+        name: 'Security',
+        component: (Security),
         //meta: { requiresAuth: true }
       },
       {
@@ -50,6 +51,12 @@ const routes = [
         path: '/Users',
         name: 'Users',
         component: (UsersPage),
+        //meta: { requiresAuth: true }
+      },
+      {
+        path: '/CreateUsers',
+        name: 'CreateUsers',
+        component: (CreateUsersPage),
         //meta: { requiresAuth: true }
       },
       {
