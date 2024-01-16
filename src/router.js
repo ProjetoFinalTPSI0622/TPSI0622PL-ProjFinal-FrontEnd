@@ -10,6 +10,7 @@ import Layout from './pages/Layout.vue'
 import ShowTicketPage from './pages/ShowTicketPage.vue'
 import UsersPage from './pages/UsersPage.vue'
 import CreateUsersPage from './pages/CreateUsersPage.vue'
+import CreateTicketPage from './pages/CreateTicketPage.vue'
 
 const routes = [
   // example route { path: '/', component: Main },
@@ -44,7 +45,7 @@ const routes = [
         path: '/ShowTicket',
         name: 'showTicket',
         component: (ShowTicketPage),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
       {
         path: '/Users',
@@ -56,6 +57,12 @@ const routes = [
         path: '/CreateUsers',
         name: 'CreateUsers',
         component: (CreateUsersPage),
+        //meta: { requiresAuth: true }
+      },
+      {
+        path: '/CreateTicket',
+        name: 'CreateTicket',
+        component: (CreateTicketPage),
         //meta: { requiresAuth: true }
       },
     ],

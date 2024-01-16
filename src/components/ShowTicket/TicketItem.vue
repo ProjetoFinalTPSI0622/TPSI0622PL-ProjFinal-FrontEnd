@@ -1,3 +1,14 @@
+<script>
+export default {
+    props: {
+        ticket: {
+            type: Object,
+            required: true,
+        },
+    },
+}
+</script>
+
 <template>
     <div class="sm:px-5 px-4 sm:py-4 py-3.5 border-b-black border-b-opacity-30 border-b border-solid ">
         <span class="flex gap-5 lg:gap-0">
@@ -7,22 +18,22 @@
                     class="aspect-square object-contain object-center w-10 overflow-hidden shrink-0 max-w-full rounded-[50%]" />
                 <span class="flex flex-col h-full justify-center">
                     <div class="hidden sm:block text-black text-opacity-80 text-sm sm:text-lg">
-                        Mo Nengue
+                        {{ ticket.createdby.name }}
                     </div>
                     <div class="hidden xl:block text-black text-opacity-50 text-sm sm:text-lg whitespace-nowrap">
-                        MoNengue@gmail.com
+                        {{ ticket.createdby.email }}
                     </div>
                 </span>
             </div>
             <div class="text-black text-opacity-80 text-sm sm:text-lg self-center sm:w-[27%]">
-                Computer is broken
+                {{ ticket.title }}
             </div>
             <div class="text-black text-opacity-80 text-sm sm:text-lg self-center sm:w-[28%]">
-                Antonio Costa
+                {{ ticket.assigned_to.name }}
             </div>
             <div
                 class="justify-center text-white text-center text-xs sm:text-lg whitespace-nowrap items-stretch bg-red-600 px-1.5 sm:px-3 py-1 rounded-3xl h-full">
-                Pending</div>
+                {{ ticket.status.status_name }}</div>
         </span>
     </div>
 </template>
