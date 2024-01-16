@@ -35,7 +35,7 @@ const routes = [
         path: '/ShowTicket',
         name: 'showTicket',
         component: (ShowTicketPage),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
     ],
   },
