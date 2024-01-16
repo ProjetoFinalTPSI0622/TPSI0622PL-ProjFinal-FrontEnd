@@ -1,13 +1,15 @@
+<script setup>
+
+import Navbar from "../components/Navigation/Navbar.vue";
+import SideBar from "../components/Navigation/SideBar.vue";
+</script>
+
 <template>
-    <div class="w-full flex flex-col">
-        <div class="flex-none">
-            <slot name="header"></slot>
-        </div>
-        <div class="flex-none">
-            <slot name="sidebar"></slot>
-        </div>
-        <div class="flex-1 fixed bottom-0">
-            <slot></slot>
-        </div>
+  <div class="h-screen w-screen">
+    <Navbar />
+    <div class="flex flex-row sm:h-[92%] w-full">
+      <SideBar />
+      <router-view />
     </div>
+  </div>
 </template>

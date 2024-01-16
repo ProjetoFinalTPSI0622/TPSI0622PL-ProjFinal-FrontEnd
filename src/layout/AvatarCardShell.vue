@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-col place-content-center p-5" >
+    <div class="flex flex-col" >
         <div class="bg-grey p-5 rounded-md border-b-opacity-50 border-b lg:flex">
-            <slot name="ImageCard">
+            <slot name="AvatarCard">
                 <slot></slot>
             </slot>
             <slot name="ButtonSubmit"></slot>
