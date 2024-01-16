@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { CookieService } from './CookiesService.js';
-import { useAuthStore } from "../Stores/AuthStore.js";
 
 
 export const AuthService = {
@@ -46,6 +44,5 @@ export const AuthService = {
             return {success: false, message: 'Not authenticated'}
         }
     },
-
 }
 
