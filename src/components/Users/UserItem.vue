@@ -1,3 +1,11 @@
+<script setup>
+import { defineProps } from 'vue';
+
+defineProps({
+  user: Object
+});
+</script>
+
 <template>
     <div class="p-5 py-4 lg:px-10 xl:px-52 border-b-black border-b-opacity-30 border-b border-solid ">
         <span class="flex justify-between">
@@ -7,18 +15,18 @@
                     class="aspect-square object-contain object-center w-10 overflow-hidden shrink-0 max-w-full rounded-[50%]" />
                 <span class="flex h-full justify-center">
                     <div class="text-black text-opacity-80 text-sm sm:text-lg self-center">
-                        Mo Nengue
+                        {{ user.name }}
                     </div>
                 </span>
             </div>
             <div class="hidden lg:block text-black text-opacity-80 text-sm sm:text-lg self-center w-[25%]">
-                MoNengue@gmail.com
+                {{ user.email }}
             </div>
             <div class="text-black text-opacity-80 text-sm sm:text-lg self-center w-[19%] xl:w-[25%]">
-                TPSI0622
+                **TPSI0622**
             </div>
             <div class="text-black text-opacity-80 text-sm sm:text-lg self-center w-[28%] xl:w-[15%]">
-                12441415
+                {{ user.internalcode }}
             </div>
         </span>
     </div>
