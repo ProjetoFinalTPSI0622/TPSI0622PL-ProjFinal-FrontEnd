@@ -1,69 +1,48 @@
-<!-- <template>
+<template>
     <AvatarCardShell>
-        <template v-slot:AvatarCard>
-            <div class="flex flex-col gap-5 p-5 xl:w-full">
-                <div class="flex flex-col gap-5 md:flex-row lg:text-nowrap">
-                    <div class="flex flex-col w-full max-md:ml-0 items-center justify-center md:w-32">
-                        <img loading="lazy"
-                            srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/3dfa67f2b0cecdeeee6e3fbbfccca88facbe0352f8d8770997ff3c51a4d8bbe7?apiKey=2a87045b09624ad1bf395d74cc848b53&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/3dfa67f2b0cecdeeee6e3fbbfccca88facbe0352f8d8770997ff3c51a4d8bbe7?apiKey=2a87045b09624ad1bf395d74cc848b53&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/3dfa67f2b0cecdeeee6e3fbbfccca88facbe0352f8d8770997ff3c51a4d8bbe7?apiKey=2a87045b09624ad1bf395d74cc848b53&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/3dfa67f2b0cecdeeee6e3fbbfccca88facbe0352f8d8770997ff3c51a4d8bbe7?apiKey=2a87045b09624ad1bf395d74cc848b53&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/3dfa67f2b0cecdeeee6e3fbbfccca88facbe0352f8d8770997ff3c51a4d8bbe7?apiKey=2a87045b09624ad1bf395d74cc848b53&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/3dfa67f2b0cecdeeee6e3fbbfccca88facbe0352f8d8770997ff3c51a4d8bbe7?apiKey=2a87045b09624ad1bf395d74cc848b53&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/3dfa67f2b0cecdeeee6e3fbbfccca88facbe0352f8d8770997ff3c51a4d8bbe7?apiKey=2a87045b09624ad1bf395d74cc848b53&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/3dfa67f2b0cecdeeee6e3fbbfccca88facbe0352f8d8770997ff3c51a4d8bbe7?apiKey=2a87045b09624ad1bf395d74cc848b53&"
-                            class="aspect-square object-contain object-center w-[100px] overflow-hidden shrink-0 max-w-full rounded-[50%] " />
-                    </div>
-                    <div class="flex flex-col items-center md:items-start md:justify-center">
-                        <h2 class="text-primary text-xl">Upload New Photo</h2>
-                        <p class="text-primary text-opacity-50 text-base mt-2.5">{{ FileName }}</p>
-                    </div>
+        <div class="flex flex-col md:flex-row p-5 md:px-10 gap-5 items-center">
+            <div class="flex flex-col gap-5 w-full items-center md:flex-row">
+                <div class="flex flex-col w-36 items-center justify-center">
+                    <img v-if="imagePreview" :src="imagePreview" alt="AvatarDefault">
+                </div>
+                <div class="flex flex-col items-center md:items-start md:justify-center">
+                    <h2 class="text-primary text-xl lg:text-2xl">Upload Photo</h2>
+                    <p class="text-primary text-opacity-50 text-base mt-2.5" v-if="fileName"> {{ fileName }} </p>
                 </div>
             </div>
-        </template>
-        <template v-slot:ButtonSubmit>
-            <div class="flex justify-center mx-16 md:mx-28 lg:mx-10 lg:my-auto lg:w-full">
-                <ButtonSubmit textButton="Choose Image" />
-            </div>
-        </template>
+            <label class="text-white text-center text-lg font-bold justify-center items-center bg-purple py-3 rounded-md cursor-pointer my-auto w-6/12 md:w-5/12 lg:w-4/12">
+                <span >Choose Photo</span>
+                <input type="file" class="hidden" @change="handleImageChange" accept="image/*">
+            </label>
+        </div>
     </AvatarCardShell>
 </template>
-
+  
 <script>
+import AvatarDefault from '../../assets/AvatarDefault.svg'
 import AvatarCardShell from '../../layout/AvatarCardShell.vue';
-import ButtonSubmit from './ButtonSubmit.vue';
-
 export default {
     components: {
-        AvatarCardShell,
-        ButtonSubmit
+        AvatarCardShell
     },
     data() {
         return {
-            FileName: 'No file selected'
+            imagePreview: AvatarDefault,
+            fileName: 'No file selected'
         }
-    },
-}
-</script> -->
-
-
-<template>
-    <div>
-      <input type="file" @change="handleImageChange" accept="image/*">
-      <img v-if="imagePreview" :src="imagePreview" alt="Avatar Preview">
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        imagePreview: '../src',
-      };
     },
     methods: {
-      handleImageChange(event) {
-        const file = event.target.files[0];
-        if (file) {
-          this.imagePreview = URL.createObjectURL(file);
-          // Pode emitir um evento aqui para notificar o componente pai sobre a mudança na imagem.
-          // this.$emit('image-selected', file);
-        }
-      },
+        handleImageChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.imagePreview = URL.createObjectURL(file)
+                this.fileName = file.name
+                // this.$emit('image-selected', this.imagePreview);
+            }
+        },
     },
-  };
-  </script>
+}
+</script>
+  
+  
+  

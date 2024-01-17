@@ -1,7 +1,7 @@
 <template>
     <FormShell @submit.prevent="CreateUser, AddUserInfo">
         <template v-slot:AvatarCard>
-            <AvatarCard v-model="userInfo.photo" />
+            <AvatarCard />
         </template>
         <template v-slot:FormTitle>
             <div class="flex flex-col w-full">
