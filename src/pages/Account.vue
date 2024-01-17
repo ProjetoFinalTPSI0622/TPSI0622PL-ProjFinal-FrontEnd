@@ -1,19 +1,19 @@
 <template>
   <div class="md:flex w-full">
-    <OptionsBar />
+    <SettingsBar />
     <div class="flex flex-col h-fit w-full">
-      <EditUserForm />
+      <!-- <EditUserForm /> -->
     </div>
   </div>
 </template>
 
 <script>
-  import OptionsBar from '../components/Settings/OptionsBar.vue';
-  import EditUserForm from '../components/settings/Account/EditUserForm.vue';
+  import SettingsBar from '../components/Settings/SettingsBar.vue';
+  // import EditUserForm from '../components/settings/Account/EditUserForm.vue';
   export default {
     components: {
-    OptionsBar,
-    EditUserForm,
+    SettingsBar,
+    // EditUserForm,
   }
 }
 </script>

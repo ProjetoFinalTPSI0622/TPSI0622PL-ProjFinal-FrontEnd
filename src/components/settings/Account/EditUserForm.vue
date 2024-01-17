@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <ButtonSubmit textButton="Create User" @click.prevent="CreateUser" /><ButtonSubmit textButton="Save Changes" @click.prevent="updateUser" />
+            <ButtonSubmit textButton="Save Changes" @click.prevent="updateUser" />
         </template>
     </FormShell>
 </template>

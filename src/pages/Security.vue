@@ -1,6 +1,6 @@
 <template>
     <div class="md:flex w-full">
-      <OptionsBar />
+      <SettingsBar />
       <div class="flex flex-col h-fit w-full">
             <SecurityForm />
       </div>
@@ -8,11 +8,12 @@
   </template>
   
   <script>
-    import OptionsBar from '../components/Settings/OptionsBar.vue';
+    import SettingsBar from '../components/Settings/SettingsBar.vue';
+
     import SecurityForm from '../components/settings/security/SecurityForm.vue';
     export default {
       components: {
-    OptionsBar,
+    SettingsBar,
     SecurityForm,
 }
   }
