@@ -10,7 +10,7 @@
                     <p class="text-primary text-opacity-50 text-base mt-2.5" v-if="fileName"> {{ fileName }} </p>
                 </div>
             </div>
-            <label class="text-white text-center text-lg font-bold justify-center items-center bg-purple py-3 rounded-md cursor-pointer my-auto w-6/12 md:w-5/12">
+            <label class="text-white text-center text-lg font-bold justify-center items-center bg-purple py-3 rounded-md cursor-pointer my-auto w-6/12 md:w-5/12 lg:w-4/12">
                 <span >Choose Photo</span>
                 <input type="file" class="hidden" @change="handleImageChange" accept="image/*">
             </label>
