@@ -1,55 +1,44 @@
 <template>
-    <FormShell @submit.prevent="CreateUser, AddUserInfo">
+    <FormShell>
         <template v-slot:AvatarCard>
-            <AvatarCard />
+            <AvatarCard @avatar="ImageHandler" />
         </template>
-        <template v-slot:FormTitle>
-            <div class="flex flex-col w-full">
-                <FormTitle FormTitle="Create User" />
-            </div>
-        </template>
-        <template v-slot:Form>
-            <div class="flex flex-col w-full my-5">
 
+        <template v-slot:Form>
+            <FormTitle FormTitle="Create User" />
+
+            <div class="flex flex-col w-full my-5">
                 <div class="flex flex-col gap-5 md:flex-row">
                     <Input LabelTitle="Full Name" type="name" required v-model="user.name" />
                     <Input LabelTitle="Email" type="email" required v-model="user.email" />
                 </div>
-
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
-                    <div class="flex items-end gap-3 xl:w-2/4">
+                    <div class="flex flex-col md:flex-row md:items-end gap-3 lg:w-2/4">
                         <Input LabelTitle="NIF" type="number" required v-model="userInfo.nif" />
-                        <div class="flex flex-row mb-2 gap-2">
+                        <div class="flex flex-row mb-2 gap-2 ">
                             <label>Set NIF as password</label>
                             <input type="checkbox" v-model="isChecked" class="size-6">
                         </div>
                     </div>
                     <Input LabelTitle="Password" type="password" required v-model="user.password" />
                 </div>
-                
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
                     <Input LabelTitle="Internal Code" type="text" required v-model="user.internalCode" />
                     <Input LabelTitle="Phone Number" type="number" required v-model="userInfo.phoneNumber" />
                     <Input LabelTitle="Birthday Date" type="date" required v-model="userInfo.birthdayDate" />
                 </div>
-
                 <div class="flex flex-col gap-5 mt-5 md:flex-row ">
                     <Input LabelTitle="Address" type="address" required v-model="userInfo.address" />
                     <Input LabelTitle="Zip Code" type="number" required v-model="userInfo.zipCode" />
                 </div>
-
                 <div class="flex flex-col gap-5 mt-5 md:flex-row md:mt-5">
                     <Input LabelTitle="State/Province" type="text" required v-model="userInfo.state" />
                     <Input LabelTitle="City" type="text" required v-model="userInfo.city" />
                     <Input LabelTitle="Country" type="text" required v-model="userInfo.country" />
                 </div>
+            </div>
 
-            </div>
-        </template>
-        <template v-slot:ButtonSubmit>
-            <div class="flex justify-center mx-10">
-                <ButtonSubmit textButton="Create User" />
-            </div>
+            <ButtonSubmit textButton="Create User" @click.prevent="CreateUser" />
         </template>
     </FormShell>
 </template>
@@ -79,8 +68,7 @@ export default {
                 internalCode: '',
             },
             userInfo: {
-                id: '',
-                photo: '',
+                avatar: '',
                 nif: '',
                 phoneNumber: '',
                 birthdayDate: '',
@@ -93,25 +81,49 @@ export default {
         }
     },
     methods: {
+        ImageHandler(file) {
+            this.user.avatar = file;
+        },
         CreateUser() {
+            const allData = {
+                user: {
+                    name: this.user.name,
+                    email: this.user.email,
+                    password: this.user.password,
+                    internalCode: this.user.internalCode,
+                },
+                userInfo: {
+                    avatar: this.user.avatar,
+                    nif: this.userInfo.nif,
+                    phoneNumber: this.userInfo.phoneNumber,
+                    birthdayDate: this.userInfo.birthdayDate,
+                    address: this.userInfo.address,
+                    city: this.userInfo.city,
+                    state: this.userInfo.state,
+                    zipCode: this.userInfo.zipCode,
+                    country: this.userInfo.country
+                },
+            }
+
             axios
-                .post('http://127.0.0.1:8000/users', this.user)
+                .post('http://127.0.0.1:8000/create-user', allData)
                 .then((response) => {
-                    console.log(userInfo.id);
+                    console.log('User created', response.data)
                     this.userInfo.id = response.data.id;
                     // this.$router.push('/users');
                 })
-
-            console.log(this.user)
+                .catch((error) => {
+                    console.error('Error sending data:', error);
+                });
         },
-        AddUserInfo() {
-            axios
-                .post('http://127.0.0.1:8000/usersinfo', this.userInfo)
-                .then((response) => {
-                    console.log(response);
-                    // this.$router.push('/users');
-                })
-        }
+        // AddUserInfo() {
+        //     axios
+        //         .post('http://127.0.0.1:8000/usersinfo', this.userInfo)
+        //         .then((response) => {
+        //             console.log(response);
+        //             // this.$router.push('/users');
+        //         })
+        // }
     }
 }
 </script>

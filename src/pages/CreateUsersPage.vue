@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col w-full gap-5 xl:items-center">
+    <div class="flex flex-col w-full xl:items-center">
         <CreateUserForm/>
     </div>
 </template>
