@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col w-full gap-5 xl:items-center">
-        <CreateUserForm class="xl:w-9/12"/>
+        <CreateUserForm/>
     </div>
 </template>
 

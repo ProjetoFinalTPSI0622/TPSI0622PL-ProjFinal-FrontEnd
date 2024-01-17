@@ -6,7 +6,7 @@
                     <img v-if="imagePreview" :src="imagePreview" alt="AvatarDefault">
                 </div>
                 <div class="flex flex-col items-center md:items-start md:justify-center">
-                    <h2 class="text-primary text-xl">Upload Photo</h2>
+                    <h2 class="text-primary text-xl lg:text-2xl">Upload Photo</h2>
                     <p class="text-primary text-opacity-50 text-base mt-2.5" v-if="fileName"> {{ fileName }} </p>
                 </div>
             </div>
