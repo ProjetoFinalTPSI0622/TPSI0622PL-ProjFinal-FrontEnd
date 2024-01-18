@@ -1,6 +1,12 @@
 <script setup>
+import { defineProps, defineEmits } from 'vue';
 import SimpleButton from '../SimpleButton.vue';
 import SearchBox from '../SearchBox.vue';
+
+const props = defineProps({
+  searchTerm: String
+});
+const emit = defineEmits(['update:searchTerm']);
 </script>
 
 <template>
@@ -18,7 +24,7 @@ import SearchBox from '../SearchBox.vue';
                 class=" w-6 sm:aspect-[1.04] object-contain object-center " />
         </span>
         <div class="">
-            <SearchBox />
+            <SearchBox :searchTerm="props.searchTerm" @update:searchTerm="emit('update:searchTerm', $event)" />
         </div>
     </div>
 </template>
