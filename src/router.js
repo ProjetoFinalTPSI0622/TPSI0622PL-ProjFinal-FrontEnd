@@ -57,7 +57,7 @@ const routes = [
         path: '/CreateUser',
         name: 'CreateUser',
         component: (CreateUserPage),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
       {
         path: '/CreateTicket',

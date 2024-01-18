@@ -1,5 +1,5 @@
 <template>
-    <FormShell>
+    <FormShell @formSubmit="CreateUser">
         <template v-slot:AvatarCard>
             <AvatarCard @avatar="ImageHandler" />
         </template>
@@ -13,21 +13,21 @@
                     <Input LabelTitle="Email" type="email" required v-model="user.email" />
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
-                    <div class="flex flex-col md:flex-row md:items-end gap-3 lg:w-2/4">
+                    <!-- <div class="flex flex-col md:flex-row md:items-end gap-3 lg:w-2/4">
                         <Input LabelTitle="NIF" type="number" required v-model="userInfo.nif" />
-                        <div class="flex flex-row mb-2 gap-2 ">
+                        <div class="flex flex-row my-2 gap-2 ">
                             <label>Set NIF as password</label>
                             <input type="checkbox" v-model="isChecked" class="size-6">
                         </div>
-                    </div>
+                    </div> -->
                     <Input LabelTitle="Password" type="password" required v-model="user.password" />
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
-                    <Input LabelTitle="Internal Code" type="text" required v-model="user.internalCode" />
-                    <Input LabelTitle="Phone Number" type="number" required v-model="userInfo.phoneNumber" />
-                    <Input LabelTitle="Birthday Date" type="date" required v-model="userInfo.birthdayDate" />
+                    <Input LabelTitle="Internal Code" type="text" required v-model="user.internalcode" />
+                    <!-- <Input LabelTitle="Phone Number" type="number" required v-model="userInfo.phoneNumber" />
+                    <Input LabelTitle="Birthday Date" type="date" required v-model="userInfo.birthdayDate" /> -->
                 </div>
-                <div class="flex flex-col gap-5 mt-5 md:flex-row ">
+                <!-- <div class="flex flex-col gap-5 mt-5 md:flex-row ">
                     <Input LabelTitle="Address" type="address" required v-model="userInfo.address" />
                     <Input LabelTitle="Zip Code" type="number" required v-model="userInfo.zipCode" />
                 </div>
@@ -35,10 +35,10 @@
                     <Input LabelTitle="State/Province" type="text" required v-model="userInfo.state" />
                     <Input LabelTitle="City" type="text" required v-model="userInfo.city" />
                     <Input LabelTitle="Country" type="text" required v-model="userInfo.country" />
-                </div>
+                </div> -->
             </div>
 
-            <ButtonSubmit textButton="Create User" @click.prevent="CreateUser" />
+            <ButtonSubmit textButton="Create User" />
         </template>
     </FormShell>
 </template>
@@ -46,7 +46,7 @@
 <script>
 import axios from 'axios';
 import FormShell from '../../layout/FormShell.vue';
-import AvatarCard from '../Form/AvatarCard.vue'
+import AvatarCard from '../Form/AvatarCard.vue';
 import FormTitle from '../../components/Form/FormTitle.vue';
 import Input from '../../components/Form/Input.vue';
 import ButtonSubmit from '../../components/Form/ButtonSubmit.vue';
@@ -65,19 +65,19 @@ export default {
                 name: '',
                 email: '',
                 password: '',
-                internalCode: '',
+                internalcode: '',
             },
-            userInfo: {
-                avatar: '',
-                nif: '',
-                phoneNumber: '',
-                birthdayDate: '',
-                address: '',
-                city: '',
-                state: '',
-                zipCode: '',
-                country: ''
-            }
+            // userInfo: {
+            //     avatar: '',
+            //     nif: '',
+            //     phoneNumber: '',
+            //     birthdayDate: '',
+            //     address: '',
+            //     city: '',
+            //     state: '',
+            //     zipCode: '',
+            //     country: ''
+            // }
         }
     },
     methods: {
@@ -90,40 +90,38 @@ export default {
                     name: this.user.name,
                     email: this.user.email,
                     password: this.user.password,
-                    internalCode: this.user.internalCode,
+                    internalcode: this.user.internalcode,
                 },
-                userInfo: {
-                    avatar: this.user.avatar,
-                    nif: this.userInfo.nif,
-                    phoneNumber: this.userInfo.phoneNumber,
-                    birthdayDate: this.userInfo.birthdayDate,
-                    address: this.userInfo.address,
-                    city: this.userInfo.city,
-                    state: this.userInfo.state,
-                    zipCode: this.userInfo.zipCode,
-                    country: this.userInfo.country
-                },
+                // userInfo: {
+                //     avatar: this.user.avatar,
+                //     nif: this.userInfo.nif,
+                //     phoneNumber: this.userInfo.phoneNumber,
+                //     birthdayDate: this.userInfo.birthdayDate,
+                //     address: this.userInfo.address,
+                //     city: this.userInfo.city,
+                //     state: this.userInfo.state,
+                //     zipCode: this.userInfo.zipCode,
+                //     country: this.userInfo.country
+                // },
             }
-
+            console.log(allData)
             axios
-                .post('http://127.0.0.1:8000/create-user', allData)
+                .post('http://127.0.0.1:8000/api/user', allData.user,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    withCredentials: true, 
+                })
                 .then((response) => {
                     console.log('User created', response.data)
-                    this.userInfo.id = response.data.id;
+                    // this.userInfo.id = response.data.id;
                     // this.$router.push('/users');
                 })
                 .catch((error) => {
                     console.error('Error sending data:', error);
                 });
-        },
-        // AddUserInfo() {
-        //     axios
-        //         .post('http://127.0.0.1:8000/usersinfo', this.userInfo)
-        //         .then((response) => {
-        //             console.log(response);
-        //             // this.$router.push('/users');
-        //         })
-        // }
+        },   
     }
 }
 </script>
