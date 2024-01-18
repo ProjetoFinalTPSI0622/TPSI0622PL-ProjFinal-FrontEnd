@@ -9,7 +9,7 @@
     <router-link to="/Settings/Security" class="w-full">
       <OptionButton btnName="Password & Security" btnDescription="Details about your password settings" />
     </router-link>
-  </div>
+   </div>
 </template>
 
 <script>
