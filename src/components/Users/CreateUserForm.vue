@@ -16,7 +16,7 @@
                     <div class="flex flex-col md:flex-row md:items-end gap-3 lg:w-2/4">
                         <Input LabelTitle="NIF" type="number" required v-model="userInfo.nif" />
                         <div class="flex flex-row mb-2 gap-2 ">
-                            <label>Set NIF as password</label>
+                            <label class="text-purple text-sm">Set NIF as password</label>
                             <input type="checkbox" v-model="isChecked" class="size-6">
                         </div>
                     </div>
