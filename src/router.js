@@ -1,17 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { AuthService } from "./Services/AuthService.js";
 
-import Account from './pages/Account.vue';
-import Notifications from './pages/Notifications.vue'
-import Security from './pages/security.vue'
-
-import LoginPage from './pages/LoginPage.vue'
-import Layout from './pages/Layout.vue'
-import ShowTicketPage from './pages/ShowTicketPage.vue'
-import UsersPage from './pages/UsersPage.vue'
-import CreateUsersPage from './pages/CreateUsersPage.vue'
-import CreateTicketPage from './pages/CreateTicketPage.vue'
-
 const routes = [
   // example route { path: '/', component: Main },
   // add other routes here
@@ -19,59 +8,65 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Layout,
+    component: () => import('./pages/Layout.vue'),
     meta: { requiresAuth: true },
 
     children: [
       {
-        path: '/Settings/Account',
+        path: '/settings/account',
         name: 'Account',
-        component: (Account),
+        component: () => import('./pages/Account.vue'),
         //meta: { requiresAuth: true }
       },
       {
-        path: '/Settings/Notifications',
+        path: '/settings/notifications',
         name: 'Notifications',
-        component: (Notifications),
+        component: () => import('./pages/Notifications.vue'),
         //meta: { requiresAuth: true }
       },
       {
-        path: '/Settings/Security',
+        path: '/settings/security',
         name: 'Security',
-        component: (Security),
+        component: () => import('./pages/security.vue'),
         //meta: { requiresAuth: true }
       },
       {
-        path: '/ShowTicket',
+        path: '/ticket/show',
         name: 'showTicket',
-        component: (ShowTicketPage),
+        component: () => import('./pages/ShowTicketPage.vue'),
         meta: { requiresAuth: true }
       },
       {
-        path: '/Users',
+        path: '/users',
         name: 'Users',
-        component: (UsersPage),
+        component: () => import('./pages/UsersPage.vue'),
         meta: { requiresAuth: true }
       },
       {
-        path: '/CreateUsers',
+        path: '/user/create',
         name: 'CreateUsers',
-        component: (CreateUsersPage),
+        component: () => import('./pages/CreateUsersPage.vue'),
         //meta: { requiresAuth: true }
       },
       {
-        path: '/CreateTicket',
+        path: '/ticket/create',
         name: 'CreateTicket',
-        component: (CreateTicketPage),
+        component: () => import('./pages/CreateTicketPage.vue'),
         //meta: { requiresAuth: true }
       },
     ],
+
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('./pages/NotFoundPage.vue'),
   },
 
   {
-    path: '/Login',
-    name: 'login',
-    component: (LoginPage),
+    path: '/login',
+    name: 'Login',
+    component: () => import('./pages/LoginPage.vue'),
     beforeEnter: async (to, from, next) => { //check if user is already logged in and redirect to home page
       const authResult = await AuthService.checkAuth();
 
@@ -96,7 +91,7 @@ router.beforeEach(async (to, from, next) => {
 
       if (!authResult.success) {
         next({
-          name: "login",
+          name: "Login",
           query: { redirect: to.fullPath },
         });
       } else {
@@ -105,13 +100,14 @@ router.beforeEach(async (to, from, next) => {
     } catch (error) {
       console.error("Error during authentication:", error);
       next({
-        name: "login",
+        name: "Login",
         query: { redirect: to.fullPath },
       });
     }
   } else {
     next();
   }
+
 });
 
 export default router;

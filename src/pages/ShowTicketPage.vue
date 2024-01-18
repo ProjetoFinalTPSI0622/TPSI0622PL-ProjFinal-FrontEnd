@@ -1,6 +1,6 @@
 <script setup>
 import {ref, onMounted } from 'vue';
-import { TicketService } from '../Services/TicketService.js';
+import { TicketsService } from '../Services/TicketsService.js';
 import SideFilter from '../components/ShowTicket/SideFilter.vue';
 import TicketItem from '../components/ShowTicket/TicketItem.vue';
 import TopMenu from '../components/ShowTicket/TopMenu.vue';
@@ -9,7 +9,7 @@ const tickets = ref([]);
 
 
 onMounted(async () => {
-    tickets.value = (await TicketService.getTickets()).tickets;
+    tickets.value = (await TicketsService.getTickets()).tickets;
     await console.log(tickets.value);
 });
 

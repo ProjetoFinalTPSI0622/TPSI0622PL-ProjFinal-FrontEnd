@@ -1,6 +1,16 @@
 <script setup>
 import SideSection from "../components/SideSection.vue";
 import SideSectionTop from "../components/SideSectionTop.vue";
+import { TicketsService } from "../Services/TicketsService";
+import {onMounted} from "vue";
+
+const categories = TicketsService.getCategories();
+const urgencies = TicketsService.getUrgencies();
+
+onMounted(async () => {
+    await console.log(categories);
+    await console.log(urgencies);
+});
 
 </script>
 
@@ -66,7 +76,7 @@ import SideSectionTop from "../components/SideSectionTop.vue";
             </span>
 
 
-            <span
+            <div
                 class="text-purple flex flex-col gap-4 sm:text-2xl text-xl h-[30vh] whitespace-nowrap justify-between p-3 items-start">
 
                 <div class="flex gap-2">
@@ -103,7 +113,7 @@ import SideSectionTop from "../components/SideSectionTop.vue";
                         </div>
                     </div>
                 </form>
-            </span>
+            </div>
 
         </div>
     </div>

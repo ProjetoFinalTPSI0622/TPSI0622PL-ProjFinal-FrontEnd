@@ -7,8 +7,8 @@
 <script>
 import OptionButton from './OptionButton.vue';
 export default {
-  components: { 
-    OptionButton, 
+  components: {
+    OptionButton,
   }
 }
 </script>
