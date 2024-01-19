@@ -16,6 +16,7 @@ const displayedUsers = computed(() => {
     return user.name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
       user.internalcode.toLowerCase().includes(searchTerm.value.toLowerCase());
+
   });
 
   const startIndex = (currentPage.value - 1) * usersPerPage.value;
@@ -59,6 +60,7 @@ watch(searchTerm, () => {
           <span v-for="page in totalPages" :class="['text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer',
             { 'bg-purple text-white': page === currentPage, 'aspect-[0.8148148148148148]': true }]"
             :key="page" @click="changePage(page)">
+
             {{ page }}
           </span>
         </div>

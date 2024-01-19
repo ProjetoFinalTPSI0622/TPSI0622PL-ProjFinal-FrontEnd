@@ -5,6 +5,7 @@ import SearchBox from '../SearchBox.vue';
 
 const props = defineProps({
     searchTerm: String
+
 });
 const emit = defineEmits(['update:searchTerm']);
 </script>

@@ -18,7 +18,6 @@ const props = defineProps({
         <th>INTERNAL CODE</th>
       </tr>
     </thead>
-
     <tbody>
       <UserItem v-for="user in users" :key="user.id" :user="user" />
     </tbody>
@@ -27,7 +26,8 @@ const props = defineProps({
 </template>
 
 <style scoped>
-th {
+
+th{
   padding-top: 10px;
   padding-bottom: 10px;
   text-align: left;

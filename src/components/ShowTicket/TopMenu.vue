@@ -1,4 +1,5 @@
 <script setup>
+
 import { defineProps, defineEmits } from 'vue';
 import SimpleButton from '../SimpleButton.vue';
 import SearchBox from '../SearchBox.vue';
@@ -18,7 +19,9 @@ const emit = defineEmits(['update:searchTerm']);
             <SimpleButton> + Add Ticket </SimpleButton>
         </router-link>
     </span>
+
     <div class="flex flex-row justify-between p-3 border-b-black border-b-opacity-30 border-b border-solid items-start">
+
         <span class="justify-center bg-purple flex gap-2.5 px-3 sm:px-6 py-[5.5px] rounded-xl">
             <div class="text-white sm:text-xl">Filter</div>
             <img loading="lazy"
@@ -26,7 +29,9 @@ const emit = defineEmits(['update:searchTerm']);
                 class=" w-6 sm:aspect-[1.04] object-contain object-center " />
         </span>
         <div class="lg:hidden">
+
             <SearchBox :searchTerm="props.searchTerm" @update:searchTerm="emit('update:searchTerm', $event)" />
         </div>
     </div>
+
 </template>
