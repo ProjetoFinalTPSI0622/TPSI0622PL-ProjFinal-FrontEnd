@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, computed, watch } from 'vue';
-import { TicketService } from '../Services/TicketService.js';
+import { TicketsService } from '../Services/TicketsService.js';
 
 import SideFilter from '../components/ShowTicket/SideFilter.vue';
 import TicketItem from '../components/ShowTicket/TicketItem.vue';

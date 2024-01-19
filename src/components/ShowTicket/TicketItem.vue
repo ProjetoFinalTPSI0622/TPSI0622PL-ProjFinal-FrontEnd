@@ -30,7 +30,8 @@ defineProps({
             </div>
         </td>
         <td class="text-black text-opacity-80 text-sm sm:text-lg">
-            {{ ticket.assigned_to.name }}
+<!--            {{ ticket.assignedto.name }}-->
+<!--        TODO: ADICIOANR VERIFICACAO SE ESTA ASSIGNED -->
         </td>
         <td class="text-white text-center text-xs sm:text-lg whitespace-nowrap">
             <div class="bg-red-600 py-2 px-4 rounded-3xl w-fit">
