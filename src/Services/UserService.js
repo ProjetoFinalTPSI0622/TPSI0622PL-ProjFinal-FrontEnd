@@ -10,9 +10,8 @@ export const UserService = {
                 },
                 withCredentials: true,
             });
-            console.log(response.data);
             if (response.status === 200) {
-                return {success: true, message: 'Authenticated', data: response.data}
+                return {success: true, message: 'Authenticated', users: response.data}
             } else {
                 return {success: false, message: 'Not authenticated'}
             }

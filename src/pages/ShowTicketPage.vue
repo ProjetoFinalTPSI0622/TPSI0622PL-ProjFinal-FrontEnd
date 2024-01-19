@@ -9,12 +9,11 @@ import TicketsTable from '../components/ShowTicket/TicketsTable.vue';
 
 const tickets = ref([]);
 const currentPage = ref(1);
-const ticketsPerPage = ref(1);
+const ticketsPerPage = ref(5);
 const searchTerm = ref('');
 
 onMounted(async () => {
     tickets.value = (await TicketsService.getTickets()).tickets;
-    await console.log(tickets.value);
 });
 
 //Obtem os usuários que serão exibidos na página atual
