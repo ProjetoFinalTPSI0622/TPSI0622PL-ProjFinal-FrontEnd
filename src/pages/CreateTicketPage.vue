@@ -23,7 +23,7 @@ const ticketTitle = ref("");
 
 const submitHandler = async () => {
   try {
-    await TicketsService.createTicket(user.value.id, ticketTitle.value, ticketDescription.value, priority.selectedPriority, category.selectedCategory);
+    await TicketsService.createTicket(ticketTitle.value, ticketDescription.value, priority.selectedPriority, category.selectedCategory);
   } catch (e) {
     console.log(e);
   }

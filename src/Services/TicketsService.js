@@ -36,10 +36,9 @@ export const TicketsService = {
             return {success: false, message: 'Not authenticated'}
         }
     },
-    createTicket: async (createdby, title, description, priority, category) => {
+    createTicket: async ( title, description, priority, category) => {
         try {
             const response = await axios.post('http://localhost:8000/api/tickets', {
-                createdby: createdby,
                 title: title,
                 description: description,
                 priority: priority,
