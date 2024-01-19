@@ -31,10 +31,16 @@ const routes = [
         //meta: { requiresAuth: true }
       },
       {
-        path: '/ticket/show',
+        path: '/tickets/show',
         name: 'showTicket',
         component: () => import('./pages/ShowTicketPage.vue'),
         meta: { requiresAuth: true }
+      },
+      {
+        path: '/tickets/create',
+        name: 'CreateTicket',
+        component: () => import('./pages/CreateTicketPage.vue'),
+        //meta: { requiresAuth: true }
       },
       {
         path: '/users',
@@ -43,15 +49,9 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
-        path: '/user/create',
+        path: '/users/create',
         name: 'CreateUsers',
         component: () => import('./pages/CreateUsersPage.vue'),
-        //meta: { requiresAuth: true }
-      },
-      {
-        path: '/ticket/create',
-        name: 'CreateTicket',
-        component: () => import('./pages/CreateTicketPage.vue'),
         //meta: { requiresAuth: true }
       },
     ],

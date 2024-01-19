@@ -36,13 +36,14 @@ export const TicketsService = {
             return {success: false, message: 'Not authenticated'}
         }
     },
-    createTicket: async (title, description, priority, type) => {
+    createTicket: async (createdby, title, description, priority, category) => {
         try {
             const response = await axios.post('http://localhost:8000/api/tickets', {
+                createdby: createdby,
                 title: title,
                 description: description,
                 priority: priority,
-                type: type
+                category: category,
             }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -125,16 +126,16 @@ export const TicketsService = {
         }
     },
 
-    getUrgencies: async() => {
+    getPriorities: async() => {
         try {
-            const response = await axios.get('http://localhost:8000/api/urgencies', {
+            const response = await axios.get('http://localhost:8000/api/priorities', {
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 withCredentials: true,
             });
             if (response.status === 200) {
-                return {success: true, message: 'Authenticated', urgencies: response.data}
+                return {success: true, message: 'Authenticated', priorities: response.data}
             } else {
                 return {success: false, message: 'Not authenticated'}
             }
