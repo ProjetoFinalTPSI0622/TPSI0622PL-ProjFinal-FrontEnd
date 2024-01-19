@@ -8,24 +8,21 @@ const props = defineProps({
 </script>
 
 <template>
-
   <table>
 
     <thead>
       <tr class="border-b-black border-b-opacity-30 border-b border-solid">
-        <th >NAME</th>
-        <th >EMAIL</th>
-        <th >CLASS</th>
-        <th >INTERNAL CODE</th>
+        <th>NAME</th>
+        <th>EMAIL</th>
+        <th>CLASS</th>
+        <th>INTERNAL CODE</th>
       </tr>
     </thead>
-    
     <tbody>
       <UserItem v-for="user in users" :key="user.id" :user="user" />
     </tbody>
 
   </table>
-  
 </template>
 
 <style scoped>
@@ -39,5 +36,4 @@ th{
 th:first-child {
   padding-left: 140px;
 }
-
 </style>

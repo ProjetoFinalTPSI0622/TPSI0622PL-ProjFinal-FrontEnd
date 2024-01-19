@@ -4,7 +4,8 @@ import SimpleButton from '../SimpleButton.vue';
 import SearchBox from '../SearchBox.vue';
 
 const props = defineProps({
-  searchTerm: String
+    searchTerm: String
+
 });
 const emit = defineEmits(['update:searchTerm']);
 </script>
@@ -15,8 +16,7 @@ const emit = defineEmits(['update:searchTerm']);
         <div>All Users</div>
         <SimpleButton> + Add User </SimpleButton>
     </span>
-    <div
-        class="flex flex-row justify-between p-3 border-b-black border-b-opacity-30 border-b border-solid items-start">
+    <div class="flex flex-row justify-between p-3 border-b-black border-b-opacity-30 border-b border-solid items-start">
         <span class="justify-center bg-purple flex gap-2.5 px-3 sm:px-6 py-[5.5px] rounded-xl">
             <div class="text-white sm:text-xl">Filter</div>
             <img loading="lazy"
