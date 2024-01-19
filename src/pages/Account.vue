@@ -1,22 +1,19 @@
 <template>
   <div class="md:flex w-full">
-    <OptionsBar />
+    <SettingsBar />
     <div class="flex flex-col h-fit w-full">
-      <ImageCard />
-      <ShowAccount/>
+      <!-- <EditUserForm /> -->
     </div>
   </div>
 </template>
 
 <script>
-  import OptionsBar from '../components/Settings/OptionsBar.vue';
-  import ImageCard from '../components/Form/AvatarCard.vue';
-  import ShowAccount from '../components/settings/account/ShowAccount.vue';
+  import SettingsBar from '../components/Settings/SettingsBar.vue';
+  // import EditUserForm from '../components/settings/Account/EditUserForm.vue';
   export default {
     components: {
-    OptionsBar,
-    ImageCard,
-    ShowAccount,
+    SettingsBar,
+    // EditUserForm,
   }
 }
 </script>
