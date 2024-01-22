@@ -20,12 +20,16 @@ const user = ref({});
 const ticketDescription = ref("");
 const ticketTitle = ref("");
 
+const isSubmitting = ref(false);
 
 const submitHandler = async () => {
   try {
+    isSubmitting.value = true;
     await TicketsService.createTicket(ticketTitle.value, ticketDescription.value, priority.selectedPriority, category.selectedCategory);
+    isSubmitting.value = false;
   } catch (e) {
     console.log(e);
+    isSubmitting.value = false;
   }
 };
 
@@ -136,6 +140,7 @@ onBeforeMount(async () => {
                             </div>
                             <button type="submit"
                                     @click.prevent="submitHandler"
+                                    :disabled="isSubmitting"
                                 class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverButton">
                                 Create Ticket
                             </button>
