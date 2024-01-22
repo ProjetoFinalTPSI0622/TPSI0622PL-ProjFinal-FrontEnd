@@ -20,50 +20,50 @@ const routes = [
     path: "/",
     name: "home",
     component: Layout,
-    // meta: { requiresAuth: true },
+    meta: { requiresAuth: true },
 
     children: [
       {
         path: '/Settings/Account',
         name: 'Account',
         component: (Account),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
       {
         path: '/Settings/Notifications',
         name: 'Notifications',
         component: (Notifications),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
       {
         path: '/Settings/Security',
         name: 'Security',
         component: (Security),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
       {
         path: '/ShowTicket',
         name: 'showTicket',
         component: (ShowTicketPage),
-        // meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
       {
         path: '/Users',
         name: 'Users',
         component: (UsersPage),
-        // meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
       {
         path: '/CreateUser',
         name: 'CreateUser',
         component: (CreateUserPage),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
       {
         path: '/CreateTicket',
         name: 'CreateTicket',
         component: (CreateTicketPage),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
     ],
   },
