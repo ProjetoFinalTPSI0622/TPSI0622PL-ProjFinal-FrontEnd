@@ -43,6 +43,11 @@ const routes = [
         //meta: { requiresAuth: true }
       },
       {
+        path: '/tickets/:ticketId',
+        name: 'ticketDetails',
+        component: () => import('./pages/TicketDetailsPage.vue'),
+      },
+      {
         path: '/users',
         name: 'Users',
         component: () => import('./pages/UsersPage.vue'),
@@ -51,7 +56,7 @@ const routes = [
       {
         path: '/users/create',
         name: 'CreateUsers',
-        component: () => import('./pages/CreateUsersPage.vue'),
+        component: () => import('./pages/CreateUserPage.vue'),
         //meta: { requiresAuth: true }
       },
     ],
