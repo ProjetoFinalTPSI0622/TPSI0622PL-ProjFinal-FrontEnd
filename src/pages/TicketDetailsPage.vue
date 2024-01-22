@@ -2,6 +2,7 @@
 import SideSection from "../components/SideSection.vue";
 import SideSectionTop from "../components/SideSectionTop.vue";
 import { TicketsService } from "../Services/TicketsService";
+import { UserService } from "../Services/UserService.js";
 import {ref, onBeforeMount} from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -9,20 +10,47 @@ const route = useRoute();
 
 const ticket = ref({});
 
+const technicians = ref([]);
+
 
 onBeforeMount(async () => {
+  await getTickets();
+  await getTechnicians();
+
+  console.log(ticket.value);
+  console.log(technicians.value);
+});
+
+
+
+const getTechnicians = async () => {
   try {
-    const response = await TicketsService.getTicket(route.params.ticketId);
-    if (response.ticket) {
-      ticket.value = response.ticket;
-      console.log('Ticket Data:', ticket.value);
+    const response = await UserService.getTechnicians();
+    if (response.success) {
+      technicians.value = response.data;
+      console.log('Technicians Data:', technicians.value);
     } else {
       console.error('Invalid response structure:', response);
     }
   } catch (error) {
-    console.error('Error fetching ticket:', error);
+    console.error('Error fetching technicians:', error);
   }
-});
+};
+
+const getTickets = async () => {
+  try {
+    const response = await TicketsService.getTickets();
+    if (response.success) {
+      ticket.value = response.tickets;
+      console.log('Tickets Data:', ticket.value);
+    } else {
+      console.error('Invalid response structure:', response);
+    }
+  } catch (error) {
+    console.error('Error fetching tickets:', error);
+  }
+};
+
 
 </script>
 
@@ -45,33 +73,36 @@ onBeforeMount(async () => {
                   <label class="text-pink-600 text-l xl:text-lg justify-center">
                     Assigned to
                   </label>
-                  <div
+                  <select
                       class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-                    <!--                     TODO: ADICIONAR FOTO DO USER AFTER-->
-                    {{ ticket.assignedto ? ticket.createdby.name : 'Unassigned' }}
-                  </div>
+                    <option disabled selected>
+                      {{ ticket.assignedto ? ticket.createdby.name : 'Unassigned' }}
+                    </option>
+
+                    <option v-for="technician in technicians" :key="technicians.id" :value="technicians.id">
+                      {{ technicians.name }}
+                    </option>
+
+                  </select>
                 </div>
+
                 <div class="flex flex-col gap-3">
                     <label class="text-pink-600 text-l xl:text-lg justify-center">
                         Categoria
                     </label>
-                    <select
+                    <div
                         class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-                        <option disabled selected>
                           {{ ticket.category ? ticket.category.category_name : 'N/A' }}
-                        </option>
-                    </select>
+                    </div>
                 </div>
                 <div class="flex flex-col gap-3">
                     <label class="text-pink-600 text-l xl:text-lg justify-center">
                         Urgência
                     </label>
-                    <select
+                    <div
                         class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-                        <option disabled selected>
                           {{ ticket.priority ? ticket.priority.priority_name : 'N/A' }}
-                        </option>
-                    </select>
+                    </div>
                 </div>
             </div>
         </SideSection>

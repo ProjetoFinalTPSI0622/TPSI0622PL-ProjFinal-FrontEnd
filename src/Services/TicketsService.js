@@ -35,7 +35,7 @@ export const TicketsService = {
             return {success: false, message: 'Not authenticated'}
         }
     },
-    createTicket: async ( title, description, priority, category) => {
+    createTicket: async (title, description, priority, category) => {
         try {
             const response = await axios.post('http://localhost:8000/api/tickets', {
                 title: title,
@@ -48,14 +48,18 @@ export const TicketsService = {
                 },
                 withCredentials: true,
             });
+
             console.log(response.data);
-            if (response.status === 200) {
-                return {success: true, message: 'Authenticated', ticket: response.data}
+
+            if (response.status >= 200 && response.status < 300) {
+                return { success: true, message: 'Ticket created successfully', ticket: response.data };
             } else {
-                return {success: false, message: 'Not authenticated'}
+                console.error('Unexpected status:', response.status, response.statusText);
+                return { success: false, message: 'Failed to create ticket' };
             }
         } catch (e) {
-            return {success: false, message: 'Not authenticated'}
+            console.error('Error creating ticket:', e);
+            return { success: false, message: 'An error occurred while creating the ticket' };
         }
     },
     updateTicket: async (id, title, description, priority, type) => {
