@@ -28,10 +28,6 @@ const emit = defineEmits(['update:searchTerm']);
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/0510fad93eca8f0eb44f11602487e1815b688bf1e81320ed0afe33b8cdcc0f34?apiKey=a9b902b8934746c7aacbbad131e88c89&"
                 class=" w-6 sm:aspect-[1.04] object-contain object-center " />
         </span>
-        <div class="lg:hidden">
-
-            <SearchBox :searchTerm="props.searchTerm" @update:searchTerm="emit('update:searchTerm', $event)" />
-        </div>
+        <SearchBox :searchTerm="props.searchTerm" @update:searchTerm="emit('update:searchTerm', $event)" />
     </div>
-
 </template>

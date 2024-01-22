@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, computed, watch } from 'vue';
+import {onMounted, ref, computed, watch, onBeforeMount} from 'vue';
 import { TicketsService } from '../Services/TicketsService.js';
 
 import SideFilter from '../components/ShowTicket/SideFilter.vue';
@@ -12,15 +12,27 @@ const ticketsPerPage = ref(5);
 const searchTerm = ref('');
 const status = ref('All');
 
+onBeforeMount(async () => {
+    try {
+        tickets.value = (await TicketsService.getTickets()).tickets;
+    } catch (error) {
+        console.error("Erro ao procurar usuários:", error);
+    }
+});
+
 onMounted(async () => {
     tickets.value = (await TicketsService.getTickets()).tickets;
 });
 
 const displayedTickets = computed(() => {
     let filteredTickets = tickets.value.filter((ticket) => {
-        return ticket.title.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-            ticket.requester.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-            ticket.assignee.toLowerCase().includes(searchTerm.value.toLowerCase());
+        const title = ticket.title ? ticket.title.toLowerCase() : '';
+        const requester = ticket.createdby ? ticket.createdby.name.toLowerCase() : '';
+        const assignee = ticket.assignedto ? ticket.assignedto.name.toLowerCase() : '';
+
+        return title.includes(searchTerm.value.toLowerCase()) ||
+            requester.includes(searchTerm.value.toLowerCase()) ||
+            assignee.includes(searchTerm.value.toLowerCase());
     });
 
     if (status.value !== 'All') {

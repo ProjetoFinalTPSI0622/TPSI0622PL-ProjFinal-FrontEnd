@@ -9,10 +9,10 @@ const props = defineProps({
 
 const clickHandler = (id) => {
 
-  router.push({
+    router.push({
         name: 'ticketDetails',
         params: {
-          ticketId: id
+            ticketId: id
         }
     });
 }
@@ -52,5 +52,4 @@ th:first-child {
 tbody:hover {
     cursor: pointer;
 }
-
 </style>

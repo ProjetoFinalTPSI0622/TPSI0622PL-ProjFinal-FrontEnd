@@ -16,19 +16,19 @@ const routes = [
         path: '/settings/account',
         name: 'Account',
         component: () => import('./pages/Account.vue'),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
       {
         path: '/settings/notifications',
         name: 'Notifications',
         component: () => import('./pages/Notifications.vue'),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
       {
         path: '/settings/security',
         name: 'Security',
         component: () => import('./pages/security.vue'),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
       {
         path: '/tickets/show',
@@ -40,7 +40,7 @@ const routes = [
         path: '/tickets/create',
         name: 'CreateTicket',
         component: () => import('./pages/CreateTicketPage.vue'),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
       {
         path: '/tickets/:ticketId',
@@ -57,7 +57,7 @@ const routes = [
         path: '/users/create',
         name: 'CreateUsers',
         component: () => import('./pages/CreateUserPage.vue'),
-        //meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
       },
     ],
 
