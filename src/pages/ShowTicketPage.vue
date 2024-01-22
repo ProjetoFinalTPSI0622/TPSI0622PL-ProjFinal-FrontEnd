@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref, computed, watch } from 'vue';
-import { TicketService } from '../Services/TicketService.js';
+import { TicketsService } from '../Services/TicketsService.js';
+
 import SideFilter from '../components/ShowTicket/SideFilter.vue';
 import TopMenu from '../components/ShowTicket/TopMenu.vue';
 import TicketsTable from '../components/ShowTicket/TicketsTable.vue';
@@ -12,8 +13,7 @@ const searchTerm = ref('');
 const status = ref('All');
 
 onMounted(async () => {
-    tickets.value = (await TicketService.getTickets()).tickets;
-    await console.log(tickets.value);
+    tickets.value = (await TicketsService.getTickets()).tickets;
 });
 
 const displayedTickets = computed(() => {

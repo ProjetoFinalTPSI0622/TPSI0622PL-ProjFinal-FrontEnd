@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const TicketService = {
+export const TicketsService = {
     getTickets: async () => {
         try {
             const response = await axios.get('http://localhost:8000/api/tickets', {
@@ -36,13 +36,13 @@ export const TicketService = {
             return {success: false, message: 'Not authenticated'}
         }
     },
-    createTicket: async (title, description, priority, type) => {
+    createTicket: async ( title, description, priority, category) => {
         try {
             const response = await axios.post('http://localhost:8000/api/tickets', {
                 title: title,
                 description: description,
                 priority: priority,
-                type: type
+                category: category,
             }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -72,6 +72,72 @@ export const TicketService = {
                 },
                 withCredentials: true,
             });
+        } catch (e) {
+            return {success: false, message: 'Not authenticated'}
+        }
+    },
+    deleteTicket: async (id) => {
+        try {
+            const response = await axios.delete('http://localhost:8000/api/tickets/' + id, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            });
+        } catch (e) {
+            return {success: false, message: 'Not authenticated'}
+        }
+    },
+
+    getComments: async (id) => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/tickets/' + id + '/comments', {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            });
+            if (response.status === 200) {
+                return {success: true, message: 'Authenticated', comments: response.data}
+            } else {
+                return {success: false, message: 'Not authenticated'}
+            }
+        } catch (e) {
+            return {success: false, message: 'Not authenticated'}
+        }
+    },
+
+    getCategories: async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/categories', {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            });
+            if (response.status === 200) {
+                return {success: true, message: 'Authenticated', categories: response.data}
+            } else {
+                return {success: false, message: 'Not authenticated'}
+            }
+        } catch (e) {
+            return {success: false, message: 'Not authenticated'}
+        }
+    },
+
+    getPriorities: async() => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/priorities', {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            });
+            if (response.status === 200) {
+                return {success: true, message: 'Authenticated', priorities: response.data}
+            } else {
+                return {success: false, message: 'Not authenticated'}
+            }
         } catch (e) {
             return {success: false, message: 'Not authenticated'}
         }
