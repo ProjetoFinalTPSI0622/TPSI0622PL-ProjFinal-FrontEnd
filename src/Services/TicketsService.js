@@ -26,7 +26,6 @@ export const TicketsService = {
                 },
                 withCredentials: true,
             });
-            console.log(response.data);
             if (response.status === 200) {
                 return {success: true, message: 'Authenticated', ticket: response.data}
             } else {

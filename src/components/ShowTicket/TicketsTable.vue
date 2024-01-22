@@ -1,10 +1,22 @@
 <script setup>
 import { defineProps } from 'vue';
 import TicketItem from './TicketItem.vue';
+import router from "../../router.js";
 
 const props = defineProps({
     tickets: Array
 });
+
+const clickHandler = (id) => {
+
+  router.push({
+        name: 'ticketDetails',
+        params: {
+          ticketId: id
+        }
+    });
+}
+
 </script>
 
 <template>
@@ -20,7 +32,7 @@ const props = defineProps({
         </thead>
 
         <tbody>
-            <TicketItem v-for="ticket in tickets" :key="ticket.id" :ticket="ticket" />
+            <TicketItem @click="clickHandler(ticket.id)" v-for="ticket in tickets" :key="ticket.id" :ticket="ticket" />
         </tbody>
 
     </table>
@@ -36,4 +48,9 @@ th {
 th:first-child {
     padding-left: 1vw;
 }
+
+tbody:hover {
+    cursor: pointer;
+}
+
 </style>
