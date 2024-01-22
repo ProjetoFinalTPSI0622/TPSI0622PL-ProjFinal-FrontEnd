@@ -1,7 +1,7 @@
 <script setup>
 
-import { onMounted, ref, computed, watch } from 'vue';
-import { getUsers } from '../Services/UserService';
+import {onMounted, ref, computed, watch, onBeforeMount} from 'vue';
+import { UserService } from '../Services/UserService';
 import TopMenu from '../components/Users/TopMenu.vue';
 import UsersTable from '../components/Users/UsersTable.vue';
 
@@ -25,9 +25,9 @@ const displayedUsers = computed(() => {
 });
 
 //Obtem os usuários da API
-onMounted(async () => {
+onBeforeMount(async () => {
   try {
-    users.value = await getUsers();
+    users.value = (await UserService.getUsers()).users;
   } catch (error) {
     console.error("Erro ao procurar usuários:", error);
   }

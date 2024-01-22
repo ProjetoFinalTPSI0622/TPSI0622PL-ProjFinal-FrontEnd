@@ -1,7 +1,7 @@
 <script setup>
-
 import { onMounted, ref, computed, watch } from 'vue';
-import { TicketService } from '../Services/TicketService.js';
+import { TicketsService } from '../Services/TicketsService.js';
+
 import SideFilter from '../components/ShowTicket/SideFilter.vue';
 import TicketItem from '../components/ShowTicket/TicketItem.vue';
 import TopMenu from '../components/ShowTicket/TopMenu.vue';
@@ -9,12 +9,11 @@ import TicketsTable from '../components/ShowTicket/TicketsTable.vue';
 
 const tickets = ref([]);
 const currentPage = ref(1);
-const ticketsPerPage = ref(1);
+const ticketsPerPage = ref(5);
 const searchTerm = ref('');
 
 onMounted(async () => {
-    tickets.value = (await TicketService.getTickets()).tickets;
-    await console.log(tickets.value);
+    tickets.value = (await TicketsService.getTickets()).tickets;
 });
 
 //Obtem os usuários que serão exibidos na página atual

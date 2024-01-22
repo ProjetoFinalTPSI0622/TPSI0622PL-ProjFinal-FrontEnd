@@ -1,6 +1,47 @@
 <script setup>
 import SideSection from "../components/SideSection.vue";
 import SideSectionTop from "../components/SideSectionTop.vue";
+import { TicketsService } from "../Services/TicketsService";
+import { UserService } from "../Services/UserService";
+import {onBeforeMount, ref, reactive} from "vue";
+
+
+const category = reactive({
+  categories: [],
+  selectedCategory: 1,
+});
+const priority = reactive({
+  priorities: [],
+  selectedPriority: 1,
+});
+const isLoading = ref(true);
+const user = ref({});
+
+const ticketDescription = ref("");
+const ticketTitle = ref("");
+
+
+const submitHandler = async () => {
+  try {
+    await TicketsService.createTicket(ticketTitle.value, ticketDescription.value, priority.selectedPriority, category.selectedCategory);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+
+onBeforeMount(async () => {
+
+  try{
+    category.categories = (await TicketsService.getCategories()).categories;
+    priority.priorities = (await TicketsService.getPriorities()).priorities;
+    user.value = (await UserService.getAuthedUser()).user;
+  } catch (e) {
+    console.log(e);
+  } finally {
+    isLoading.value = false;
+  }
+});
 
 </script>
 
@@ -10,45 +51,39 @@ import SideSectionTop from "../components/SideSectionTop.vue";
             <SideSectionTop>New Ticket</SideSectionTop>
             <div class="flex flex-col p-2 xl:p-5 gap-4">
                 <div class="flex flex-col gap-3">
-                    <span class="text-pink-600 text-l xl:text-lg justify-center">
+                    <label class="text-pink-600 text-l xl:text-lg justify-center">
                         Requester
-                    </span>
-                    <select
+                    </label>
+                    <div
                         class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-                        <option disabled selected>Pick your favorite Simpson</option>
-                        <option>Homer</option>
-                        <option>Marge</option>
-                        <option>Bart</option>
-                        <option>Lisa</option>
-                        <option>Maggie</option>
+<!--                     TODO: ADICIONAR FOTO DO USER AFTER-->
+                        {{ user.name }}
+                    </div>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <label class="text-pink-600 text-l xl:text-lg justify-center">
+                        Categoria
+                    </label>
+                    <select
+                        v-model="category.selectedCategory"
+                        class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+                        <option disabled selected>Escolha uma categoria</option>
+                        <option v-for="category in category.categories" :key="category.id" :value="category.id">
+                          {{ category.category_name }}
+                        </option>
                     </select>
                 </div>
                 <div class="flex flex-col gap-3">
-                    <span class="text-pink-600 text-l xl:text-lg justify-center">
-                        Category
-                    </span>
+                    <label class="text-pink-600 text-l xl:text-lg justify-center">
+                        Urgência
+                    </label>
                     <select
+                        v-model="priority.selectedPriority"
                         class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-                        <option disabled selected>Pick your favorite Simpson</option>
-                        <option>Homer</option>
-                        <option>Marge</option>
-                        <option>Bart</option>
-                        <option>Lisa</option>
-                        <option>Maggie</option>
-                    </select>
-                </div>
-                <div class="flex flex-col gap-3">
-                    <span class="text-pink-600 text-l xl:text-lg justify-center">
-                        Urgency
-                    </span>
-                    <select
-                        class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-                        <option disabled selected>Pick your favorite Simpson</option>
-                        <option>Homer</option>
-                        <option>Marge</option>
-                        <option>Bart</option>
-                        <option>Lisa</option>
-                        <option>Maggie</option>
+                        <option disabled selected>Escolha a urgência</option>
+                        <option v-for="priority in priority.priorities" :key="priority.id" :value="priority.id">
+                          {{ priority.priority_name }}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -58,7 +93,7 @@ import SideSectionTop from "../components/SideSectionTop.vue";
 
             <span
                 class="text-purple flex sm:text-2xl text-xl h-[9vh] whitespace-nowrap justify-between p-3 border-b-purple border-b-opacity-30 border-b border-solid items-start">
-                <input type="text" placeholder="Title"
+                <input type="text" placeholder="Title" v-model="ticketTitle"
                     class="bg-grey text-black text-opacity-60 text-xl w-full pt-2 pb-1.5 px-3 rounded-xl border border-solid border-black border-opacity-20" />
             </span>
             <span
@@ -66,7 +101,7 @@ import SideSectionTop from "../components/SideSectionTop.vue";
             </span>
 
 
-            <span
+            <div
                 class="text-purple flex flex-col gap-4 sm:text-2xl text-xl h-[30vh] whitespace-nowrap justify-between p-3 items-start">
 
                 <div class="flex gap-2">
@@ -78,8 +113,11 @@ import SideSectionTop from "../components/SideSectionTop.vue";
                         <div class="px-4 py-2 bg-grey rounded-t-lg">
                             <label for="comment" class="sr-only">Your comment</label>
                             <textarea id="comment" rows="4"
+                                v-model="ticketDescription"
                                 class="w-full px-0 text-base text-gray-900 bg-grey focus:outline-none focus-visible:outline-none"
-                                placeholder="Write here your problem as detailed as possible..." required></textarea>
+                                placeholder="Write here your problem as detailed as possible..." required>
+
+                            </textarea>
                         </div>
                         <div class="flex items-center justify-between px-3 py-2 border-t">
                             <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
@@ -97,13 +135,14 @@ import SideSectionTop from "../components/SideSectionTop.vue";
                                 </button>
                             </div>
                             <button type="submit"
+                                    @click.prevent="submitHandler"
                                 class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverButton">
-                                Post comment
+                                Create Ticket
                             </button>
                         </div>
                     </div>
                 </form>
-            </span>
+            </div>
 
         </div>
     </div>
