@@ -4,6 +4,7 @@ import SideSectionTop from "../components/SideSectionTop.vue";
 import { TicketsService } from "../Services/TicketsService";
 import { UserService } from "../Services/UserService";
 import {onBeforeMount, ref, reactive} from "vue";
+import router from "../router.js";
 
 
 const category = reactive({
@@ -20,12 +21,16 @@ const user = ref({});
 const ticketDescription = ref("");
 const ticketTitle = ref("");
 
+const isSubmitting = ref(false);
 
 const submitHandler = async () => {
   try {
-    await TicketsService.createTicket(ticketTitle.value, ticketDescription.value, priority.selectedPriority, category.selectedCategory);
+    isSubmitting.value = true;
+    const createdTicket = await TicketsService.createTicket(ticketTitle.value, ticketDescription.value, priority.selectedPriority, category.selectedCategory);
+    isSubmitting.value = false;
+    await router.push({ name: 'ticketDetails', params: { ticketId: createdTicket.ticket.id } });
   } catch (e) {
-    console.log(e);
+    isSubmitting.value = false;
   }
 };
 
@@ -136,6 +141,7 @@ onBeforeMount(async () => {
                             </div>
                             <button type="submit"
                                     @click.prevent="submitHandler"
+                                    :disabled="isSubmitting"
                                 class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverButton">
                                 Create Ticket
                             </button>

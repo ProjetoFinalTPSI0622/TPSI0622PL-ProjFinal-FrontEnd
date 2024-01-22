@@ -34,7 +34,6 @@ export const AuthService = {
                 },
                 withCredentials: true,
             });
-            console.log(response.data);
             if (response.status === 200 && response.data.auth) {
                 return {success: true, message: 'Authenticated'}
             } else {
@@ -45,4 +44,3 @@ export const AuthService = {
         }
     },
 }
-
