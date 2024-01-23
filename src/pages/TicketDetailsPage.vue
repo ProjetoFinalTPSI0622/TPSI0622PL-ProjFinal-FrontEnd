@@ -39,9 +39,9 @@ const getTechnicians = async () => {
 
 const getTickets = async () => {
   try {
-    const response = await TicketsService.getTickets();
+    const response = await TicketsService.getTicket(route.params.ticketId);
     if (response.success) {
-      ticket.value = response.tickets;
+      ticket.value = response.ticket; 
       console.log('Tickets Data:', ticket.value);
     } else {
       console.error('Invalid response structure:', response);
