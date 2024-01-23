@@ -58,6 +58,25 @@ export const UserService = {
         }
     },
 
+    createUserInfo : async (userInfo) => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/userInfo', userInfo,{
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            });
+            console.log(response.data);
+            if (response.status === 200) {
+                return {success: true, message: 'Authenticated', data: response.data}
+            } else {
+                return {success: false, message: 'Not authenticated'}
+            }
+        } catch (e) {
+            return {success: false, message: 'Not authenticated'}
+        }
+    },
+
     updateUser : async (user) => {
         try {
             const response = await axios.put('http://localhost:8000/api/users/' + user.id, user,{
