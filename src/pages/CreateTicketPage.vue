@@ -116,7 +116,6 @@ onBeforeMount(async () => {
                 <form class="w-full">
                     <div class="w-full border border-solid border-black border-opacity-20 rounded-lg bg-grey">
                         <div class="px-4 py-2 bg-grey rounded-t-lg">
-                            <label for="comment" class="sr-only">Your comment</label>
                             <textarea id="comment" rows="4"
                                 v-model="ticketDescription"
                                 class="w-full px-0 text-base text-gray-900 bg-grey focus:outline-none focus-visible:outline-none"
