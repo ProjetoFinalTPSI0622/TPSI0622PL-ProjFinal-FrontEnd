@@ -3,17 +3,17 @@ import SideSection from "../components/SideSection.vue";
 import SideSectionTop from "../components/SideSectionTop.vue";
 import { TicketsService } from "../Services/TicketsService";
 import { UserService } from "../Services/UserService";
-import {onBeforeMount, ref, reactive} from "vue";
+import { onBeforeMount, ref, reactive } from "vue";
 import router from "../router.js";
 
 
 const category = reactive({
-  categories: [],
-  selectedCategory: 1,
+    categories: [],
+    selectedCategory: 1,
 });
 const priority = reactive({
-  priorities: [],
-  selectedPriority: 1,
+    priorities: [],
+    selectedPriority: 1,
 });
 const isLoading = ref(true);
 const user = ref({});
@@ -24,28 +24,28 @@ const ticketTitle = ref("");
 const isSubmitting = ref(false);
 
 const submitHandler = async () => {
-  try {
-    isSubmitting.value = true;
-    const createdTicket = await TicketsService.createTicket(ticketTitle.value, ticketDescription.value, priority.selectedPriority, category.selectedCategory);
-    isSubmitting.value = false;
-    await router.push({ name: 'ticketDetails', params: { ticketId: createdTicket.ticket.id } });
-  } catch (e) {
-    isSubmitting.value = false;
-  }
+    try {
+        isSubmitting.value = true;
+        const createdTicket = await TicketsService.createTicket(ticketTitle.value, ticketDescription.value, priority.selectedPriority, category.selectedCategory);
+        isSubmitting.value = false;
+        await router.push({ name: 'ticketDetails', params: { ticketId: createdTicket.ticket.id } });
+    } catch (e) {
+        isSubmitting.value = false;
+    }
 };
 
 
 onBeforeMount(async () => {
 
-  try{
-    category.categories = (await TicketsService.getCategories()).categories;
-    priority.priorities = (await TicketsService.getPriorities()).priorities;
-    user.value = (await UserService.getAuthedUser()).user;
-  } catch (e) {
-    console.log(e);
-  } finally {
-    isLoading.value = false;
-  }
+    try {
+        category.categories = (await TicketsService.getCategories()).categories;
+        priority.priorities = (await TicketsService.getPriorities()).priorities;
+        user.value = (await UserService.getAuthedUser()).user;
+    } catch (e) {
+        console.log(e);
+    } finally {
+        isLoading.value = false;
+    }
 });
 
 </script>
@@ -61,7 +61,7 @@ onBeforeMount(async () => {
                     </label>
                     <div
                         class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-<!--                     TODO: ADICIONAR FOTO DO USER AFTER-->
+                        <!--                     TODO: ADICIONAR FOTO DO USER AFTER-->
                         {{ user.name }}
                     </div>
                 </div>
@@ -69,12 +69,11 @@ onBeforeMount(async () => {
                     <label class="text-pink-600 text-l xl:text-lg justify-center">
                         Categoria
                     </label>
-                    <select
-                        v-model="category.selectedCategory"
+                    <select v-model="category.selectedCategory"
                         class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
                         <option disabled selected>Escolha uma categoria</option>
                         <option v-for="category in category.categories" :key="category.id" :value="category.id">
-                          {{ category.category_name }}
+                            {{ category.category_name }}
                         </option>
                     </select>
                 </div>
@@ -82,12 +81,11 @@ onBeforeMount(async () => {
                     <label class="text-pink-600 text-l xl:text-lg justify-center">
                         Urgência
                     </label>
-                    <select
-                        v-model="priority.selectedPriority"
+                    <select v-model="priority.selectedPriority"
                         class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
                         <option disabled selected>Escolha a urgência</option>
                         <option v-for="priority in priority.priorities" :key="priority.id" :value="priority.id">
-                          {{ priority.priority_name }}
+                            {{ priority.priority_name }}
                         </option>
                     </select>
                 </div>
@@ -116,8 +114,7 @@ onBeforeMount(async () => {
                 <form class="w-full">
                     <div class="w-full border border-solid border-black border-opacity-20 rounded-lg bg-grey">
                         <div class="px-4 py-2 bg-grey rounded-t-lg">
-                            <textarea id="comment" rows="4"
-                                v-model="ticketDescription"
+                            <textarea id="comment" rows="4" v-model="ticketDescription"
                                 class="w-full px-0 text-base text-gray-900 bg-grey focus:outline-none focus-visible:outline-none"
                                 placeholder="Write here your problem as detailed as possible..." required>
 
@@ -138,10 +135,8 @@ onBeforeMount(async () => {
                                     <img src="../assets/attach.svg" />
                                 </button>
                             </div>
-                            <button type="submit"
-                                    @click.prevent="submitHandler"
-                                    :disabled="isSubmitting"
-                                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverButton">
+                            <button type="submit" @click.prevent="submitHandler" :disabled="isSubmitting"
+                                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverBlue">
                                 Create Ticket
                             </button>
                         </div>

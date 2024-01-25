@@ -124,14 +124,15 @@ const getTickets = async () => {
           </div>
           <div class="flex justify-end">
             <SimpleButton @click="viewState.showComments = !viewState.showComments">
-              {{ viewState.showComments ? 'Description' : 'Comments' }} <img :src="viewState.showComments ? descriptionImg : chatImg">
+              {{ viewState.showComments ? 'Description' : 'Comments' }} <img
+                :src="viewState.showComments ? descriptionImg : chatImg">
             </SimpleButton>
           </div>
         </span>
       </div>
 
       <span
-        class="text-purple flex sm:text-2xl text-xl h-[50vh] whitespace-nowrap justify-between p-3 border-b-purple border-b-opacity-30 border-b border-solid items-start">
+        class="text-purple flex sm:text-2xl text-xl h-[50vh] justify-between pl-6 pr-12 py-4 border-b-purple border-b-opacity-30 border-b border-solid items-start">
         <div v-if="viewState.showComments">
           <CommentsView />
         </div>
@@ -144,18 +145,33 @@ const getTickets = async () => {
       <div
         class="text-purple flex flex-col gap-4 sm:text-2xl text-xl h-[30vh] whitespace-nowrap justify-between p-3 items-start">
 
-        <div class="flex gap-2">
-          <img src="../assets/corner-up-left.svg" />
-          <span>Description of your problem</span>
+        <div class="flex text-xl gap-2">
+          <div class="flex border-r-2 border-solid border-black border-opacity-30 pr-2">
+            <img src="../assets/corner-up-left.svg" />
+            <select class="flex px-2">
+              <option>Public reply</option>
+              <option>Private reply</option>
+            </select>
+          </div>
+
+          <div class="flex gap-4">
+            <p>To</p>
+            <div class="flex gap-1">
+              <img loading="lazy" src="../assets/MoNengue.jpg"
+              class="aspect-square object-cover object-center w-8 h-8 rounded-[50%]" />
+              <p>MoNengue</p>
+            </div>
+          </div>
+
         </div>
+
         <form class="w-full">
           <div class="w-full border border-solid border-black border-opacity-20 rounded-lg bg-grey">
             <div class="px-4 py-2 bg-grey rounded-t-lg">
               <label for="comment" class="sr-only">Your comment</label>
               <textarea id="comment" rows="4"
                 class="w-full px-0 text-base text-gray-900 bg-grey focus:outline-none focus-visible:outline-none"
-                placeholder="Write here your problem as detailed as possible..." required>
-              </textarea>
+                placeholder="Write here your comment..." required></textarea>
             </div>
             <div class="flex items-center justify-between px-3 py-2 border-t">
               <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
@@ -173,8 +189,8 @@ const getTickets = async () => {
                 </button>
               </div>
               <button type="submit"
-                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverButton">
-                Create Ticket
+                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverBlue">
+                Post comment
               </button>
             </div>
           </div>
