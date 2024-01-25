@@ -10,12 +10,15 @@
             <div class="flex flex-col w-full my-5">
                 <div class="flex flex-col gap-5 md:flex-row">
                     <Input LabelTitle="Full Name" type="name" required v-model="user.name" />
-                    <Input LabelTitle="Gender" type="text" required v-model="userInfo.gender" />
                     <Input LabelTitle="Email" type="email" required v-model="user.email" />
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
                     <Input LabelTitle="Internal Code" type="text" required v-model="user.internalcode" />
                     <Input LabelTitle="Password" type="password" required v-model="user.password" />
+                </div>
+                <div class="flex flex-col gap-5 mt-5 md:flex-row">
+                    <Dropdown LabelTitle="Role" :options="roles" :selectedOption="selectedRole" v-model="userInfo.role"/>
+                    <Dropdown LabelTitle="Gender" :options="genders" :selectedOption="selectedGender" v-model="userInfo.gender"/>
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
                     <div class="flex flex-col md:flex-row md:items-end gap-3 lg:w-2/4">
@@ -50,6 +53,7 @@ import FormShell from '../../layout/FormShell.vue';
 import AvatarCard from '../Form/AvatarCard.vue';
 import FormTitle from '../../components/Form/FormTitle.vue';
 import Input from '../../components/Form/Input.vue';
+import Dropdown from '../Form/Dropdown.vue';
 import CountryDropdown from '../../components/Form/CountryDropdown.vue';
 import ButtonSubmit from '../../components/Form/ButtonSubmit.vue';
 import { UserService } from '../../Services/UserService';
@@ -60,6 +64,7 @@ export default {
         AvatarCard,
         FormTitle,
         Input,
+        Dropdown,
         CountryDropdown,
         ButtonSubmit,
         UserService
@@ -67,6 +72,18 @@ export default {
     },
     data() {
         return {
+            roles: [
+                { value: 'admin', label: 'Admin' },
+                { value: 'technician', label: 'Technician' },
+                { value: 'user', label: 'User' },
+            ],
+            selectedRole: '',
+            genders: [
+                { value: 'male', label: 'Male' },
+                { value: 'female', label: 'Female' },
+                { value: 'other', label: 'Other' },
+            ],
+            selectedGender: '',
             isChecked: false,
             user: {
                 name: '',
@@ -120,7 +137,7 @@ export default {
                     console.log('User created successfully ' + response.data);
                     allData.userInfo.user_id = response.data.id;
                     UserService.createUserInfo(allData.userInfo)
-                    
+
                 })
                 .catch((error) => {
                     // console.log(error);
