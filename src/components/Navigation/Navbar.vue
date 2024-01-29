@@ -5,11 +5,6 @@
 
         <div class="flex flex-row h-full py-3.5 justify-end items-center sm:gap-4 ">
 
-            <!-- <div
-                class="bg-purple flex flex-row h-full rounded-3xl items-center justify-center px-3 py-4 sm:p-5 hoverBlue">
-                <img class="object-cover w-7 sm:min-w-8" src="../../assets/Bell.svg">
-            </div> -->
-
             <div class="relative bg-purple flex items-center justify-center rounded-3xl px-3 py-3 sm:p-2 hoverBlue">
                 <!-- Ícone de Notificação -->
                 <img class="w-7 sm:min-w-8" src="../../assets/Bell.svg" @click="toggleDropdown">
