@@ -11,15 +11,18 @@
             </div> -->
 
             <div class="relative bg-purple flex items-center justify-center rounded-3xl px-3 py-3 sm:p-2 hoverBlue">
-          <!-- Ícone de Notificação -->
-          <img class="w-7 sm:min-w-8" src="../../assets/Bell.svg" @click="toggleDropdown">
-          <!-- Contador de Notificações -->
-          <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2 py-1">{{ notificationCount }}</span>
-          <!-- Dropdown de Notificações -->
-          <div v-if="showDropdown" class="absolute top-full right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-            <a v-for="notification in notifications" :key="notification.id" href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{{ notification.message }}</a>
-          </div>
-        </div>
+                <!-- Ícone de Notificação -->
+                <img class="w-7 sm:min-w-8" src="../../assets/Bell.svg" @click="toggleDropdown">
+                <!-- Contador de Notificações -->
+                <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2 py-1">{{
+                    notificationCount }}</span>
+                <!-- Dropdown de Notificações -->
+                <div v-if="showDropdown"
+                    class="absolute top-full right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
+                    <a v-for="notification in notifications" :key="notification.id" href="#"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{{ notification.message }}</a>
+                </div>
+            </div>
 
             <div
                 class="relative bg-purple hidden md:flex flex-row h-full rounded-3xl items-center content-between py-5 pl-2 sm:gap-3 sm:pl-5 hoverBlue">
@@ -33,10 +36,11 @@
                 <div id="sortboxmenu"
                     class="absolute w-[80%] top-full min-w-max shadow rounded-2xl rounded-t-none opacity-0 bg-purple transition ease-in-out z-10">
                     <ul class="block text-right text-white">
-                        <li><a href="#" class="block px-3 py-2 hoverPurpleLight">yooooo</a></li>
-                        <li><a href="#" class="block px-3 py-2 hoverPurpleLight">yooooo</a></li>
-                        <li><a href="#" class="block px-3 py-2 hoverPurpleLight">Settings</a></li>
-                        <li><a href="#" class="block px-3 py-2 hoverPurpleLight rounded-2xl rounded-t-none">LogOut</a></li>
+                        <li v-for="item in dropdownItems" :key="item.id">
+                            <router-link :to="{ name: item.routeName }" class="block px-3 py-2 hoverPurpleLight">
+                                {{ item.name }}
+                            </router-link>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -46,22 +50,27 @@
 
 <script>
 export default {
-  data() {
-    return {
-      showDropdown: false,
-      notificationCount: 2, // Usar dps o fetch da api para por isto dinamico
-      notifications: [
-        { id: 1, message: 'Notificação 1' },
-        { id: 2, message: 'Notificação 2' },
-        // Adicione mais notificações conforme necessário
-      ],
-    };
-  },
-  methods: {
-    toggleDropdown() {
-      this.showDropdown = !this.showDropdown;
+    data() {
+        return {
+            showDropdown: false,
+            notificationCount: 2, // Usar dps o fetch da api para por isto dinamico
+            notifications: [
+                { id: 1, message: 'Notificação 1' },
+                { id: 2, message: 'Notificação 2' },
+            ],
+            dropdownItems: [
+                { id: 1, name: 'yooooo', href: '#link1' },
+                { id: 2, name: 'yooooo', href: '#link2' },
+                { id: 3, name: 'Settings', routeName: 'Account' },
+                { id: 4, name: 'LogOut', href: '#logout' }
+            ],
+        };
     },
-  },
+    methods: {
+        toggleDropdown() {
+            this.showDropdown = !this.showDropdown;
+        },
+    },
 };
 </script>
 
@@ -69,5 +78,12 @@ export default {
 <style>
 #sortbox:checked~#sortboxmenu {
     opacity: 1;
+    visibility: visible;
+}
+
+#sortboxmenu {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
 }
 </style>
