@@ -26,7 +26,7 @@
                         <Input LabelTitle="NIF" type="number" required v-model="userInfo.nif" />
                         <div class="flex flex-row mb-2 gap-2 ">
                             <label class="text-purple text-sm">Set NIF as password</label>
-                            <input type="checkbox" v-model="isChecked" class="size-6">
+                            <input type="checkbox" v-model="isChecked" @change="handleCheckboxChange" class="size-6">
                         </div>
                     </div>
                     <Input LabelTitle="Phone Number" type="number" required v-model="userInfo.phone_number" />
@@ -114,6 +114,13 @@ export default {
         },
         ImageHandler(file) {
             this.user.avatar = file;
+        },
+        handleCheckboxChange() {
+            if (this.isChecked) {
+                this.user.password = this.userInfo.nif;
+            } else {
+                this.user.password = '';
+            }
         },
         CreateUser() {
             const allData = {
