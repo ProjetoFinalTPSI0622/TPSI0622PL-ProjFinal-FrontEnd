@@ -43,4 +43,22 @@ export const AuthService = {
             return {success: false, message: 'Not authenticated'}
         }
     },
+    userLogout: async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/auth/logout',{
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            });
+            console.log(response)
+            if (response.status === 200) {
+                return {success: true, message: 'Logged out'}
+            } else {
+                return {success: false, message: 'Not logged out'}
+            }
+        } catch (e) {
+            return {success: false, message: 'Not logged out'}
+        }
+    }
 }

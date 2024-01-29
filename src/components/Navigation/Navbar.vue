@@ -57,7 +57,7 @@ export default {
                 { id: 1, name: 'yooooo', href: '#link1' },
                 { id: 2, name: 'yooooo', href: '#link2' },
                 { id: 3, name: 'Settings', routeName: 'Account' },
-                { id: 4, name: 'LogOut', href: '#logout' }
+                { id: 4, name: 'LogOut', routeName: 'Logout' }
             ],
         };
     },

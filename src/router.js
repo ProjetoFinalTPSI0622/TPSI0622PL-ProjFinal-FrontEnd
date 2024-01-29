@@ -88,6 +88,20 @@ const routes = [
       }
     }
   },
+    {
+      path: '/logout',
+      name: 'Logout',
+      component: () => import('./pages/LogoutPage.vue'),
+      beforeEnter: async (to, from, next) => {
+        const authResult = await AuthService.userLogout();
+
+        if (authResult.success) {
+          next({ name: "Login" });
+        } else {
+          next({ name: "Login" });
+        }
+      }
+    }
 ];
 
 const router = createRouter({
