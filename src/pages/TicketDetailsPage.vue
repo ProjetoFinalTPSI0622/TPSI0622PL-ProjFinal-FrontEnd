@@ -87,8 +87,8 @@ const getTickets = async () => {
               {{ ticket.assignedto ? ticket.createdby.name : 'Unassigned' }}
             </option>
 
-            <option v-for="technician in technicians" :key="technicians.id" :value="technicians.id">
-              {{ technicians.name }}
+            <option v-for="technician in technicians" :key="technician.id" :value="technician.id">
+              {{ technician.name }}
             </option>
 
           </select>
