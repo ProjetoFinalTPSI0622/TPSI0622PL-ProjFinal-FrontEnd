@@ -7,7 +7,7 @@
 
             <div class="relative bg-purple flex items-center justify-center rounded-3xl px-3 py-3 sm:p-2 hoverBlue">
                 <!-- Ícone de Notificação -->
-                <img class="w-7 sm:min-w-8" src="../../assets/Bell.svg" @click="toggleDropdown">
+                <img class="w-7 sm:min-w-7" src="../../assets/Bell.svg" @click="toggleDropdown">
                 <!-- Contador de Notificações -->
                 <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2 py-1">{{
                     notificationCount }}</span>
