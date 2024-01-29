@@ -1,10 +1,21 @@
 <script setup>
 import { defineProps } from 'vue';
 import UserItem from './UserItem.vue';
+import router from "../../router.js";
 
 const props = defineProps({
   users: Array
 });
+
+const clickHandler = (id) => {
+
+  router.push({
+    name: 'userDetails',
+    params: {
+      userId: id
+    }
+  });
+}
 </script>
 
 <template>
@@ -16,18 +27,19 @@ const props = defineProps({
         <th>EMAIL</th>
         <th>CLASS</th>
         <th>INTERNAL CODE</th>
+        <th>ACTIONS</th>
       </tr>
     </thead>
+
     <tbody>
-      <UserItem v-for="user in users" :key="user.id" :user="user" />
+      <UserItem @click="clickHandler(user.id)" v-for="user in users" :key="user.id" :user="user" />
     </tbody>
 
   </table>
 </template>
 
 <style scoped>
-
-th{
+th {
   padding-top: 10px;
   padding-bottom: 10px;
   text-align: left;
