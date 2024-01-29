@@ -2,10 +2,14 @@
 import SideSection from '../SideSection.vue';
 import SideSectionTop from '../SideSectionTop.vue';
 
-const emit = defineEmits(['update:status'])
+const emit = defineEmits(['update:status', 'update:creator'])
 
 const updateStatus = (status) => {
     emit('update:status', status)
+}
+
+const updateCreator = (creator) => {
+    emit('update:creator', creator)
 }
 </script>
 
@@ -15,7 +19,7 @@ const updateStatus = (status) => {
 
         <div class="flex flex-col py-2 gap-4">
             <div class=" flex flex-col px-4 gap-2 xl:gap-4">
-                <span @click="updateStatus('All')"
+                <span @click="updateStatus('All'), updateCreator('All')" 
                     class="hoverGreyDark rounded-t-lg text-pink-600 text-l xl:text-lg justify-center py-3.5 px-2 border-b-purple border-b-opacity-30 border-b border-solid">
                     Todos os tickets
                 </span>
@@ -29,7 +33,7 @@ const updateStatus = (status) => {
                     </span>
                 </div>
                 <div class="hoverGreyDark rounded-t-lg justify-center py-3.5 px-2 flex flex-col border-b-purple border-b-opacity-30 border-b border-solid">
-                    <span class="justify-between flex">
+                    <span @click="updateCreator('Me')" class="justify-between flex">
                         <div class="text-purple text-l xl:text-lg  whitespace-nowrap">
                             Os meus tickets
                         </div>
@@ -38,41 +42,41 @@ const updateStatus = (status) => {
                     </span>
                 </div>
                 <div class="justify-center flex flex-col pt-2">
-                    <span class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg" @click="updateStatus('Pending')">
+                    <span class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg" @click="updateStatus('Pending'), updateCreator('All')">
                         <div class="text-purple text-l xl:text-lg  whitespace-nowrap">
                             Pending
                         </div>
                         <span
                             class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
-                    <span class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg" @click="updateStatus('Unassigned')">
+                    <span class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg" @click="updateStatus('Unassigned'), updateCreator('All')">
                         <div class="text-purple text-l xl:text-lg">
                             Unassigned</div>
                         <span
                             class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
-                    <span class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg" @click="updateStatus('Assigned')">
+                    <span class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg" @click="updateStatus('Assigned'), updateCreator('All')">
                         <div class="text-purple text-l xl:text-lg whitespace-nowrap">
                             Assigned
                         </div>
                         <span
                             class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
-                    <span class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg" @click="updateStatus('In Progress')">
+                    <span class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg" @click="updateStatus('In Progress'), updateCreator('All')">
                         <div class="text-purple text-l xl:text-lg whitespace-nowrap">
                             In Progress
                         </div>
                         <span
                             class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
-                    <span class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg" @click="updateStatus('Completed')">
+                    <span class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg" @click="updateStatus('Completed'), updateCreator('All')">
                         <div class="text-purple text-l xl:text-lg whitespace-nowrap">
                             Completed
                         </div>
                         <span
                             class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
-                    <span class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg" @click="updateStatus('Solved')">
+                    <span class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg" @click="updateStatus('Solved'), updateCreator('All')">
                         <div class="text-purple text-l xl:text-lg whitespace-nowrap">
                             Solved
                         </div>

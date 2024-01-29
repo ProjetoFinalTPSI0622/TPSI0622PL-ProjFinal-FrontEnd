@@ -1,6 +1,7 @@
 <script setup>
-import {onMounted, ref, computed, watch, onBeforeMount} from 'vue';
+import { onMounted, ref, computed, watch, onBeforeMount } from 'vue';
 import { TicketsService } from '../Services/TicketsService.js';
+import { UserService } from '../Services/UserService';
 
 import SideFilter from '../components/ShowTicket/SideFilter.vue';
 import TopMenu from '../components/ShowTicket/TopMenu.vue';
@@ -11,10 +12,14 @@ const currentPage = ref(1);
 const ticketsPerPage = ref(5);
 const searchTerm = ref('');
 const status = ref('All');
+const creator = ref('All');
+
+let currentUser = ref(null);
 
 onBeforeMount(async () => {
     try {
         tickets.value = (await TicketsService.getTickets()).tickets;
+        currentUser.value = await UserService.getAuthedUser();
     } catch (error) {
         console.error("Erro ao procurar usuários:", error);
     }
@@ -25,18 +30,14 @@ onMounted(async () => {
 });
 
 const displayedTickets = computed(() => {
-    let filteredTickets = tickets.value.filter((ticket) => {
-        const title = ticket.title ? ticket.title.toLowerCase() : '';
-        const requester = ticket.createdby ? ticket.createdby.name.toLowerCase() : '';
-        const assignee = ticket.assignedto ? ticket.assignedto.name.toLowerCase() : '';
-
-        return title.includes(searchTerm.value.toLowerCase()) ||
-            requester.includes(searchTerm.value.toLowerCase()) ||
-            assignee.includes(searchTerm.value.toLowerCase());
-    });
+    let filteredTickets = tickets.value;
 
     if (status.value !== 'All') {
         filteredTickets = filteredTickets.filter(ticket => ticket.status.status_name === status.value);
+    }
+
+    if (creator.value === 'Me' && currentUser.value && currentUser.value.success) {
+        filteredTickets = filteredTickets.filter(ticket => ticket.createdby.id === currentUser.value.user.id);
     }
 
     const startIndex = (currentPage.value - 1) * ticketsPerPage.value;
@@ -45,7 +46,7 @@ const displayedTickets = computed(() => {
 });
 
 const totalPages = computed(() => {
-    return Math.ceil(tickets.value.length / ticketsPerPage.value);
+    return Math.ceil(displayedTickets.value.length / ticketsPerPage.value);
 });
 
 const changePage = (page) => {
@@ -60,12 +61,18 @@ const updateStatus = (newStatus) => {
     status.value = newStatus;
     currentPage.value = 1;
 };
+
+const updateCreator = (newCreator) => {
+    creator.value = newCreator === 'Me' ? 'Me' : 'All';
+    currentPage.value = 1;
+};
+
 </script>
 
 <template>
     <div class="flex w-full">
 
-        <SideFilter @update:status="updateStatus" />
+        <SideFilter @update:status="updateStatus" @update:creator="updateCreator" />
 
         <span class="flex flex-col w-full lg:w-[80%]">
 
