@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^1.6.4",
+    "country-flag-icons": "^1.5.9",
     "laravel-echo": "^1.15.3",
     "pinia": "^2.1.7",
     "pusher-js": "^8.4.0-rc2",
