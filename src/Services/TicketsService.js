@@ -144,5 +144,23 @@ export const TicketsService = {
         } catch (e) {
             return {success: false, message: 'Not authenticated'}
         }
+    },
+
+    getMyTickets: async (id) => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/tickets/user/' + id , {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            });
+            if (response.status === 200) {
+                return {success: true, message: 'Authenticated', tickets: response.data}
+            } else {
+                return {success: false, message: 'Not authenticated'}
+            }
+        } catch (e) {
+            return {success: false, message: 'Not authenticated'}
+        }
     }
 }
