@@ -150,7 +150,62 @@ export const UserService = {
         } catch (e) {
             return {success: false, message: 'Not authenticated'}
         }
-    }
+    },
 
+    getRoles : async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/roles',{
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            });
+            console.log(response.data);
+            if (response.status === 200) {
+                return {success: true, message: 'Authenticated', data: response.data}
+            } else {
+                return {success: false, message: 'Not authenticated'}
+            }
+        } catch (e) {
+            return {success: false, message: 'Not authenticated'}
+        }
+    },
 
+    getGenders : async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/genders',{
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            });
+            console.log(response.data);
+            if (response.status === 200) {
+                return {success: true, message: 'Authenticated', data: response.data}
+            } else {
+                return {success: false, message: 'Not authenticated'}
+            }
+        } catch (e) {
+            return {success: false, message: 'Not authenticated'}
+        }
+    },
+
+    getCountries : async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/countries',{
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            });
+            console.log(response.data);
+            if (response.status === 200) {
+                return {success: true, message: 'Authenticated', data: response.data}
+            } else {
+                return {success: false, message: 'Not authenticated'}
+            }
+        } catch (e) {
+            return {success: false, message: 'Not authenticated'}
+        }
+    },
 }

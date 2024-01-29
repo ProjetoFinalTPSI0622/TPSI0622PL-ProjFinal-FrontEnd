@@ -10,7 +10,6 @@
             <div class="flex flex-col w-full my-5">
                 <div class="flex flex-col gap-5 md:flex-row">
                     <Input LabelTitle="Full Name" type="name" required v-model="user.name" />
-                    <Input LabelTitle="Gender" type="text" required v-model="userInfo.gender" />
                     <Input LabelTitle="Email" type="email" required v-model="user.email" />
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
@@ -18,15 +17,20 @@
                     <Input LabelTitle="Password" type="password" required v-model="user.password" />
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
+                    <Dropdown LabelTitle="Role" :options="role" :selectedOption="role" v-model="userInfo.role" />
+                    <Dropdown LabelTitle="Gender" :options="gender" :selectedOption="gender" required
+                        v-model="userInfo.gender" />
+                    <DatePicker LabelTitle="Birthday Date" required v-model="userInfo.birthday_date" />
+                </div>
+                <div class="flex flex-col gap-5 mt-5 md:flex-row">
                     <div class="flex flex-col md:flex-row md:items-end gap-3 lg:w-2/4">
                         <Input LabelTitle="NIF" type="number" required v-model="userInfo.nif" />
                         <div class="flex flex-row mb-2 gap-2 ">
                             <label class="text-purple text-sm">Set NIF as password</label>
-                            <input type="checkbox" v-model="isChecked" class="size-6">
+                            <input type="checkbox" v-model="isChecked" @change="handleCheckboxChange" class="size-6">
                         </div>
                     </div>
                     <Input LabelTitle="Phone Number" type="number" required v-model="userInfo.phone_number" />
-                    <Input LabelTitle="Birthday Date" type="date" required v-model="userInfo.birthday_date" />
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row ">
                     <Input LabelTitle="Address" type="address" required v-model="userInfo.address" />
@@ -50,6 +54,8 @@ import FormShell from '../../layout/FormShell.vue';
 import AvatarCard from '../Form/AvatarCard.vue';
 import FormTitle from '../../components/Form/FormTitle.vue';
 import Input from '../../components/Form/Input.vue';
+import Dropdown from '../Form/Dropdown.vue';
+import DatePicker from '../Form/DataPicker.vue';
 import CountryDropdown from '../../components/Form/CountryDropdown.vue';
 import ButtonSubmit from '../../components/Form/ButtonSubmit.vue';
 import { UserService } from '../../Services/UserService';
@@ -60,6 +66,8 @@ export default {
         AvatarCard,
         FormTitle,
         Input,
+        Dropdown,
+        DatePicker,
         CountryDropdown,
         ButtonSubmit,
         UserService
@@ -67,6 +75,8 @@ export default {
     },
     data() {
         return {
+            role: [],
+            gender: [],
             isChecked: false,
             user: {
                 name: '',
@@ -75,6 +85,8 @@ export default {
                 internalcode: '',
             },
             userInfo: {
+                role: '',
+                gender: '',
                 avatar: '',
                 nif: '',
                 gender: '',
@@ -88,9 +100,28 @@ export default {
             }
         }
     },
+    mounted() {
+        this.loadData();
+    },
     methods: {
+        async loadData() {
+            try {
+                this.role = (await UserService.getRoles()).data;
+                this.gender = (await UserService.getGenders()).data;
+                this.country = (await UserService.getCountries()).data;
+            } catch (error) {
+                console.error('Error:', error.response);
+            }
+        },
         ImageHandler(file) {
             this.user.avatar = file;
+        },
+        handleCheckboxChange() {
+            if (this.isChecked) {
+                this.user.password = this.userInfo.nif.toString();
+            } else {
+                this.user.password = '';
+            }
         },
         CreateUser() {
             const allData = {
@@ -102,6 +133,8 @@ export default {
                 },
                 userInfo: {
                     user_id: '',
+                    role: this.userInfo.role,
+                    gender: this.userInfo.gender,
                     avatar: this.user.avatar,
                     nif: this.userInfo.nif,
                     gender: this.userInfo.gender,
@@ -120,10 +153,9 @@ export default {
                     console.log('User created successfully ' + response.data);
                     allData.userInfo.user_id = response.data.id;
                     UserService.createUserInfo(allData.userInfo)
-                    
+
                 })
                 .catch((error) => {
-                    // console.log(error);
                     console.log('Error: ', error.response);
                 })
 
