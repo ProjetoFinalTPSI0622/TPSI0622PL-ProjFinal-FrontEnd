@@ -2,7 +2,8 @@
     <div class="flex flex-col md:flex-row p-5 md:px-10 gap-5 items-center">
         <div class="flex flex-col gap-5 w-full items-center md:flex-row">
             <div class="flex flex-col w-36 items-center justify-center">
-                <img v-if="avatar" :src="avatar" alt="AvatarDefault">
+                <img v-if="modelValue" :src="modelValue" alt="AvatarDefault">
+                <img v-else :src="avatar" alt="AvatarDefault">
             </div>
             <div class="flex flex-col items-center md:items-start md:justify-center">
                 <h2 class="text-primary text-xl lg:text-2xl">Upload Photo</h2>
@@ -20,6 +21,12 @@
 <script>
 import AvatarDefault from '../../assets/AvatarDefault.svg'
 export default {
+    props: {
+        modelValue: {
+            type: String,
+            required: true
+        }
+    },
     data() {
         return {
             avatar: AvatarDefault,
