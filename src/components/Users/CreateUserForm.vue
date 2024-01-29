@@ -18,7 +18,8 @@
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
                     <Dropdown LabelTitle="Role" :options="role" :selectedOption="role" v-model="userInfo.role" />
-                    <Dropdown LabelTitle="Gender" :options="gender" :selectedOption="gender" required v-model="userInfo.gender" />
+                    <Dropdown LabelTitle="Gender" :options="gender" :selectedOption="gender" required
+                        v-model="userInfo.gender" />
                     <DatePicker LabelTitle="Birthday Date" required v-model="userInfo.birthday_date" />
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
@@ -26,7 +27,7 @@
                         <Input LabelTitle="NIF" type="number" required v-model="userInfo.nif" />
                         <div class="flex flex-row mb-2 gap-2 ">
                             <label class="text-purple text-sm">Set NIF as password</label>
-                            <input type="checkbox" v-model="isChecked" class="size-6">
+                            <input type="checkbox" v-model="isChecked" @change="handleCheckboxChange" class="size-6">
                         </div>
                     </div>
                     <Input LabelTitle="Phone Number" type="number" required v-model="userInfo.phone_number" />
@@ -114,6 +115,13 @@ export default {
         },
         ImageHandler(file) {
             this.user.avatar = file;
+        },
+        handleCheckboxChange() {
+            if (this.isChecked) {
+                this.user.password = this.userInfo.nif.toString();
+            } else {
+                this.user.password = '';
+            }
         },
         CreateUser() {
             const allData = {
