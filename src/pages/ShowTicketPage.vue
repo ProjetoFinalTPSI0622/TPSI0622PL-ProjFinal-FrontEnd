@@ -30,7 +30,15 @@ onMounted(async () => {
 });
 
 const displayedTickets = computed(() => {
-    let filteredTickets = tickets.value;
+    let filteredTickets = tickets.value.filter((ticket) => {
+        const title = ticket.title ? ticket.title.toLowerCase() : '';
+        const requester = ticket.createdby ? ticket.createdby.name.toLowerCase() : '';
+        const assignee = ticket.assignedto ? ticket.assignedto.name.toLowerCase() : '';
+
+        return title.includes(searchTerm.value.toLowerCase()) ||
+            requester.includes(searchTerm.value.toLowerCase()) ||
+            assignee.includes(searchTerm.value.toLowerCase());
+    });
 
     if (status.value !== 'All') {
         filteredTickets = filteredTickets.filter(ticket => ticket.status.status_name === status.value);
@@ -44,6 +52,7 @@ const displayedTickets = computed(() => {
     const endIndex = startIndex + ticketsPerPage.value;
     return filteredTickets.slice(startIndex, endIndex);
 });
+
 
 const totalPages = computed(() => {
     return Math.ceil(displayedTickets.value.length / ticketsPerPage.value);
