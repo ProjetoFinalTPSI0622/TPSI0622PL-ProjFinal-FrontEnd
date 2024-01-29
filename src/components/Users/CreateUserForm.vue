@@ -18,7 +18,8 @@
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
                     <Dropdown LabelTitle="Role" :options="role" :selectedOption="role" v-model="userInfo.role" />
-                    <Dropdown LabelTitle="Gender" :options="gender" :selectedOption="gender" required v-model="userInfo.gender" />
+                    <Dropdown LabelTitle="Gender" :options="gender" :selectedOption="gender" required
+                        v-model="userInfo.gender" />
                     <DatePicker LabelTitle="Birthday Date" required v-model="userInfo.birthday_date" />
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
@@ -117,7 +118,7 @@ export default {
         },
         handleCheckboxChange() {
             if (this.isChecked) {
-                this.user.password = this.userInfo.nif;
+                this.user.password = this.userInfo.nif.toString();
             } else {
                 this.user.password = '';
             }
