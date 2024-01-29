@@ -22,7 +22,6 @@
 </template>
 
 <script setup>
-import Dropdown from 'primevue/dropdown';
 import { ref } from "vue";
 
 const selectedCountry = ref();
