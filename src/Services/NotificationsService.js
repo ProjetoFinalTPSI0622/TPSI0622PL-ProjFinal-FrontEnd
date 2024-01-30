@@ -33,7 +33,6 @@ export const NotificationsService = {
     getNotifications: async () => {
         const response = await NotificationsService.makeRequest('get', '/notifications');
         if (response.success) {
-            console.log(NotificationHandler(response.data));
             return {success: true, data: NotificationHandler(response.data)};
         } else {
             return {success: false, data: response.data};

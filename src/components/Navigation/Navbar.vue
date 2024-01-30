@@ -12,10 +12,9 @@
             <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2 py-1">{{ notificationCount }}</span>
             <!-- Dropdown de Notificações -->
             <div v-if="showDropdown" class="absolute top-full right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-              <a v-for="notification in notifications" :key="notification.id" href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              <router-link v-for="notification in notifications" :to="{ name: 'ticketDetails',params:{ticketId : notification.ticketid}}" :key="notification.id" href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 {{ notification.message }}
-              </a>
-
+              </router-link>
             </div>
           </div>
 
@@ -69,7 +68,6 @@ onBeforeMount(() => {
 
 const getNotifications = async () => {
     notifications.value = (await NotificationsService.getNotifications()).data;
-    console.log(notifications.value);
 }
 const checkNotificationCount = async () => {
     notificationCount.value = (await NotificationsService.getNotificationsCount()).data.count;

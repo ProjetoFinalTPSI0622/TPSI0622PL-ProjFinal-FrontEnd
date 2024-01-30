@@ -3,7 +3,7 @@ import SideSection from "../components/SideSection.vue";
 import SideSectionTop from "../components/SideSectionTop.vue";
 import { TicketsService } from "../Services/TicketsService";
 import { UserService } from "../Services/UserService.js";
-import { ref, onBeforeMount, reactive } from 'vue';
+import {onBeforeMount, reactive, ref} from 'vue';
 import { useRoute } from 'vue-router';
 import SimpleButton from '../components/SimpleButton.vue';
 import DescriptionView from '../components/TicketDetails/DescriptionView.vue';
@@ -13,16 +13,13 @@ import descriptionImg from '../assets/descriptionWhite.svg';
 
 
 const route = useRoute();
-
 const ticket = ref({});
-
 const technicians = ref([]);
 
 
 onBeforeMount(async () => {
   await getTickets();
   await getTechnicians();
-
 });
 
 const viewState = reactive({
@@ -31,8 +28,9 @@ const viewState = reactive({
 
 const getTechnicians = async () => {
   try {
-    const response = await UserService.getTechnicians();
+    const response = (await UserService.getTechnicians());
     if (response.success) {
+      console.log(response)
       technicians.value = response.data;
     } else {
       console.error('Invalid response structure:', response);
@@ -44,9 +42,9 @@ const getTechnicians = async () => {
 
 const getTickets = async () => {
   try {
-    const response = await TicketsService.getTicket(route.params.ticketId);
+    const response = (await TicketsService.getTicket(route.params.ticketId));
     if (response.success) {
-      ticket.value = response.ticket;
+      ticket.value = response.data;
     } else {
       console.error('Invalid response structure:', response);
     }
@@ -71,6 +69,7 @@ const getTickets = async () => {
             class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
             <!--                     TODO: ADICIONAR FOTO DO USER AFTER-->
             {{ ticket.createdby ? ticket.createdby.name : 'N/A' }}
+
           </div>
         </div>
         <div class="flex flex-col gap-3">
@@ -139,7 +138,7 @@ const getTickets = async () => {
           </div>
           <div class="flex justify-end">
             <SimpleButton @click="viewState.showComments = !viewState.showComments">
-              {{ viewState.showComments ? 'Description' : 'Comments' }} <img
+              {{ viewState.showCommnts ? 'Description' : 'Comments' }} <img
                 :src="viewState.showComments ? descriptionImg : chatImg">
             </SimpleButton>
           </div>

@@ -28,7 +28,7 @@ const submitHandler = async () => {
         isSubmitting.value = true;
         const createdTicket = await TicketsService.createTicket(ticketTitle.value, ticketDescription.value, priority.selectedPriority, category.selectedCategory);
         isSubmitting.value = false;
-        await router.push({ name: 'ticketDetails', params: { ticketId: createdTicket.ticket.id } });
+        await router.push({ name: 'ticketDetails', params: { ticketId: createdTicket.data.id } });
     } catch (e) {
         isSubmitting.value = false;
     }
