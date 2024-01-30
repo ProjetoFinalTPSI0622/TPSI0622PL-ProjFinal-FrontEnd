@@ -3,8 +3,8 @@
         <label class="text-pink text-xs mb-2 pl-2">{{ LabelTitle }}*</label>
         <select
             class=" bg-white text-purple text-base text-wrap border border-solid border-purple pl-2.5 py-1.5 rounded-lg">
-            <option v-for="option in options" :key="option.value" 
-                :value="optionValue"
+            <option v-for="option in options" :key="option.id" 
+                :value="option.id"
                 @option="$emit('update:optionValue', $event.target.value)">
                 {{ option.label }}
             </option>
@@ -19,8 +19,8 @@ export default {
             type: String,
             required: true
         },
-        modelValue: {
-            type: String,
+        options: {
+            type: Array,
             required: true
         },
     }
