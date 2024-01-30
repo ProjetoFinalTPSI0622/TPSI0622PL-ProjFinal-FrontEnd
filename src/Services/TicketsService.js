@@ -48,9 +48,7 @@ export const TicketsService = {
                 },
                 withCredentials: true,
             });
-
-            console.log(response.data);
-
+            console.log(response.data)
             if (response.status >= 200 && response.status < 300) {
                 return { success: true, message: 'Ticket created successfully', ticket: response.data };
             } else {
