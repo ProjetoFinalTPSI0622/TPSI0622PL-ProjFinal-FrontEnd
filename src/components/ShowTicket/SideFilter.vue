@@ -29,7 +29,7 @@ const updateAssignee = (assignee) => {
                 </span>
                 <div class="hoverGreyDark rounded-t-lg justify-center py-3.5 px-2 flex flex-col border-b-purple border-b-opacity-30 border-b border-solid">
                     <span class="justify-between flex">
-                        <div class="text-purple text-l xl:text-lg  whitespace-nowrap">
+                        <div class="text-purple text-l xl:text-lg whitespace-nowrap pr-2">
                             Assignados a mim
                         </div>
                         <span
@@ -38,7 +38,7 @@ const updateAssignee = (assignee) => {
                 </div>
                 <div @click="updateCreator('Me')" class="hoverGreyDark rounded-t-lg justify-center py-3.5 px-2 flex flex-col border-b-purple border-b-opacity-30 border-b border-solid">
                     <span class="justify-between flex">
-                        <div class="text-purple text-l xl:text-lg  whitespace-nowrap">
+                        <div class="text-purple text-l xl:text-lg whitespace-nowrap pr-2">
                             Os meus tickets
                         </div>
                         <span
@@ -47,7 +47,7 @@ const updateAssignee = (assignee) => {
                 </div>
                 <div class="justify-center flex flex-col pt-2">
                     <span @click="updateStatus('Pending'), updateCreator('All'), updateAssignee('All')" class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
-                        <div class="text-purple text-l xl:text-lg  whitespace-nowrap">
+                        <div class="text-purple text-l xl:text-lg whitespace-nowrap">
                             Pending
                         </div>
                         <span
