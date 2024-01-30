@@ -59,10 +59,10 @@ const removeNestedOption = (option, nestedOption) => {
     </span>
 
     <div class="flex flex-row justify-between p-3 border-b-black border-b-opacity-30 border-b border-solid items-start">
-        <div class="flex items-center gap-2">
+        <div class="flex flex-col sm:flex-row items-center gap-2">
             <div class="relative">
                 <button @click="toggleDropdown"
-                    class="justify-center bg-purple flex gap-2.5 px-3.5 sm:px-6 py-[5.5px] rounded-xl">
+                    class="justify-center bg-purple flex gap-2.5 px-5 sm:px-6 py-[5.5px] rounded-xl">
                     <img loading="lazy" src="../../assets/plus.svg" class="self-center">
                     <div class="text-white sm:text-lg">Filtros</div>
                 </button>
@@ -103,7 +103,8 @@ const removeNestedOption = (option, nestedOption) => {
                 </div>
 
                 <!-- Selected nested options -->
-                <div @click="removeNestedOption(option, nestedOption)" v-for="nestedOption in option.selectedNestedOptions" :key="nestedOption.id"
+                <div @click="removeNestedOption(option, nestedOption)" v-for="nestedOption in option.selectedNestedOptions"
+                    :key="nestedOption.id"
                     class="inline-block bg-white rounded-lg px-3 py-1 text-sm font-semibold text-purpleLight ml-1 hoverRemove">
                     {{ nestedOption.name }}
                 </div>
