@@ -6,6 +6,7 @@ const axiosConfig = {
     headers: {
         'Content-Type': 'application/json',
     },
+    timeout: 30000,
 };
 
 export const TicketsService = {

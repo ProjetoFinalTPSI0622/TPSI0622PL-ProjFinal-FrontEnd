@@ -43,30 +43,44 @@
     </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            showDropdown: false,
-            notificationCount: 2, // Usar dps o fetch da api para por isto dinamico
-            notifications: [
-                { id: 1, message: 'Notificação 1' },
-                { id: 2, message: 'Notificação 2' },
-            ],
-            dropdownItems: [
-                { id: 1, name: 'yooooo', href: '#link1' },
-                { id: 2, name: 'yooooo', href: '#link2' },
-                { id: 3, name: 'Settings', routeName: 'Account' },
-                { id: 4, name: 'LogOut', routeName: 'Logout' }
-            ],
-        };
-    },
-    methods: {
-        toggleDropdown() {
-            this.showDropdown = !this.showDropdown;
-        },
-    },
-};
+<script setup>
+//sorry goncalo idk how to use composition ou options ou whatever
+
+import {ref, reactive, onBeforeMount} from 'vue'
+import { NotificationsService } from '../../services/NotificationsService'
+
+const showDropdown = ref(false);
+const notificationCount = ref(0);
+const notifications = reactive([
+  { id: 1, message: 'Notificação 1' },
+  { id: 2, message: 'Notificação 2' },
+]);
+const dropdownItems = reactive([
+  { id: 1, name: 'yooooo', href: '#link1' },
+  { id: 2, name: 'yooooo', href: '#link2' },
+  { id: 3, name: 'Settings', routeName: 'Account' },
+  { id: 4, name: 'LogOut', routeName: 'Logout' }
+],);
+const toggleDropdown = () => {
+    showDropdown.value = !showDropdown.value;
+}
+
+onBeforeMount(() => {
+    checkNotificationCount();
+});
+
+const checkNotificationCount = async () => {
+    notificationCount.value = (await NotificationsService.getNotificationsCount()).data.count;
+}
+
+setInterval(() => {
+    checkNotificationCount();
+}, 60000); //60 segundos
+//TODO: depois temos de decidir quanto tempo queremos no setinterval
+
+
+
+
 </script>
 
 

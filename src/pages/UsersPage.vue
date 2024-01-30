@@ -27,7 +27,7 @@ const displayedUsers = computed(() => {
 //Obtem os usuários da API
 onBeforeMount(async () => {
   try {
-    users.value = (await UserService.getUsers()).users;
+    users.value = (await UserService.getUsers()).data;
   } catch (error) {
     console.error("Erro ao procurar usuários:", error);
   }
