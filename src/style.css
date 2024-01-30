@@ -13,3 +13,11 @@
 .hoverGreyDark {
   @apply hover:bg-greyDark hover:cursor-pointer;
 }
+
+.hoverGrey {
+  @apply hover:bg-grey hover:cursor-pointer;
+}
+
+.hoverRemove {
+  @apply hover:bg-red-600 hover:text-white hover:cursor-pointer;
+}

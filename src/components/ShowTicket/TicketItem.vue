@@ -7,7 +7,7 @@ defineProps({
 </script>
 
 <template>
-    <tr class="border-b-black border-b-opacity-30 border-b border-solid ">
+    <tr class="border-b-black border-b-opacity-30 border-b border-solid hoverGrey">
         <td>
             <div class="flex gap-2.5 min-w-fit">
                 <img loading="lazy"
