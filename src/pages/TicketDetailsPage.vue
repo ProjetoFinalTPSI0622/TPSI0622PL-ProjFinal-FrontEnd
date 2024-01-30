@@ -68,7 +68,7 @@ const getTickets = async () => {
             Requester
           </label>
           <div
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
             <!--                     TODO: ADICIONAR FOTO DO USER AFTER-->
             {{ ticket.createdby ? ticket.createdby.name : 'N/A' }}
           </div>
@@ -78,7 +78,7 @@ const getTickets = async () => {
             Assigned to
           </label>
           <select
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
             <option disabled selected>
               {{ ticket.assignedto ? ticket.createdby.name : 'Unassigned' }}
             </option>
@@ -95,7 +95,7 @@ const getTickets = async () => {
             Categoria
           </label>
           <div
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
             {{ ticket.category ? ticket.category.category_name : 'N/A' }}
           </div>
         </div>
@@ -104,10 +104,29 @@ const getTickets = async () => {
             Urgência
           </label>
           <div
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
             {{ ticket.priority ? ticket.priority.priority_name : 'N/A' }}
           </div>
         </div>
+        <div class="flex flex-col gap-3">
+          <label class="text-pink-600 text-l xl:text-lg justify-center">
+            Estado
+          </label>
+          <select
+            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+            <option disabled selected>
+              {{ ticket.status ? ticket.status.status_name : 'N/A' }}
+            </option>
+
+            <option v-for="status in ticket.status" :key="status.id" :value="status.id">
+              {{ status.status_name }}
+            </option>
+          </select>
+        </div>
+        <SimpleButton class="w-full py-1 mt-4">
+          <img class="self-center" src="../assets/remove.svg" />
+          Close ticket
+        </SimpleButton>
       </div>
     </SideSection>
 
@@ -154,7 +173,7 @@ const getTickets = async () => {
             <p>To</p>
             <div class="flex gap-1">
               <img loading="lazy" src="../assets/MoNengue.jpg"
-              class="aspect-square object-cover object-center w-8 h-8 rounded-[50%]" />
+                class="aspect-square object-cover object-center w-8 h-8 rounded-[50%]" />
               <p>MoNengue</p>
             </div>
           </div>
