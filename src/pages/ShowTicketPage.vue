@@ -19,16 +19,13 @@ let currentUser = ref(null);
 
 onBeforeMount(async () => {
     try {
-        tickets.value = (await TicketsService.getTickets()).tickets;
+        tickets.value = (await TicketsService.getTickets()).data;
         currentUser.value = await UserService.getAuthedUser();
     } catch (error) {
         console.error("Erro ao procurar usuários:", error);
     }
 });
 
-onMounted(async () => {
-    tickets.value = (await TicketsService.getTickets()).tickets;
-});
 
 const displayedTickets = computed(() => {
     let filteredTickets = tickets.value.filter((ticket) => {

@@ -38,9 +38,9 @@ const submitHandler = async () => {
 onBeforeMount(async () => {
 
     try {
-        category.categories = (await TicketsService.getCategories()).categories;
-        priority.priorities = (await TicketsService.getPriorities()).priorities;
-        user.value = (await UserService.getAuthedUser()).user;
+        category.categories = (await TicketsService.getCategories()).data;
+        priority.priorities = (await TicketsService.getPriorities()).data;
+        user.value = (await UserService.getAuthedUser()).data;
     } catch (e) {
         console.log(e);
     } finally {

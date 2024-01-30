@@ -23,8 +23,6 @@ onBeforeMount(async () => {
   await getTickets();
   await getTechnicians();
 
-  console.log(ticket.value);
-  console.log(technicians.value);
 });
 
 const viewState = reactive({
@@ -36,7 +34,6 @@ const getTechnicians = async () => {
     const response = await UserService.getTechnicians();
     if (response.success) {
       technicians.value = response.data;
-      console.log('Technicians Data:', technicians.value);
     } else {
       console.error('Invalid response structure:', response);
     }
@@ -50,7 +47,6 @@ const getTickets = async () => {
     const response = await TicketsService.getTicket(route.params.ticketId);
     if (response.success) {
       ticket.value = response.ticket;
-      console.log('Tickets Data:', ticket.value);
     } else {
       console.error('Invalid response structure:', response);
     }
