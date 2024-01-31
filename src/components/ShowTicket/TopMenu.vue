@@ -82,7 +82,7 @@ const removeNestedOption = (option, nestedOption) => {
                 class="relative bg-purple text-white px-2 py-1 rounded-xl">
                 <button @click="option.isOpen = !option.isOpen">
                     <div class="flex gap-1">
-                        <img loading="lazy" src="../../assets/remove.svg" class="self-center hoverRemove rounded-md"
+                        <img loading="lazy" src="../../assets/remove.svg" class="self-center hoverRed rounded-md"
                             @click="state.selectedOptions = state.selectedOptions.filter(o => o.id !== option.id)">
                         <p>{{ option.name }}</p>
                         <img loading="lazy" src="../../assets/Chevron Down.svg">
@@ -105,7 +105,7 @@ const removeNestedOption = (option, nestedOption) => {
                 <!-- Selected nested options -->
                 <div @click="removeNestedOption(option, nestedOption)" v-for="nestedOption in option.selectedNestedOptions"
                     :key="nestedOption.id"
-                    class="inline-block bg-white rounded-lg px-3 py-1 text-sm font-semibold text-purpleLight ml-1 hoverRemove">
+                    class="inline-block bg-white rounded-lg px-3 py-1 text-sm font-semibold text-purpleLight ml-1 hoverRed">
                     {{ nestedOption.name }}
                 </div>
             </div>

@@ -6,26 +6,51 @@ import { UserService } from '../Services/UserService';
 import SideFilter from '../components/ShowTicket/SideFilter.vue';
 import TopMenu from '../components/ShowTicket/TopMenu.vue';
 import TicketsTable from '../components/ShowTicket/TicketsTable.vue';
+import Modal from '../components/Modal.vue';
 
 const tickets = ref([]);
+const technicians = ref([]);
 const currentPage = ref(1);
 const ticketsPerPage = ref(5);
 const searchTerm = ref('');
 const status = ref('All');
 const creator = ref('All');
 const assignee = ref('All');
+const showModal = ref(false);
+const selectedTechnician = ref('');
+const selectBox = ref(null);
 
 let currentUser = ref(null);
+let oldvalue = 0;
+
 
 onBeforeMount(async () => {
     try {
         tickets.value = (await TicketsService.getTickets()).data;
         currentUser.value = await UserService.getAuthedUser();
     } catch (error) {
-        console.error("Erro ao procurar usuários:", error);
+        console.error("Erro ao procurar tickets:", error);
     }
+
+    await getTechnicians();
 });
 
+const handleShowModal = (technicianName, selectbox, oldValue) => {
+    showModal.value = true;
+    selectBox.value = selectbox.value;
+    oldvalue = oldValue;
+    selectedTechnician.value = technicianName;
+};
+
+const handleCancelModal = () => {
+    showModal.value = false;
+    selectBox.value.selectedIndex = oldvalue;
+};
+
+const handleConfirmModal = () => {
+    showModal.value = false;
+    oldvalue = selectBox.value.selectedIndex;
+};
 
 const displayedTickets = computed(() => {
     let filteredTickets = tickets.value.filter((ticket) => {
@@ -83,6 +108,19 @@ const updateAssignee = (newAssignee) => {
     currentPage.value = 1;
 };
 
+const getTechnicians = async () => {
+    try {
+        const response = (await UserService.getTechnicians());
+        if (response.success) {
+            technicians.value = response.data;
+        } else {
+            console.error('Invalid response structure:', response);
+        }
+    } catch (error) {
+        console.error('Error fetching technicians:', error);
+    }
+};
+
 </script>
 
 <template>
@@ -107,7 +145,15 @@ const updateAssignee = (newAssignee) => {
                 </div>
             </span>
 
-            <TicketsTable :tickets="displayedTickets" />
+            <TicketsTable :tickets="displayedTickets" :technicians="technicians" @show-modal="handleShowModal" />
+            <Modal :show="showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
+                <template #title>
+                    Assign Technician
+                </template>
+                <template #content>
+                    You are about to assign {{ selectedTechnician }} to this ticket, are you sure?
+                </template>
+            </Modal>
         </span>
     </div>
 </template>

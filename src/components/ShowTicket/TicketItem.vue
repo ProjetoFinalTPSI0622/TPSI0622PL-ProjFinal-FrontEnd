@@ -1,9 +1,24 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
+
+const selectbox = ref(null);
+let oldValue = 0;
 
 defineProps({
-    ticket: Object
+    ticket: Object,
+    technicians: Array
 });
+
+const emit = defineEmits(['show-modal', 'selectbox']);
+
+const showTicketModal = (technicianName) => {
+    emit('show-modal', technicianName, selectbox, oldValue);
+};
+
+const handleMousedown = () => {
+    oldValue = selectbox.value.selectedIndex;
+};
+
 </script>
 
 <template>
@@ -29,7 +44,18 @@ defineProps({
         </td>
         <td class="text-black text-opacity-80 text-sm sm:text-lg">
             <div class="flex justify-center sm:justify-start">
-                {{ ticket.assignedto ? ticket.assignedto.name : 'Unassigned' }}
+                <select ref="selectbox" @change.prevent="showTicketModal($event.target.value)" @click.stop
+                    @mousedown="handleMousedown"
+                    class="border bg-white flex justify-between w-40 py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+                    <option selected>
+                        {{ ticket.assignedto ? ticket.assignedto : 'Unassigned' }}
+                    </option>
+
+                    <option v-for="technician in technicians" :key="technician.name" :value="technician.name">
+                        {{ technician.name }}
+                    </option>
+
+                </select>
             </div>
         </td>
         <td class="text-white text-xs sm:text-lg">
