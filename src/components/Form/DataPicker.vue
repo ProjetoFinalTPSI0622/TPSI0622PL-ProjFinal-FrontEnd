@@ -20,11 +20,24 @@ export default {
             type: String,
             required: true
         },
+        modelValue: {
+            type: String,
+            default: null,
+            required: true
+        }
     },
     data() {
         return {
-            selectedDate: null
+            selectedDate: this.modelValue
         };
+    },
+    watch: {
+        selectedDate(newValue) {
+            this.$emit('update:modelValue', newValue);
+        },
+        modelValue(newValue) {
+            this.selectedDate = newValue;
+        }
     }
 };
 </script>

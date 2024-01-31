@@ -45,6 +45,42 @@ export const UserService = {
         return UserService.makeRequest('post', '/userInfo', userInfo);
     },
 
+    updateUserInfo : async (formData) => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/userInfo/' + formData.get('user_id'), formData,{
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                withCredentials: true,
+            });
+            console.log(response.data);
+            if (response.status === 200) {
+                return {success: true, message: 'Authenticated', data: response.data}
+            } else {
+                return {success: false, message: 'Not authenticated'}
+            }
+        } catch (e) {
+            return {success: false, message: 'Not authenticated'}
+        }
+    },
+
+    deleteUser : async (id) => {
+        try {
+            const response = await axios.delete('http://localhost:8000/api/users/' + id,{
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            });
+            console.log(response.data);
+            if (response.status === 200) {
+                return {success: true, message: 'Authenticated', data: response.data}
+            } else {
+                return {success: false, message: 'Not authenticated'}
+            }
+        } catch (e) {
+            return {success: false, message: 'Not authenticated'}
+        }
     updateUser: async (user) => {
         return UserService.makeRequest('put', `/users/${user.id}`, user);
     },

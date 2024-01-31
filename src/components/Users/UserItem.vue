@@ -1,20 +1,21 @@
 <script setup>
 import { defineProps } from 'vue';
+import { UserService } from '../../Services/UserService';
 
 defineProps({
     user: Object
 });
 
-const clickHandler = (id) => {
-
-    console.log(id);
-   /* router.push({
-        name: 'userDetails',
-        params: {
-            userId: id
+const DeleteUser = async (id) => {
+    const confirmation = confirm("Are you sure you want to delete this user?");
+    if (confirmation) {
+        const response = await UserService.deleteUser(id);
+        if (response.success) {
+            console.log("*************User deleted successfully*************");
+        } else {
+            console.error("Error deleting user:", response.message);
         }
-    });
-    */
+    }
 }
 
 </script>
@@ -35,7 +36,7 @@ const clickHandler = (id) => {
         <td>{{ user.user_info.class }}</td>
         <td>{{ user.internalcode }}</td>
         <td>
-            <button @click="clickHandler(user.id)" class="px-4 py-2 ml-2 bg-red-500 text-white rounded hover:bg-red-700 transition duration-300">
+            <button @click.stop="DeleteUser(user.id)" class="px-4 py-2 ml-2 bg-red-500 text-white rounded hover:bg-red-700 transition duration-300">
                 Delete
             </button>
         </td>
