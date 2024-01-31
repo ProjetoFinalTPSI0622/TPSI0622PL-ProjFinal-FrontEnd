@@ -18,8 +18,10 @@ const creator = ref('All');
 const assignee = ref('All');
 const showModal = ref(false);
 const selectedTechnician = ref('');
+const selectBox = ref(null);
 
 let currentUser = ref(null);
+let oldvalue = 0;
 
 
 onBeforeMount(async () => {
@@ -27,31 +29,27 @@ onBeforeMount(async () => {
         tickets.value = (await TicketsService.getTickets()).data;
         currentUser.value = await UserService.getAuthedUser();
     } catch (error) {
-        console.error("Erro ao procurar usuários:", error);
+        console.error("Erro ao procurar tickets:", error);
     }
 
     await getTechnicians();
 });
 
-const selectBox = ref(null);
-let oldvalue = 0;
-
 const handleShowModal = (technicianName, selectbox, oldValue) => {
     showModal.value = true;
     selectBox.value = selectbox.value;
     oldvalue = oldValue;
+    selectedTechnician.value = technicianName;
 };
 
 const handleCancelModal = () => {
     showModal.value = false;
     selectBox.value.selectedIndex = oldvalue;
-    selectedTechnician.value = 'Unassigned';
 };
 
 const handleConfirmModal = () => {
     showModal.value = false;
     oldvalue = selectBox.value.selectedIndex;
-    selectedTechnician.value = 'Unassigned';
 };
 
 const displayedTickets = computed(() => {
