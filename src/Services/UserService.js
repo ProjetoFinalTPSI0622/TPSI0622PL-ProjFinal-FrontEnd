@@ -81,6 +81,7 @@ export const UserService = {
         } catch (e) {
             return {success: false, message: 'Not authenticated'}
         }
+    },
     updateUser: async (user) => {
         return UserService.makeRequest('put', `/users/${user.id}`, user);
     },
