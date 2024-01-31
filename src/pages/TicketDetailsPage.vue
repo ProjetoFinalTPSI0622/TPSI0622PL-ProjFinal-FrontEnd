@@ -30,7 +30,6 @@ const getTechnicians = async () => {
   try {
     const response = (await UserService.getTechnicians());
     if (response.success) {
-      console.log(response)
       technicians.value = response.data;
     } else {
       console.error('Invalid response structure:', response);
@@ -58,7 +57,7 @@ const getTickets = async () => {
 
 <template>
   <div class="flex w-full">
-    <SideSection>
+    <SideSection :ticket="ticket">
       <SideSectionTop>Ticket Details</SideSectionTop>
       <div class="flex flex-col p-2 xl:p-5 gap-4">
         <div class="flex flex-col gap-3">
@@ -115,10 +114,6 @@ const getTickets = async () => {
             class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
             <option disabled selected>
               {{ ticket.status ? ticket.status.status_name : 'N/A' }}
-            </option>
-
-            <option v-for="status in ticket.status" :key="status.id" :value="status.id">
-              {{ status.status_name }}
             </option>
           </select>
         </div>
