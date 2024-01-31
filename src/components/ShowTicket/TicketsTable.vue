@@ -20,9 +20,10 @@ const clickHandler = (id) => {
     });
 }
 
-const handleShowModal = (technicianName) => {
-    emit('show-modal', technicianName);
+const handleShowModal = (technicianName, selectbox, oldValue) => {
+    emit('show-modal', technicianName, selectbox, oldValue);
 };
+
 
 </script>
 
@@ -40,7 +41,8 @@ const handleShowModal = (technicianName) => {
 
         <tbody>
             <TicketItem @click="clickHandler(ticket.id)" @show-modal="handleShowModal" v-for="ticket in tickets"
-                :key="ticket.id" :ticket="ticket" :technicians="technicians" />
+                :key="ticket.id" :ticket="ticket" :technicians="technicians"
+            />
         </tbody>
 
     </table>

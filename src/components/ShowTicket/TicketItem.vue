@@ -2,20 +2,31 @@
 import { defineProps, defineEmits, ref } from 'vue';
 
 let isAssigned = ref(false);
+const selectbox = ref(null);
 
 defineProps({
     ticket: Object,
     technicians: Array
 });
 
-const emit = defineEmits(['show-modal']);
+
+const emit = defineEmits(['show-modal', 'selectbox']);
+
 
 const showTicketModal = (technicianName) => {
-    if (technicianName !== 'Unassigned') {
-        isAssigned.value = true;
-    }
-    emit('show-modal', technicianName);
+    emit('show-modal', technicianName, selectbox, oldValue);
+
 };
+
+let oldValue = 0;
+const handleMousedown = () => {
+    oldValue = selectbox.value.selectedIndex;
+};
+
+
+
+
+
 </script>
 
 <template>
@@ -41,15 +52,17 @@ const showTicketModal = (technicianName) => {
         </td>
         <td class="text-black text-opacity-80 text-sm sm:text-lg">
             <div class="flex justify-center sm:justify-start">
-                <select @change="showTicketModal($event.target.value)" @click.stop
+                <select ref="selectbox" @change.prevent="showTicketModal($event.target.value)" @click.stop @mousedown="handleMousedown"
                     class="border bg-white flex justify-between w-40 py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-                    <option v-if="!isAssigned" selected>
+                    <option selected>
                         Unassigned
                     </option>
+
 
                     <option v-for="technician in technicians" :key="technician.name" :value="technician.name">
                         {{ technician.name }}
                     </option>
+
 
                 </select>
             </div>

@@ -19,8 +19,8 @@ const assignee = ref('All');
 const showModal = ref(false);
 const selectedTechnician = ref('');
 
-
 let currentUser = ref(null);
+
 
 onBeforeMount(async () => {
     try {
@@ -33,18 +33,24 @@ onBeforeMount(async () => {
     await getTechnicians();
 });
 
-const handleShowModal = (technicianName) => {
-    selectedTechnician.value = technicianName ? technicianName : 'Unassigned';
+const selectBox = ref(null);
+let oldvalue = 0;
+
+const handleShowModal = (technicianName, selectbox, oldValue) => {
     showModal.value = true;
+    selectBox.value = selectbox.value;
+    oldvalue = oldValue;
 };
 
 const handleCancelModal = () => {
     showModal.value = false;
+    selectBox.value.selectedIndex = oldvalue;
     selectedTechnician.value = 'Unassigned';
 };
 
 const handleConfirmModal = () => {
     showModal.value = false;
+    oldvalue = selectBox.value.selectedIndex;
     selectedTechnician.value = 'Unassigned';
 };
 
