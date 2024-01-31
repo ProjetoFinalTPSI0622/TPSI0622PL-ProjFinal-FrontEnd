@@ -4,8 +4,11 @@ import TicketItem from './TicketItem.vue';
 import router from "../../router.js";
 
 const props = defineProps({
-    tickets: Array
+    tickets: Array,
+    technicians: Array
 });
+
+const emit = defineEmits(['show-modal']);
 
 const clickHandler = (id) => {
 
@@ -16,6 +19,10 @@ const clickHandler = (id) => {
         }
     });
 }
+
+const handleShowModal = (technicianName) => {
+    emit('show-modal', technicianName);
+};
 
 </script>
 
@@ -32,7 +39,8 @@ const clickHandler = (id) => {
         </thead>
 
         <tbody>
-            <TicketItem @click="clickHandler(ticket.id)" v-for="ticket in tickets" :key="ticket.id" :ticket="ticket" />
+            <TicketItem @click="clickHandler(ticket.id)" @show-modal="handleShowModal" v-for="ticket in tickets"
+                :key="ticket.id" :ticket="ticket" :technicians="technicians" />
         </tbody>
 
     </table>

@@ -18,6 +18,10 @@
   @apply hover:bg-grey hover:cursor-pointer;
 }
 
-.hoverRemove {
+.hoverRed {
   @apply hover:bg-red-600 hover:text-white hover:cursor-pointer;
+}
+
+.hoverGreen {
+  @apply hover:bg-green-600 hover:text-white hover:cursor-pointer;
 }
