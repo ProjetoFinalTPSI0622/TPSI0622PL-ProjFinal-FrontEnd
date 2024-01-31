@@ -18,7 +18,6 @@ export const TicketsService = {
                 data,
                 ...axiosConfig,
             });
-
             if (response.status === 200){
                 return { success: true, message: response.data.message, data: response.data };
             }
