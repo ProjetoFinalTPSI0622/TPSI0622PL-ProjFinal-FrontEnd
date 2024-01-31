@@ -39,8 +39,7 @@
                 <div class="flex flex-col gap-5 mt-5 md:flex-row md:mt-5">
                     <Input LabelTitle="State/Province" type="text" required v-model="userInfo.district" />
                     <Input LabelTitle="City" type="text" required v-model="userInfo.city" />
-                    <Input LabelTitle="Country" type="text" required v-model="userInfo.country" />
-                    <!-- <CountryDropdown/> -->
+                    <CountryDropdown LabelTitle="Country" required v-model="userInfo.country"/>
                 </div>
             </div>
 
@@ -106,8 +105,18 @@ export default {
     methods: {
         async loadData() {
             try {
-                this.role = (await UserService.getRoles()).data;
-                this.gender = (await UserService.getGenders()).data;
+                this.role = (await UserService.getRoles()).data.map((item) => {
+                    return {
+                        id: item.id,
+                        label: item.role,
+                    }
+                });
+                this.gender = (await UserService.getGenders()).data.map((item) => {
+                    return {
+                        id: item.id,
+                        label:item.name
+                    }
+                });
                 this.country = (await UserService.getCountries()).data;
             } catch (error) {
                 console.error('Error:', error.response);

@@ -1,99 +1,48 @@
 import axios from 'axios';
 
+const axiosConfig = {
+    baseURL: 'http://localhost:8000/api',
+    withCredentials: true,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    timeout: 30000,
+};
+
 export const UserService = {
-
-    getUsers : async () => {
+    makeRequest: async (method, url, data) => {
         try {
-            const response = await axios.get('http://localhost:8000/api/users',{
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
+            const response = await axios({
+                method,
+                url,
+                data,
+                ...axiosConfig,
             });
+
             if (response.status === 200) {
-                return {success: true, message: 'Authenticated', users: response.data}
+                return { success: true, message: 'Authenticated', data: response.data };
             } else {
-                return {success: false, message: 'Not authenticated'}
+                return { success: false, message: 'Not authenticated' };
             }
         } catch (e) {
-            return {success: false, message: 'Not authenticated'}
+            return { success: false, message: 'Not authenticated' };
         }
     },
 
-    getUser : async (id) => {
-        try {
-            const response = await axios.get('http://localhost:8000/api/users/' + id,{
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-            });
-            console.log(response.data);
-            if (response.status === 200) {
-                return {success: true, message: 'Authenticated', data: response.data}
-            } else {
-                return {success: false, message: 'Not authenticated'}
-            }
-        } catch (e) {
-            return {success: false, message: 'Not authenticated'}
-        }
+    getUsers: async () => {
+        return await UserService.makeRequest('get', '/users');
     },
 
-    createUser : async (user) => {
-        try {
-            const response = await axios.post('http://localhost:8000/api/users', user,{
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-            });
-            console.log(response.data);
-            if (response.status === 200) {
-                return {success: true, message: 'Authenticated', data: response.data}
-            } else {
-                return {success: false, message: 'Not authenticated'}
-            }
-        } catch (e) {
-            return {success: false, message: 'Not authenticated'}
-        }
+    getUser: async (id) => {
+        return UserService.makeRequest('get', `/users/${id}`);
     },
 
-    createUserInfo : async (userInfo) => {
-        try {
-            const response = await axios.post('http://localhost:8000/api/userInfo', userInfo,{
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-            });
-            console.log(response.data);
-            if (response.status === 200) {
-                return {success: true, message: 'Authenticated', data: response.data}
-            } else {
-                return {success: false, message: 'Not authenticated'}
-            }
-        } catch (e) {
-            return {success: false, message: 'Not authenticated'}
-        }
+    createUser: async (user) => {
+        return UserService.makeRequest('post', '/users', user);
     },
 
-    updateUser : async (user) => {
-        try {
-            const response = await axios.put('http://localhost:8000/api/users/' + user.id, user,{
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-            });
-            console.log(response.data);
-            if (response.status === 200) {
-                return {success: true, message: 'Authenticated', data: response.data}
-            } else {
-                return {success: false, message: 'Not authenticated'}
-            }
-        } catch (e) {
-            return {success: false, message: 'Not authenticated'}
-        }
+    createUserInfo: async (userInfo) => {
+        return UserService.makeRequest('post', '/userInfo', userInfo);
     },
 
     updateUserInfo : async (formData) => {
@@ -132,99 +81,31 @@ export const UserService = {
         } catch (e) {
             return {success: false, message: 'Not authenticated'}
         }
+    updateUser: async (user) => {
+        return UserService.makeRequest('put', `/users/${user.id}`, user);
     },
 
-    getTechnicians : async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/api/users/technicians',{
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-            });
-            console.log(response.data);
-            if (response.status === 200) {
-                return {success: true, message: 'Authenticated', data: response.data}
-            } else {
-                return {success: false, message: 'Not authenticated'}
-            }
-        } catch (e) {
-            return {success: false, message: 'Not authenticated'}
-        }
+    deleteUser: async (id) => {
+        return UserService.makeRequest('delete', `/users/${id}`);
+    },
+
+    getTechnicians: async () => {
+        return UserService.makeRequest('get', '/users/technicians');
     },
 
     getAuthedUser: async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/api/users/authed',{
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-            });
-            if (response.status === 200) {
-                return {success: true, message: 'Authenticated', user: response.data}
-            } else {
-                return {success: false, message: 'Not authenticated'}
-            }
-        } catch (e) {
-            return {success: false, message: 'Not authenticated'}
-        }
+        return UserService.makeRequest('get', '/users/authed');
     },
 
-    getRoles : async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/api/roles',{
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-            });
-            console.log(response.data);
-            if (response.status === 200) {
-                return {success: true, message: 'Authenticated', data: response.data}
-            } else {
-                return {success: false, message: 'Not authenticated'}
-            }
-        } catch (e) {
-            return {success: false, message: 'Not authenticated'}
-        }
+    getRoles: async () => {
+        return UserService.makeRequest('get', '/roles');
     },
 
-    getGenders : async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/api/genders',{
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-            });
-            console.log(response.data);
-            if (response.status === 200) {
-                return {success: true, message: 'Authenticated', data: response.data}
-            } else {
-                return {success: false, message: 'Not authenticated'}
-            }
-        } catch (e) {
-            return {success: false, message: 'Not authenticated'}
-        }
+    getGenders: async () => {
+        return UserService.makeRequest('get', '/genders');
     },
 
-    getCountries : async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/api/countries',{
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-            });
-            console.log(response.data);
-            if (response.status === 200) {
-                return {success: true, message: 'Authenticated', data: response.data}
-            } else {
-                return {success: false, message: 'Not authenticated'}
-            }
-        } catch (e) {
-            return {success: false, message: 'Not authenticated'}
-        }
+    getCountries: async () => {
+        return UserService.makeRequest('get', '/countries');
     },
-}
+};

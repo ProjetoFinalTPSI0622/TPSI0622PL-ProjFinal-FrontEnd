@@ -13,21 +13,19 @@ const ticketsPerPage = ref(5);
 const searchTerm = ref('');
 const status = ref('All');
 const creator = ref('All');
+const assignee = ref('All');
 
 let currentUser = ref(null);
 
 onBeforeMount(async () => {
     try {
-        tickets.value = (await TicketsService.getTickets()).tickets;
+        tickets.value = (await TicketsService.getTickets()).data;
         currentUser.value = await UserService.getAuthedUser();
     } catch (error) {
         console.error("Erro ao procurar usuários:", error);
     }
 });
 
-onMounted(async () => {
-    tickets.value = (await TicketsService.getTickets()).tickets;
-});
 
 const displayedTickets = computed(() => {
     let filteredTickets = tickets.value.filter((ticket) => {
@@ -46,6 +44,10 @@ const displayedTickets = computed(() => {
 
     if (creator.value === 'Me' && currentUser.value && currentUser.value.success) {
         filteredTickets = filteredTickets.filter(ticket => ticket.createdby.id === currentUser.value.user.id);
+    }
+
+    if (assignee.value === 'Me' && currentUser.value && currentUser.value.success) {
+        filteredTickets = filteredTickets.filter(ticket => ticket.assignedto.id === currentUser.value.user.id);
     }
 
     const startIndex = (currentPage.value - 1) * ticketsPerPage.value;
@@ -76,12 +78,17 @@ const updateCreator = (newCreator) => {
     currentPage.value = 1;
 };
 
+const updateAssignee = (newAssignee) => {
+    assignee.value = newAssignee === 'Me' ? 'Me' : 'All';
+    currentPage.value = 1;
+};
+
 </script>
 
 <template>
     <div class="flex w-full">
 
-        <SideFilter @update:status="updateStatus" @update:creator="updateCreator" />
+        <SideFilter @update:status="updateStatus" @update:creator="updateCreator" @update:assignee="updateAssignee" />
 
         <span class="flex flex-col w-full lg:w-[80%]">
 

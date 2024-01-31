@@ -20,11 +20,11 @@ const clickHandler = (id) => {
 </script>
 
 <template>
-    <table class="table-fixed">
+    <table class="table-auto">
 
         <thead>
             <tr class="border-b-black border-b-opacity-30 border-b border-solid">
-                <th>REQUESTER</th>
+                <th class="hidden sm:flex pl-5">REQUESTER</th>
                 <th>TITLE</th>
                 <th>ASSIGNEE</th>
                 <th>STATUS</th>
@@ -42,11 +42,7 @@ const clickHandler = (id) => {
 th {
     padding-top: 1vh;
     padding-bottom: 1vh;
-    text-align: left;
-}
-
-th:first-child {
-    padding-left: 1vw;
+    @apply sm:text-left;
 }
 
 tbody:hover {

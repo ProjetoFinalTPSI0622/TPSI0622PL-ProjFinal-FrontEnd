@@ -1,41 +1,33 @@
-
 <template>
-   <div class="card flex justify-content-center">
-       <Dropdown v-model="selectedCountry" :options="countries" optionLabel="name" placeholder="Select a Country" class="w-full md:w-14rem">
-           <template #value="slotProps">
-               <div v-if="slotProps.value" class="flex align-items-center">
-                   <img :alt="slotProps.value.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.value.code.toLowerCase()}`" style="width: 18px" />
-                   <div>{{ slotProps.value.name }}</div>
-               </div>
-               <span v-else>
-                   {{ slotProps.placeholder }}
-               </span>
-           </template>
-           <template #option="slotProps">
-               <div class="flex align-items-center">
-                   <img :alt="slotProps.option.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.option.code.toLowerCase()}`" style="width: 18px" />
-                   <div>{{ slotProps.option.name }}</div>
-               </div>
-           </template>
-       </Dropdown>
-   </div>
+    <div class=" flex grow basis-[0%] flex-col">
+        <label class="text-pink text-xs mb-2 pl-2">{{ LabelTitle }}*</label>
+        <v-select :options="countries" label="name" class="bg-white text-purple text-base text-wrap border border-solid border-purple rounded-lg">
+            <template>
+                <span :class="'flag-icon flag-icon-' + countries.code.toLowerCase()"> {{ countries.code }} </span>
+                <span class="flag-text">{{ countries.name }}</span>
+            </template>
+        </v-select>
+    </div>
 </template>
+  
+<script>
+import { UserService } from '../../Services/UserService';
 
-<script setup>
-import Dropdown from 'primevue/dropdown';
-import { ref } from "vue";
-
-const selectedCountry = ref();
-const countries = ref([
-   { name: 'Australia', code: 'AU' },
-   { name: 'Brazil', code: 'BR' },
-   { name: 'China', code: 'CN' },
-   { name: 'Egypt', code: 'EG' },
-   { name: 'France', code: 'FR' },
-   { name: 'Germany', code: 'DE' },
-   { name: 'India', code: 'IN' },
-   { name: 'Japan', code: 'JP' },
-   { name: 'Spain', code: 'ES' },
-   { name: 'United States', code: 'US' }
-]);
+export default {
+    props: {
+        LabelTitle: {
+            type: String,
+            required: true
+        },
+    },
+    data() {
+        return {
+            selectedCountry: null,
+            countries: [],
+        };
+    },
+    async mounted() {
+        this.countries = (await UserService.getCountries()).data;
+    }
+};
 </script>

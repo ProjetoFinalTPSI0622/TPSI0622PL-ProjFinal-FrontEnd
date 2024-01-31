@@ -21,7 +21,7 @@ const DeleteUser = async (id) => {
 </script>
 
 <template>
-    <tr class="userItem border-b-black border-b-opacity-30 border-b border-solid">
+    <tr class="hoverGrey border-b-black border-b-opacity-30 border-b border-solid">
         <td class="flex flex-col md:flex-row gap-2.5">
             <img loading="lazy" :src="user.user_info.profile_picture_path"
                 class="aspect-square object-contain object-center w-10 overflow-hidden shrink-0 max-w-full rounded-[50%]" />
@@ -52,10 +52,5 @@ td {
 
 td:first-child {
     padding-left: 140px;
-}
-
-.userItem:hover {
-  background-color: rgba(13, 60, 246, 0.31);
-  cursor: pointer;
 }
 </style>

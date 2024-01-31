@@ -28,7 +28,7 @@ const submitHandler = async () => {
         isSubmitting.value = true;
         const createdTicket = await TicketsService.createTicket(ticketTitle.value, ticketDescription.value, priority.selectedPriority, category.selectedCategory);
         isSubmitting.value = false;
-        await router.push({ name: 'ticketDetails', params: { ticketId: createdTicket.ticket.id } });
+        await router.push({ name: 'ticketDetails', params: { ticketId: createdTicket.data.id } });
     } catch (e) {
         isSubmitting.value = false;
     }
@@ -38,9 +38,9 @@ const submitHandler = async () => {
 onBeforeMount(async () => {
 
     try {
-        category.categories = (await TicketsService.getCategories()).categories;
-        priority.priorities = (await TicketsService.getPriorities()).priorities;
-        user.value = (await UserService.getAuthedUser()).user;
+        category.categories = (await TicketsService.getCategories()).data;
+        priority.priorities = (await TicketsService.getPriorities()).data;
+        user.value = (await UserService.getAuthedUser()).data;
     } catch (e) {
         console.log(e);
     } finally {

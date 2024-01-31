@@ -4,7 +4,8 @@
         <input 
             :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
-        class=" bg-white text-purple text-base text-wrap border border-solid border-purple pl-2.5 py-1.5 rounded-lg">
+            :type="type"
+        class="bg-white text-purple text-base text-wrap border border-solid border-purple pl-2.5 py-1.5 rounded-lg">
     </div>
 </template>
 
@@ -18,7 +19,11 @@ export default {
         modelValue: {
             type: String,
             required: true
-        }
+        },
+        type: {
+            type: String,
+            required: true
+        },
 
     },
 }

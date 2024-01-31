@@ -3,7 +3,7 @@ import SideSection from "../components/SideSection.vue";
 import SideSectionTop from "../components/SideSectionTop.vue";
 import { TicketsService } from "../Services/TicketsService";
 import { UserService } from "../Services/UserService.js";
-import { ref, onBeforeMount, reactive } from 'vue';
+import {onBeforeMount, reactive, ref} from 'vue';
 import { useRoute } from 'vue-router';
 import SimpleButton from '../components/SimpleButton.vue';
 import DescriptionView from '../components/TicketDetails/DescriptionView.vue';
@@ -13,18 +13,13 @@ import descriptionImg from '../assets/descriptionWhite.svg';
 
 
 const route = useRoute();
-
 const ticket = ref({});
-
 const technicians = ref([]);
 
 
 onBeforeMount(async () => {
   await getTickets();
   await getTechnicians();
-
-  console.log(ticket.value);
-  console.log(technicians.value);
 });
 
 const viewState = reactive({
@@ -33,10 +28,9 @@ const viewState = reactive({
 
 const getTechnicians = async () => {
   try {
-    const response = await UserService.getTechnicians();
+    const response = (await UserService.getTechnicians());
     if (response.success) {
       technicians.value = response.data;
-      console.log('Technicians Data:', technicians.value);
     } else {
       console.error('Invalid response structure:', response);
     }
@@ -47,10 +41,9 @@ const getTechnicians = async () => {
 
 const getTickets = async () => {
   try {
-    const response = await TicketsService.getTicket(route.params.ticketId);
+    const response = (await TicketsService.getTicket(route.params.ticketId));
     if (response.success) {
-      ticket.value = response.ticket;
-      console.log('Tickets Data:', ticket.value);
+      ticket.value = response.data;
     } else {
       console.error('Invalid response structure:', response);
     }
@@ -64,7 +57,7 @@ const getTickets = async () => {
 
 <template>
   <div class="flex w-full">
-    <SideSection>
+    <SideSection :ticket="ticket">
       <SideSectionTop>Ticket Details</SideSectionTop>
       <div class="flex flex-col p-2 xl:p-5 gap-4">
         <div class="flex flex-col gap-3">
@@ -72,9 +65,10 @@ const getTickets = async () => {
             Requester
           </label>
           <div
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
             <!--                     TODO: ADICIONAR FOTO DO USER AFTER-->
             {{ ticket.createdby ? ticket.createdby.name : 'N/A' }}
+
           </div>
         </div>
         <div class="flex flex-col gap-3">
@@ -82,7 +76,7 @@ const getTickets = async () => {
             Assigned to
           </label>
           <select
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
             <option disabled selected>
               {{ ticket.assignedto ? ticket.createdby.name : 'Unassigned' }}
             </option>
@@ -99,7 +93,7 @@ const getTickets = async () => {
             Categoria
           </label>
           <div
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
             {{ ticket.category ? ticket.category.category_name : 'N/A' }}
           </div>
         </div>
@@ -108,10 +102,25 @@ const getTickets = async () => {
             Urgência
           </label>
           <div
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
             {{ ticket.priority ? ticket.priority.priority_name : 'N/A' }}
           </div>
         </div>
+        <div class="flex flex-col gap-3">
+          <label class="text-pink-600 text-l xl:text-lg justify-center">
+            Estado
+          </label>
+          <select
+            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+            <option disabled selected>
+              {{ ticket.status ? ticket.status.status_name : 'N/A' }}
+            </option>
+          </select>
+        </div>
+        <SimpleButton class="w-full py-1 mt-4">
+          <img class="self-center" src="../assets/remove.svg" />
+          Close ticket
+        </SimpleButton>
       </div>
     </SideSection>
 
@@ -124,7 +133,7 @@ const getTickets = async () => {
           </div>
           <div class="flex justify-end">
             <SimpleButton @click="viewState.showComments = !viewState.showComments">
-              {{ viewState.showComments ? 'Description' : 'Comments' }} <img
+              {{ viewState.showCommnts ? 'Description' : 'Comments' }} <img
                 :src="viewState.showComments ? descriptionImg : chatImg">
             </SimpleButton>
           </div>
@@ -158,7 +167,7 @@ const getTickets = async () => {
             <p>To</p>
             <div class="flex gap-1">
               <img loading="lazy" src="../assets/MoNengue.jpg"
-              class="aspect-square object-cover object-center w-8 h-8 rounded-[50%]" />
+                class="aspect-square object-cover object-center w-8 h-8 rounded-[50%]" />
               <p>MoNengue</p>
             </div>
           </div>

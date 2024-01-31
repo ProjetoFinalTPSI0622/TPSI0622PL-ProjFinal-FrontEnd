@@ -2,7 +2,7 @@
     <div class="wrapper">
         <div class=" flex grow basis-[0%] flex-col">
             <label class="text-pink text-xs mb-2 pl-2">{{ LabelTitle }}*</label>
-            <flat-pickr v-model="selectedDate" class="form-control border border-solid border-purple rounded-lg h-8 text-center"></flat-pickr>
+            <flat-pickr :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" class="form-control border border-solid border-purple py-1.5 rounded-lg text-center"/>
         </div>
     </div>
 </template>
