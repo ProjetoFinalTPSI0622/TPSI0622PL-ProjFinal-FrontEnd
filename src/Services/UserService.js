@@ -10,7 +10,7 @@ export const UserService = {
     },
 
     createUser: async (user) => {
-        return AxiosService.makeRequest('post', '/users', user);
+        return AxiosService.makeRequest('post', '/users', user, 'multipart/form-data');
     },
 
     createUserInfo: async (userInfo) => {
@@ -49,4 +49,8 @@ export const UserService = {
     getCountries: async () => {
         return AxiosService.makeRequest('get', '/countries');
     },
+
+    changePassword: async (passwords) => {
+        return AxiosService.makeRequest('put', '/users/changePassword', passwords);
+    }
 };

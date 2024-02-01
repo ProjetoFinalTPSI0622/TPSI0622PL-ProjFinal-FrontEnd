@@ -18,11 +18,10 @@ export const AxiosService = {
                 },
                 ...axiosConfig,
             });
-
             if (response.status === 200) {
                 return { success: true, message: 'Authenticated', data: response.data };
             } else {
-                return { success: false, message: 'Not authenticated' };
+                return { success: false, message: response };
             }
         } catch (e) {
             return { success: false, message: 'Not authenticated' };
