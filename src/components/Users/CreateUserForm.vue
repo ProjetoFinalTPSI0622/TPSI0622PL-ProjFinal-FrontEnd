@@ -16,11 +16,25 @@
                     <Input LabelTitle="Internal Code" type="text" required v-model="user.internalcode" />
                     <Input LabelTitle="Password" type="password" required v-model="user.password" />
                 </div>
+
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
-                    <Dropdown LabelTitle="Role" :options="role" :selectedOption="role" v-model="userInfo.role" />
-                    <Dropdown LabelTitle="Gender" :options="gender" :selectedOption="gender" required
-                        v-model="userInfo.gender" />
-                    <DatePicker LabelTitle="Birthday Date" required v-model="userInfo.birthday_date" />
+                  <Dropdown
+                      LabelTitle="Role"
+                      :options="roles"
+                      v-model="user.role"
+                      :modelValue="user.role"
+                      @update:modelValue="handleDropdownChange" />
+
+
+
+                  <Dropdown
+                      LabelTitle="Gender"
+                      :options="genders"
+                      v-model="userInfo.gender"
+                      :modelValue="userInfo.gender"
+                      @update:modelValue="handleDropdownChange" />
+
+                  <DatePicker LabelTitle="Birthday Date" required v-model="userInfo.birthday_date" :modelValue="userInfo.birthday_date"/>
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
                     <div class="flex flex-col md:flex-row md:items-end gap-3 lg:w-2/4">
@@ -39,7 +53,11 @@
                 <div class="flex flex-col gap-5 mt-5 md:flex-row md:mt-5">
                     <Input LabelTitle="State/Province" type="text" required v-model="userInfo.district" />
                     <Input LabelTitle="City" type="text" required v-model="userInfo.city" />
-                    <CountryDropdown LabelTitle="Country" required v-model="userInfo.country"/>
+                  <Dropdown
+                      LabelTitle="Country"
+                      :options="countries"
+                      v-model="userInfo.country"
+                      @update:model-value="handleDropdownChange"/>
                 </div>
             </div>
 
@@ -48,7 +66,7 @@
     </FormShell>
 </template>
 
-<script>
+<script setup>
 import FormShell from '../../layout/FormShell.vue';
 import AvatarCard from '../Form/AvatarCard.vue';
 import FormTitle from '../../components/Form/FormTitle.vue';
@@ -58,117 +76,89 @@ import DatePicker from '../Form/DataPicker.vue';
 import CountryDropdown from '../../components/Form/CountryDropdown.vue';
 import ButtonSubmit from '../../components/Form/ButtonSubmit.vue';
 import { UserService } from '../../Services/UserService';
+import {onBeforeMount, onMounted, ref} from "vue";
+import router from "../../router.js";
 
-export default {
-    components: {
-        FormShell,
-        AvatarCard,
-        FormTitle,
-        Input,
-        Dropdown,
-        DatePicker,
-        CountryDropdown,
-        ButtonSubmit,
-        UserService
 
-    },
-    data() {
-        return {
-            role: [],
-            gender: [],
-            isChecked: false,
-            user: {
-                name: '',
-                email: '',
-                password: '',
-                internalcode: '',
-            },
-            userInfo: {
-                role: '',
-                gender: '',
-                avatar: '',
-                nif: '',
-                gender: '',
-                phone_number: '',
-                birthday_date: '',
-                address: '',
-                city: '',
-                district: '',
-                postal_code: '',
-                country: ''
-            }
-        }
-    },
-    mounted() {
-        this.loadData();
-    },
-    methods: {
-        async loadData() {
-            try {
-                this.role = (await UserService.getRoles()).data.map((item) => {
-                    return {
-                        id: item.id,
-                        label: item.role,
-                    }
-                });
-                this.gender = (await UserService.getGenders()).data.map((item) => {
-                    return {
-                        id: item.id,
-                        label:item.name
-                    }
-                });
-                this.country = (await UserService.getCountries()).data;
-            } catch (error) {
-                console.error('Error:', error.response);
-            }
-        },
-        ImageHandler(file) {
-            this.user.avatar = file;
-        },
-        handleCheckboxChange() {
-            if (this.isChecked) {
-                this.user.password = this.userInfo.nif.toString();
-            } else {
-                this.user.password = '';
-            }
-        },
-        CreateUser() {
-            const allData = {
-                user: {
-                    name: this.user.name,
-                    email: this.user.email,
-                    password: this.user.password,
-                    internalcode: this.user.internalcode,
-                },
-                userInfo: {
-                    user_id: '',
-                    role: this.userInfo.role,
-                    gender: this.userInfo.gender,
-                    avatar: this.user.avatar,
-                    nif: this.userInfo.nif,
-                    gender: this.userInfo.gender,
-                    phone_number: this.userInfo.phone_number,
-                    birthday_date: this.userInfo.birthday_date,
-                    address: this.userInfo.address,
-                    city: this.userInfo.city,
-                    district: this.userInfo.district,
-                    postal_code: this.userInfo.postal_code,
-                    country: this.userInfo.country,
-                },
-            }
+const roles = ref([]);
+const genders = ref([]);
+const countries = ref([]);
+const isChecked = ref(false);
+const user = ref({
+    name: '',
+    email: '',
+    password: '',
+    internalcode: '',
+    role:'',
+});
 
-            UserService.createUser(allData)
-                .then((response) => {
-                    console.log('User created successfully ' + response.data);
-                    allData.userInfo.user_id = response.data.id;
-                    UserService.createUserInfo(allData.userInfo)
+const userInfo = ref({
+  user_id: '',
+  gender: '',
+  avatar: '',
+  nif: '',
+  phone_number: '',
+  birthday_date: '',
+  address: '',
+  city: '',
+  district: '',
+  postal_code: '',
+  country: ''
+})
 
-                })
-                .catch((error) => {
-                    console.log('Error: ', error.response);
-                })
+onBeforeMount(  async () =>{
+  await loadData();
+})
 
-        },
-    }
+
+const loadData = async () =>{
+  try {
+    roles.value = (await UserService.getRoles()).data
+    genders.value = (await UserService.getGenders()).data
+    countries.value = (await UserService.getCountries()).data;
+  } catch (error) {
+    console.error('Error:', error.response);
+  }
 }
+
+const ImageHandler = (file) => {
+  user.avatar = file;
+}
+
+const handleCheckboxChange = () => {
+  if (isChecked.value) {
+    user.password = userInfo.nif.toString();
+  } else {
+    user.password = '';
+  }
+}
+
+const CreateUser = () => {
+  console.log(userInfo.value)
+
+  UserService.createUser(user.value)
+      .then((response) => {
+        userInfo.value.user_id = response.data;
+        UserService.createUserInfo(userInfo.value)
+            .then((response) => {
+              console.log(response);
+              router.push({
+                name: 'userDetails',
+                params: { userId: userInfo.value.user_id }
+              });
+            })
+            .catch((error) => {
+              console.log('Error: ', error.response);
+            });
+      })
+      .catch((error) => {
+        console.log('Error: ', error.response);
+      });
+};
+
+const handleDropdownChange = (value) => {
+  const key = Object.keys(value)[0];
+  userInfo[key] = value[key];
+};
+
 </script>
