@@ -19,7 +19,7 @@ export const AxiosService = {
                 ...axiosConfig,
             });
             if (response.status === 200) {
-                return { success: true, message: 'Authenticated', data: response.data };
+                return { success: true, message: response.statusText, data: response.data };
             } else {
                 return { success: false, message: response };
             }
