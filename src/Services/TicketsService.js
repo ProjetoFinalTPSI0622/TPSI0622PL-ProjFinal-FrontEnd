@@ -10,12 +10,12 @@ export const TicketsService = {
         return AxiosService.makeRequest('get', `tickets/${id}`);
     },
 
-    createTicket: async (title, description, priority, category) => {
-        return AxiosService.makeRequest('post', 'tickets', { title, description, priority, category });
+    createTicket: async (ticketData) => {
+        return AxiosService.makeRequest('post', 'tickets', ticketData);
     },
 
-    updateTicket: async (id, title, description, priority, type) => {
-        return AxiosService.makeRequest('put', `tickets/${id}`, { title, description, priority, type });
+    updateTicket: async (ticketData) => {
+        return AxiosService.makeRequest('put', `tickets/${id}`, ticketData);
     },
 
     deleteTicket: async (id) => {
