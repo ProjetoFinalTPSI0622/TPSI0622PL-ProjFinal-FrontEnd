@@ -1,24 +1,18 @@
 <script setup>
-import { defineProps, defineEmits, ref } from 'vue';
-
-const selectbox = ref(null);
-let oldValue = 0;
+import { defineProps, ref } from 'vue';
+import SelectAssign from '../SelectAssign.vue';
+import { useTicketStore } from '../../Stores/TicketStore.js';
 
 defineProps({
     ticket: Object,
     technicians: Array
 });
 
-const emit = defineEmits(['show-modal', 'selectbox']);
+const ticketStore = useTicketStore(); 
 
-const showTicketModal = (technicianName) => {
-    emit('show-modal', technicianName, selectbox, oldValue);
+const showTicketModal = (technicianName, selectbox, oldValue) => {
+    ticketStore.handleShowModal(technicianName, selectbox, oldValue); 
 };
-
-const handleMousedown = () => {
-    oldValue = selectbox.value.selectedIndex;
-};
-
 </script>
 
 <template>
@@ -43,19 +37,8 @@ const handleMousedown = () => {
             </div>
         </td>
         <td class="text-black text-opacity-80 text-sm sm:text-lg">
-            <div class="flex justify-center sm:justify-start">
-                <select ref="selectbox" @change.prevent="showTicketModal($event.target.value)" @click.stop
-                    @mousedown="handleMousedown"
-                    class="border bg-white flex justify-between w-40 py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-                    <option selected>
-                        {{ ticket.assignedto ? ticket.assignedto : 'Unassigned' }}
-                    </option>
-
-                    <option v-for="technician in technicians" :key="technician.name" :value="technician.name">
-                        {{ technician.name }}
-                    </option>
-
-                </select>
+            <div class="flex justify-center sm:justify-start sm:w-40">
+                <SelectAssign :assignedto="ticket.assignedto" :technicians="technicians" @show-modal="showTicketModal" />
             </div>
         </td>
         <td class="text-white text-xs sm:text-lg">

@@ -8,6 +8,8 @@ import TopMenu from '../components/ShowTicket/TopMenu.vue';
 import TicketsTable from '../components/ShowTicket/TicketsTable.vue';
 import Modal from '../components/Modal.vue';
 
+import { useTicketStore } from '../Stores/TicketStore.js';
+
 const tickets = ref([]);
 const technicians = ref([]);
 const currentPage = ref(1);
@@ -16,13 +18,10 @@ const searchTerm = ref('');
 const status = ref('All');
 const creator = ref('All');
 const assignee = ref('All');
-const showModal = ref(false);
-const selectedTechnician = ref('');
-const selectBox = ref(null);
 
 let currentUser = ref(null);
-let oldvalue = 0;
 
+const ticketStore = useTicketStore();
 
 onBeforeMount(async () => {
     try {
@@ -35,21 +34,12 @@ onBeforeMount(async () => {
     await getTechnicians();
 });
 
-const handleShowModal = (technicianName, selectbox, oldValue) => {
-    showModal.value = true;
-    selectBox.value = selectbox.value;
-    oldvalue = oldValue;
-    selectedTechnician.value = technicianName;
-};
-
 const handleCancelModal = () => {
-    showModal.value = false;
-    selectBox.value.selectedIndex = oldvalue;
+    ticketStore.handleCancelModal();
 };
 
 const handleConfirmModal = () => {
-    showModal.value = false;
-    oldvalue = selectBox.value.selectedIndex;
+    ticketStore.handleConfirmModal();
 };
 
 const displayedTickets = computed(() => {
@@ -145,13 +135,13 @@ const getTechnicians = async () => {
                 </div>
             </span>
 
-            <TicketsTable :tickets="displayedTickets" :technicians="technicians" @show-modal="handleShowModal" />
-            <Modal :show="showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
+            <TicketsTable :tickets="displayedTickets" :technicians="technicians" />
+            <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
                 <template #title>
                     Assign Technician
                 </template>
                 <template #content>
-                    You are about to assign {{ selectedTechnician }} to this ticket, are you sure?
+                    You are about to assign {{ ticketStore.selectedTechnician }} to this ticket, are you sure?
                 </template>
             </Modal>
         </span>
