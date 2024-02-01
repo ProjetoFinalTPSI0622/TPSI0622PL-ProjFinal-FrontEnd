@@ -1,11 +1,14 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue';
+import ToastStore from '../Stores/ToastStore.js';
 
 const props = defineProps({
     show: Boolean
 });
 
 const emit = defineEmits(['Confirm', 'Cancel']);
+
+const { triggerToast } = ToastStore();
 
 const handleConfirm = () => {
     emit('Confirm');

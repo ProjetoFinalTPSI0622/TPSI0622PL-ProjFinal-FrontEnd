@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import ToastStore from './ToastStore.js';
 
 export const useTicketStore = defineStore({
     id: 'modal',
@@ -22,6 +23,7 @@ export const useTicketStore = defineStore({
         handleConfirmModal() {
             this.showModal = false;
             this.oldValue = this.selectBox.selectedIndex;
+            ToastStore().triggerToast(`O técnico ${this.selectedTechnician} foi assignado ao ticket !`, 'success');
         },
     },
 });
