@@ -5,7 +5,7 @@
         <router-link to="/" class="lg:w-full w-6"><img src="../../assets/home.svg"></router-link>
         <router-link to="/tickets/show" class="lg:w-full w-6"><img src="../../assets/ticket.svg"></router-link>
         <router-link to="/users" class="lg:w-full w-6"><img src="../../assets/user.svg"></router-link>
-        <img class="min-w-6" src="../../assets/pie-chart.svg">
+        <router-link to="/dashboard" class="lg:w-full w-6"><img src="../../assets/pie-chart.svg"></router-link>
         <img class="md:hidden min-w-4" src="../../assets/Ellipse 5.svg">
     </div>
 </template>
