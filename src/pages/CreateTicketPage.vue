@@ -7,11 +7,11 @@ import { onBeforeMount, ref, reactive } from "vue";
 import router from "../router.js";
 
 
-const category = reactive({
+const category = ref({
     categories: [],
     selectedCategory: 1,
 });
-const priority = reactive({
+const priority = ref({
     priorities: [],
     selectedPriority: 1,
 });
@@ -23,13 +23,27 @@ const ticketTitle = ref("");
 
 const isSubmitting = ref(false);
 
+
+const ticketData = ref({
+    title: "",
+    description: "",
+    priority: 0,
+    category: 0,
+})
+
 const submitHandler = async () => {
-    try {
+
+  ticketData.value.title = ticketTitle.value;
+  ticketData.value.description = ticketDescription.value;
+  ticketData.value.priority = priority.value.selectedPriority;
+  ticketData.value.category = category.value.selectedCategory;
+  try {
         isSubmitting.value = true;
-        const createdTicket = await TicketsService.createTicket(ticketTitle.value, ticketDescription.value, priority.selectedPriority, category.selectedCategory);
+        const createdTicket = await TicketsService.createTicket(ticketData.value);
         isSubmitting.value = false;
-        await router.push({ name: 'ticketDetails', params: { ticketId: createdTicket.data.id } });
+        router.push({ name: "ticketDetails", params: { ticketId: createdTicket.data.id } })
     } catch (e) {
+      console.log(e);
         isSubmitting.value = false;
     }
 };
@@ -38,8 +52,8 @@ const submitHandler = async () => {
 onBeforeMount(async () => {
 
     try {
-        category.categories = (await TicketsService.getCategories()).data;
-        priority.priorities = (await TicketsService.getPriorities()).data;
+        category.value.categories = (await TicketsService.getCategories()).data;
+        priority.value.priorities = (await TicketsService.getPriorities()).data;
         user.value = (await UserService.getAuthedUser()).data;
     } catch (e) {
         console.log(e);
@@ -69,7 +83,7 @@ onBeforeMount(async () => {
                     <label class="text-pink-600 text-l xl:text-lg justify-center">
                         Categoria
                     </label>
-                    <select v-model="category.selectedCategory"
+                    <select v-model="category.selectedCategory" @change="testeChange"
                         class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
                         <option disabled selected>Escolha uma categoria</option>
                         <option v-for="category in category.categories" :key="category.id" :value="category.id">
@@ -81,7 +95,7 @@ onBeforeMount(async () => {
                     <label class="text-pink-600 text-l xl:text-lg justify-center">
                         Urgência
                     </label>
-                    <select v-model="priority.selectedPriority"
+                    <select v-model="priority.selectedPriority" @change="testeChange"
                         class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
                         <option disabled selected>Escolha a urgência</option>
                         <option v-for="priority in priority.priorities" :key="priority.id" :value="priority.id">

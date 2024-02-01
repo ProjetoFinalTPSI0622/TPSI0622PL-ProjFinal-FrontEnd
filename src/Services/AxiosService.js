@@ -24,7 +24,7 @@ export const AxiosService = {
                 return { success: false, message: response };
             }
         } catch (e) {
-            return { success: false, message: 'Not authenticated' };
+            return { success: false, message: e.message };
         }
     },
 }
