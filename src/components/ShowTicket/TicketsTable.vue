@@ -8,8 +8,6 @@ const props = defineProps({
     technicians: Array
 });
 
-const emit = defineEmits(['show-modal']);
-
 const clickHandler = (id) => {
 
     router.push({
@@ -19,11 +17,6 @@ const clickHandler = (id) => {
         }
     });
 }
-
-const handleShowModal = (technicianName, selectbox, oldValue) => {
-    emit('show-modal', technicianName, selectbox, oldValue);
-};
-
 
 </script>
 
@@ -40,9 +33,8 @@ const handleShowModal = (technicianName, selectbox, oldValue) => {
         </thead>
 
         <tbody>
-            <TicketItem @click="clickHandler(ticket.id)" @show-modal="handleShowModal" v-for="ticket in tickets"
-                :key="ticket.id" :ticket="ticket" :technicians="technicians"
-            />
+            <TicketItem @click="clickHandler(ticket.id)" v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"
+                :technicians="technicians" />
         </tbody>
 
     </table>

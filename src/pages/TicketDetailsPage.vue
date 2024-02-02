@@ -10,18 +10,24 @@ import DescriptionView from '../components/TicketDetails/DescriptionView.vue';
 import CommentsView from '../components/TicketDetails/CommentsView.vue';
 import chatImg from '../assets/chat.svg';
 import descriptionImg from '../assets/descriptionWhite.svg';
+import Modal from "../components/Modal.vue";
+import { useTicketStore } from '../Stores/TicketStore.js';
+import SelectAssign from '../components/SelectAssign.vue';
+
 import {CommentsService} from "../Services/CommentsService.js";
 
 //TICKET
 const route = useRoute();
 const ticket = ref({});
 const technicians = ref([]);
+const ticketStore = useTicketStore();
 
 //COMMENTS
 const commentBody = ref('');
 const commentTypes = ref(null);
 const selectedCommentType = ref(1);
 const comments = ref([]);
+
 
 
 onBeforeMount(async () => {
@@ -105,6 +111,17 @@ watch(
     }
 )
 
+const handleShowModal = (technicianName, selectbox, oldValue) => {
+  ticketStore.handleShowModal(technicianName, selectbox, oldValue);
+};
+
+const handleCancelModal = () => {
+  ticketStore.handleCancelModal();
+};
+
+const handleConfirmModal = () => {
+  ticketStore.handleConfirmModal();
+};
 
 </script>
 
@@ -128,17 +145,9 @@ watch(
           <label class="text-pink-600 text-l xl:text-lg justify-center">
             Assigned to
           </label>
-          <select
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-            <option disabled selected>
-              {{ ticket.assignedto ? ticket.createdby.name : 'Unassigned' }}
-            </option>
-
-            <option v-for="technician in technicians" :key="technician.id" :value="technician.id">
-              {{ technician.name }}
-            </option>
-
-          </select>
+          <div class="flex justify-between w-40 lg:w-full">
+            <SelectAssign :assignedto="ticket.assignedto" :technicians="technicians" @show-modal="handleShowModal" />
+          </div>
         </div>
 
         <div class="flex flex-col gap-3">
@@ -260,8 +269,15 @@ watch(
           </div>
         </form>
       </div>
-
     </div>
+    <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
+      <template #title>
+        Assign Technician
+      </template>
+      <template #content>
+        You are about to assign {{ ticketStore.selectedTechnician }} to this ticket, are you sure?
+      </template>
+    </Modal>
   </div>
 </template>
 
