@@ -3,7 +3,7 @@ import SideSection from "../components/SideSection.vue";
 import SideSectionTop from "../components/SideSectionTop.vue";
 import { TicketsService } from "../Services/TicketsService";
 import { UserService } from "../Services/UserService.js";
-import {onBeforeMount, reactive, ref, watch} from 'vue';
+import {onBeforeMount, reactive, ref, watch, nextTick} from 'vue';
 import { useRoute } from 'vue-router';
 import SimpleButton from '../components/SimpleButton.vue';
 import DescriptionView from '../components/TicketDetails/DescriptionView.vue';
@@ -65,29 +65,20 @@ const getCommentTypes = async () => {
 };
 
 const postComment = async () => {
-  console.log('start to post comment')
 
   const commentData = {
     comment_body: commentBody.value,
     comment_type: selectedCommentType.value,
     ticket_id: ticket.value.id
   }
-
-  console.log('comment data')
-  console.log(commentData)
-
   try {
     const response = (await CommentsService.createComment(commentData));
-    constole.log('response')
-    console.log(response)
-    if (response.success) {
-      console.log(response.data);
-    } else {
-      console.error('Invalid response structure:', response);
-    }
   } catch (error) {
     console.error('Error posting comment:', error);
   }
+  await nextTick(async () => {
+    await fetchComments();
+  });
 };
 
 const updateSelectedComment = (e) => {

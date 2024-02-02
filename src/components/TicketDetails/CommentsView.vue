@@ -6,11 +6,6 @@ const props = defineProps({
     comment: Object
 })
 
-onBeforeMount(() => {
-    console.log(props.comment)
-})
-
-
 </script>
 
 <template>

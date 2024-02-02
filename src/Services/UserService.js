@@ -10,11 +10,11 @@ export const UserService = {
     },
 
     createUser: async (user) => {
-        return AxiosService.makeRequest('post', '/users', user, 'multipart/form-data');
+        return AxiosService.makeRequest('post', '/users', user, );
     },
 
     createUserInfo: async (userInfo) => {
-        return AxiosService.makeRequest('post', '/userInfo', userInfo);
+        return AxiosService.makeRequest('post', '/userInfo', userInfo, 'multipart/form-data');
     },
 
     updateUserInfo: async (formData) => {
