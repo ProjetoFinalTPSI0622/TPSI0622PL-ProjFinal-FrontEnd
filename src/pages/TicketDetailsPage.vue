@@ -3,7 +3,7 @@ import SideSection from "../components/SideSection.vue";
 import SideSectionTop from "../components/SideSectionTop.vue";
 import { TicketsService } from "../Services/TicketsService";
 import { UserService } from "../Services/UserService.js";
-import {onBeforeMount, reactive, ref} from 'vue';
+import {onBeforeMount, reactive, ref, watch, nextTick} from 'vue';
 import { useRoute } from 'vue-router';
 import SimpleButton from '../components/SimpleButton.vue';
 import DescriptionView from '../components/TicketDetails/DescriptionView.vue';
@@ -14,14 +14,26 @@ import Modal from "../components/Modal.vue";
 import { useTicketStore } from '../Stores/TicketStore.js';
 import SelectAssign from '../components/SelectAssign.vue';
 
+import {CommentsService} from "../Services/CommentsService.js";
+
+//TICKET
 const route = useRoute();
 const ticket = ref({});
 const technicians = ref([]);
 const ticketStore = useTicketStore();
 
+//COMMENTS
+const commentBody = ref('');
+const commentTypes = ref(null);
+const selectedCommentType = ref(1);
+const comments = ref([]);
+
+
+
 onBeforeMount(async () => {
-  await getTickets();
+  await getTicket();
   await getTechnicians();
+  await getCommentTypes();
 });
 
 const viewState = reactive({
@@ -41,18 +53,63 @@ const getTechnicians = async () => {
   }
 };
 
-const getTickets = async () => {
+const getTicket = async () => {
   try {
-    const response = (await TicketsService.getTicket(route.params.ticketId));
-    if (response.success) {
-      ticket.value = response.data;
-    } else {
-      console.error('Invalid response structure:', response);
-    }
+    ticket.value = (await TicketsService.getTicket(route.params.ticketId)).data;
   } catch (error) {
     console.error('Error fetching tickets:', error);
   }
 };
+
+const getCommentTypes = async () => {
+  try {
+    commentTypes.value = (await CommentsService.getCommentTypes()).data;
+  } catch (error) {
+    //TODO: DAR DISPLAY DA ERROR MESSAGE NUM TOAST OR SMT
+    console.error('Error fetching comment types:', error);
+  }
+};
+
+const postComment = async () => {
+
+  const commentData = {
+    comment_body: commentBody.value,
+    comment_type: selectedCommentType.value,
+    ticket_id: ticket.value.id
+  }
+  try {
+    const response = (await CommentsService.createComment(commentData));
+  } catch (error) {
+    console.error('Error posting comment:', error);
+  }
+  await nextTick(async () => {
+    await fetchComments();
+  });
+};
+
+const updateSelectedComment = (e) => {
+  selectedCommentType.value = e.target.value;
+};
+
+
+const fetchComments = async () => {
+  try {
+    comments.value = (await CommentsService.getComments(ticket.value.id)).data.comments;
+    console.log(comments.value)
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+  }
+};
+
+watch(
+    ()=> viewState.showComments,
+    async() => {
+      if (viewState.showComments) {
+        console.log('fetching comments')
+        await fetchComments();
+      }
+    }
+)
 
 const handleShowModal = (technicianName, selectbox, oldValue) => {
   ticketStore.handleShowModal(technicianName, selectbox, oldValue);
@@ -138,22 +195,23 @@ const handleConfirmModal = () => {
           </div>
           <div class="flex justify-end">
             <SimpleButton @click="viewState.showComments = !viewState.showComments">
-              {{ viewState.showCommnts ? 'Description' : 'Comments' }} <img
-                :src="viewState.showComments ? descriptionImg : chatImg">
+              {{ viewState.showComments ? 'Description' : 'Comments' }}
+              <img :src="viewState.showComments ? descriptionImg : chatImg">
             </SimpleButton>
           </div>
         </span>
       </div>
 
-      <span
+      <div
         class="text-purple flex sm:text-2xl text-xl h-[50vh] justify-between pl-6 pr-12 py-4 border-b-purple border-b-opacity-30 border-b border-solid items-start">
-        <div v-if="viewState.showComments">
-          <CommentsView />
+        <div v-if="viewState.showComments" v-for="comment in comments" :key="comment.id">
+<!--          TODO: DANIEL POE ISTO COM FLEX :)-->
+          <CommentsView :comment="comment"/>
         </div>
         <div v-else>
           <DescriptionView :description="ticket.description" />
         </div>
-      </span>
+      </div>
 
 
       <div
@@ -162,9 +220,10 @@ const handleConfirmModal = () => {
         <div class="flex text-xl gap-2">
           <div class="flex border-r-2 border-solid border-black border-opacity-30 pr-2">
             <img src="../assets/corner-up-left.svg" />
-            <select class="flex px-2">
-              <option>Public reply</option>
-              <option>Private reply</option>
+            <select class="flex px-2" v-model="selectedCommentType" @change="updateSelectedComment">
+              <option v-for="commentType in commentTypes" :key="commentType.id" :value="commentType.id">
+                {{ commentType.name }}
+              </option>
             </select>
           </div>
 
@@ -183,7 +242,7 @@ const handleConfirmModal = () => {
           <div class="w-full border border-solid border-black border-opacity-20 rounded-lg bg-grey">
             <div class="px-4 py-2 bg-grey rounded-t-lg">
               <label for="comment" class="sr-only">Your comment</label>
-              <textarea id="comment" rows="4"
+              <textarea id="comment" rows="4" v-model="commentBody" @input="testeInput"
                 class="w-full px-0 text-base text-gray-900 bg-grey focus:outline-none focus-visible:outline-none"
                 placeholder="Write here your comment..." required></textarea>
             </div>
@@ -202,7 +261,7 @@ const handleConfirmModal = () => {
                   <img src="../assets/attach.svg" />
                 </button>
               </div>
-              <button type="submit"
+              <button type="submit" @click.prevent="postComment"
                 class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverBlue">
                 Post comment
               </button>
