@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref, watch, } from "vue";
 
 const props = defineProps({
   LabelTitle: {
@@ -34,8 +34,8 @@ const props = defineProps({
 const selectedOption = ref(null);
 const emit = defineEmits(['update:modelValue']);
 
-onMounted(() => {
-  selectedOption.value = props.modelValue;
+watch(() => props.modelValue, (newValue) => {
+  selectedOption.value = newValue;
 });
 
 const handleChange = (event) => {

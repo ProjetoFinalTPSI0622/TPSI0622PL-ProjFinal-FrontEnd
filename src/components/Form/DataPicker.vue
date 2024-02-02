@@ -37,6 +37,10 @@ const config = ref({
   dateFormat: 'd-m-Y',
 });
 
+watch(() => props.modelValue, (newValue) => {
+  selectedDate.value = newValue;
+});
+
 const selectedDate = ref(null);
 
 const emit = defineEmits(['update:modelValue']);
