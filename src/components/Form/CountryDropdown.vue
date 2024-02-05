@@ -20,7 +20,7 @@
 </template>
   
 <script setup>
-import { UserService } from '../../Services/UserService';
+import { UserService } from '@/Services/UserService';
 import {onMounted, ref} from "vue";
 
 

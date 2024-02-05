@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import ToastStore from './ToastStore.js';
+import ToastStore from '@/Stores/ToastStore.js';
 
 export const useTicketStore = defineStore({
     id: 'modal',

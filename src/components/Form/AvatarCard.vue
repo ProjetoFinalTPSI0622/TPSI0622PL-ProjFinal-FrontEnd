@@ -19,7 +19,7 @@
 </template>
   
 <script>
-import AvatarDefault from '../../assets/AvatarDefault.svg'
+import AvatarDefault from '@/assets/AvatarDefault.svg'
 export default {
     props: {
         modelValue: {

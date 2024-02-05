@@ -1,14 +1,14 @@
 <script setup>
 import { onMounted, ref, computed, watch, onBeforeMount } from 'vue';
-import { TicketsService } from '../Services/TicketsService.js';
-import { UserService } from '../Services/UserService';
+import { TicketsService } from '@/Services/TicketsService.js';
+import { UserService } from '@/Services/UserService';
 
-import SideFilter from '../components/ShowTicket/SideFilter.vue';
-import TopMenu from '../components/ShowTicket/TopMenu.vue';
-import TicketsTable from '../components/ShowTicket/TicketsTable.vue';
-import Modal from '../components/Modal.vue';
+import SideFilter from '@/components/ShowTicket/SideFilter.vue';
+import TopMenu from '@/components/ShowTicket/TopMenu.vue';
+import TicketsTable from '@/components/ShowTicket/TicketsTable.vue';
+import Modal from '@/components/Modal.vue';
 
-import { useTicketStore } from '../Stores/TicketStore.js';
+import { useTicketStore } from '@/Stores/TicketStore.js';
 
 const tickets = ref([]);
 const technicians = ref([]);

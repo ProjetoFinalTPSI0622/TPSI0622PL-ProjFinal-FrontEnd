@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import SettingsBar from '../components/Settings/SettingsBar.vue';
+  import SettingsBar from '@/components/Settings/SettingsBar.vue';
   // import EditUserForm from '../components/settings/Account/EditUserForm.vue';
   export default {
     components: {

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { AuthService } from "./Services/AuthService.js";
+import { AuthService } from "@/Services/AuthService.js";
 
 const routes = [
   // example route { path: '/', component: Main },
@@ -8,67 +8,67 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: () => import('./pages/Layout.vue'),
+    component: () => import('@/pages/Layout.vue'),
     meta: { requiresAuth: true },
 
     children: [
       {
         path: '/settings/account',
         name: 'Account',
-        component: () => import('./pages/Account.vue'),
+        component: () => import('@/pages/Account.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: '/settings/notifications',
         name: 'Notifications',
-        component: () => import('./pages/Notifications.vue'),
+        component: () => import('@/pages/Notifications.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: '/settings/security',
         name: 'Security',
-        component: () => import('./pages/security.vue'),
+        component: () => import('@/pages/security.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: '/tickets/show',
         name: 'showTicket',
-        component: () => import('./pages/ShowTicketPage.vue'),
+        component: () => import('@/pages/ShowTicketPage.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: '/tickets/create',
         name: 'CreateTicket',
-        component: () => import('./pages/CreateTicketPage.vue'),
+        component: () => import('@/pages/CreateTicketPage.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: '/tickets/:ticketId',
         name: 'ticketDetails',
-        component: () => import('./pages/TicketDetailsPage.vue'),
+        component: () => import('@/pages/TicketDetailsPage.vue'),
       },
       {
         path: '/users',
         name: 'Users',
-        component: () => import('./pages/UsersPage.vue'),
+        component: () => import('@/pages/UsersPage.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: '/users/create',
         name: 'CreateUsers',
-        component: () => import('./pages/CreateUserPage.vue'),
+        component: () => import('@/pages/CreateUserPage.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: '/users/:userId',
         name: 'userDetails',
-        component: () => import('./pages/UserDetailsPage.vue'),
+        component: () => import('@/pages/UserDetailsPage.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: '/dashboard',
         name: 'dashboard',
-        component: () => import('./pages/Dashboard.vue'),
+        component: () => import('@/pages/Dashboard.vue'),
         meta: { requiresAuth: true }
       },
     ],
@@ -77,13 +77,13 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: () => import('./pages/NotFoundPage.vue'),
+    component: () => import('@/pages/NotFoundPage.vue'),
   },
 
   {
     path: '/login',
     name: 'Login',
-    component: () => import('./pages/LoginPage.vue'),
+    component: () => import('@/pages/LoginPage.vue'),
     beforeEnter: async (to, from, next) => { //check if user is already logged in and redirect to home page
       const authResult = await AuthService.checkAuth();
 
@@ -97,7 +97,7 @@ const routes = [
     {
       path: '/logout',
       name: 'Logout',
-      component: () => import('./pages/LogoutPage.vue'),
+      component: () => import('@/pages/LogoutPage.vue'),
       beforeEnter: async (to, from, next) => {
         const authResult = await AuthService.userLogout();
 
