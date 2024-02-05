@@ -27,12 +27,12 @@ const DeleteUser = () => {
 </script>
 
 <template>
-  <table>
+  <table class="table-auto">
 
     <thead>
       <tr class="border-b-black border-b-opacity-30 border-b border-solid">
-        <th>NOME</th>
-        <th>EMAIL</th>
+        <th class="pl-2.5 text-sm text-left py-2.5 sm:text-center">NOME</th>
+        <th class="hidden sm:table-cell">EMAIL</th>
         <th>TURMA</th>
         <th>CÓDIGO INTERNO</th>
         <th>ACÇÕES</th>
@@ -45,15 +45,3 @@ const DeleteUser = () => {
 
   </table>
 </template>
-
-<style scoped>
-th {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: left;
-}
-
-th:first-child {
-  padding-left: 140px;
-}
-</style>

@@ -61,7 +61,7 @@
                 </div>
             </div>
 
-            <ButtonSubmit textButton="Create User" />
+            <ButtonSubmit textButton="Create User" type="submit" />
         </template>
     </FormShell>
 </template>
