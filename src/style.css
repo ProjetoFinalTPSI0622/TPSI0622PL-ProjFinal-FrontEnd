@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-.hoverButton {
+.hoverBlue {
   @apply hover:bg-blue hover:cursor-pointer;
+}
+
+.hoverPurpleLight {
+  @apply hover:bg-purpleLight hover:cursor-pointer;
+}
+
+.hoverGreyDark {
+  @apply hover:bg-greyDark hover:cursor-pointer;
+}
+
+.hoverGrey {
+  @apply hover:bg-grey hover:cursor-pointer;
+}
+
+.hoverRed {
+  @apply hover:bg-red-600 hover:text-white hover:cursor-pointer;
+}
+
+.hoverGreen {
+  @apply hover:bg-green-600 hover:text-white hover:cursor-pointer;
 }
