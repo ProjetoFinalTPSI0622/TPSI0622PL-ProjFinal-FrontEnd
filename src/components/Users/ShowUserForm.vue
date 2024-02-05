@@ -9,15 +9,19 @@ import DatePicker from '../Form/DataPicker.vue';
 import ButtonSubmit from '../../components/Form/ButtonSubmit.vue';
 import { UserService } from '../../Services/UserService';
 import router from "../../router.js";
+import Modal from '../Modal.vue';
+import ToastStore from '../../Stores/ToastStore.js';
 
 const props = defineProps({
     myuser: Object
 });
 
+const showModal = ref(false);
 const roles = ref([]);
 const genders = ref([]);
 const countries = ref([]);
 const file = ref(null);
+
 const user = ref({
     id: '',
     name: '',
@@ -25,6 +29,7 @@ const user = ref({
     internalcode: '',
     role: null,
 });
+
 const userInfo = ref({
     user_id: '',
     avatar: '',
@@ -84,6 +89,23 @@ const ImageHandler = (fileInput) => {
     userInfo.value.avatar = URL.createObjectURL(fileInput);
 };
 
+const handleDropdownChange = (value) => {
+  const key = Object.keys(value)[0];
+  userInfo[key] = value[key];
+};
+
+const openModal = () => {
+  showModal.value = true;
+};
+
+const handleConfirmModal = async () => {
+    UpdateUser();
+};
+
+const handleCancelModal = () => {
+  showModal.value = false;
+};
+
 const UpdateUser = async () => {
     const formData = new FormData();
 
@@ -109,23 +131,23 @@ const UpdateUser = async () => {
         await UserService.updateUser(user.value);
         console.log('User updated successfully');
         await UserService.updateUserInfo(formData).then((response) => {
-            console.log('******User info updated successfully******', response)
+            
+            if (response.success) {
+                showModal.value = false;
+                router.push({ name: 'Users' });
+                ToastStore().triggerToast(`Utilizador actualizado com sucesso!`, 'success');
+            }
+            
         });
-        router.push({ name: 'Users' });
     } catch (error) {
         console.error('Error: ', error.response);
     }
-};
-
-const handleDropdownChange = (value) => {
-  const key = Object.keys(value)[0];
-  userInfo[key] = value[key];
 };
 </script>
 
 
 <template>
-    <FormShell @formSubmit="UpdateUser">
+    <FormShell @formSubmit="openModal">
         <template v-slot:AvatarCard>
             <AvatarCard @avatar="ImageHandler" v-model="userInfo.avatar" />
         </template>
@@ -163,7 +185,12 @@ const handleDropdownChange = (value) => {
                         @update:modelValue="handleDropdownChange" />
 
 
-                    <DatePicker LabelTitle="Birthday Date" required v-model="userInfo.birthday_date" :modelValue="userInfo.birthday_date" />
+                    <DatePicker 
+                        LabelTitle="Birthday Date" 
+                        required 
+                        v-model="userInfo.birthday_date" 
+                        :modelValue="userInfo.birthday_date" />
+                        
                 </div>
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row ">
@@ -192,7 +219,17 @@ const handleDropdownChange = (value) => {
 
             </div>
 
-            <ButtonSubmit textButton="Update User" />
+            <ButtonSubmit @click="openModal(user)" textButton="Update User" />
         </template>
     </FormShell>
+
+    <Modal :show="showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
+      <template #title>
+        Alterar dados de utilizador
+      </template>
+      <template #content>
+        <p class="flex">Deseja prosseguir com a alteração dos dados?</p>
+      </template>
+    </Modal>
+
 </template>

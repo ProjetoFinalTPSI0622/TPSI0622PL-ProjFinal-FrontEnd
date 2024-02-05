@@ -24,13 +24,17 @@ const displayedUsers = computed(() => {
   return filteredUsers.slice(startIndex, endIndex);
 });
 
-//Obtem os usuários da API
-onBeforeMount(async () => {
+const loadUsers = async () => {
   try {
     users.value = (await UserService.getUsers()).data;
   } catch (error) {
     console.error("Erro ao procurar usuários:", error);
   }
+};
+
+//Obtem os usuários da API
+onBeforeMount(async () => {
+  await loadUsers();
 });
 
 //Obtem o número total de páginas
@@ -67,7 +71,7 @@ watch(searchTerm, () => {
       </span>
 
 
-      <UsersTable :users="displayedUsers" />
+      <UsersTable :users="displayedUsers" @userDeleted="loadUsers" />
     </span>
   </div>
 </template>
