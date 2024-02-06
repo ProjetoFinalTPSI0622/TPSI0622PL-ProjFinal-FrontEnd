@@ -14,6 +14,7 @@
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
                     <Input LabelTitle="Internal Code" type="text" required v-model="user.internalcode" />
+                    <Input LabelTitle="Class" type="text" required v-model="userInfo.class" />
                     <Input LabelTitle="Password" type="password" required v-model="user.password" />
                 </div>
 
@@ -48,7 +49,7 @@
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row ">
                     <Input LabelTitle="Address" type="address" required v-model="userInfo.address" />
-                    <Input LabelTitle="Zip Code" type="number" required v-model="userInfo.postal_code" />
+                    <Input LabelTitle="Zip Code" type="text" required v-model="userInfo.postal_code" />
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row md:mt-5">
                     <Input LabelTitle="State/Province" type="text" required v-model="userInfo.district" />
@@ -96,6 +97,7 @@ const userInfo = ref({
   user_id: '',
   gender: '',
   avatar: '',
+  class: '',
   nif: '',
   phone_number: '',
   birthday_date: '',
@@ -122,12 +124,12 @@ const loadData = async () =>{
 }
 
 const ImageHandler = (file) => {
-  user.avatar = file;
+  userInfo.value.avatar = file;
 }
 
 const handleCheckboxChange = () => {
   if (isChecked.value) {
-    user.password = userInfo.nif.toString();
+    user.value.password = userInfo.value.nif;
   } else {
     user.password = '';
   }
@@ -135,6 +137,10 @@ const handleCheckboxChange = () => {
 
 const CreateUser = () => {
   console.log(userInfo.value)
+
+  if (isChecked.value) {
+    user.value.password = userInfo.value.nif.toString();
+  }
 
   UserService.createUser(user.value)
       .then((response) => {
