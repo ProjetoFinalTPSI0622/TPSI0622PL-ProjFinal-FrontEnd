@@ -1,7 +1,7 @@
 <template>
     <div class="md:flex w-full">
         <SettingsBar/>
-        <div class="flex flex-col w-full p-5 lg:p-10 ">
+        <div class="flex flex-col w-full m-10">
             <ConfigureApp/>
         </div>
     </div>

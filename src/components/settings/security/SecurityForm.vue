@@ -1,5 +1,5 @@
 <template>
-  <form @submit="changePassword" class="bg-grey rounded-md border-b-opacity-50 border-b m-5 mt-10 lg:mx-10 xl:mx-0 p-8">
+  <form @submit="changePassword" class="bg-grey rounded-md border-b-opacity-50 border-b lg:mx-10 xl:mx-0 p-8">
 
     <div class="flex flex-col w-full">
       <FormTitle FormTitle="Change Password" class="ml-5" />
