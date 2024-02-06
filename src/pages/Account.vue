@@ -1,7 +1,7 @@
 <template>
   <div class="md:flex w-full">
     <SettingsBar />
-    <div class="flex flex-col h-fit w-full md:m-10">
+    <div class="flex flex-col h-fit w-full md:mr-10 items-end">
       <ShowUserForm :myuser="currentUser" />
     </div>
   </div>
