@@ -6,13 +6,14 @@
         <TicketsPerDay />
     </div>
     <div class="border border-gray-200">
+        <!-- <h1 class="text-center ">Numero de tickets por estados</h1> -->
         <TicketsByStatus />
     </div>
     <div class="border border-gray-200">
-        <!-- <TicketsPerDay /> -->
+        <!-- Outro dashBoard -->
     </div>
     <div class="border border-gray-200">
-        <!-- <TicketsPerDay /> -->
+        <!-- Outro Dashboard -->
     </div>
   </div>
   </template>
