@@ -1,7 +1,7 @@
 <template>
   <div class="md:flex w-full">
     <SettingsBar />
-    <div class="flex flex-col h-fit w-full">
+    <div class="flex flex-col w-full md:m-10">
       <SecurityForm />
     </div>
   </div>
