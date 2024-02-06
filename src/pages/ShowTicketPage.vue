@@ -25,19 +25,9 @@ let currentUser = ref(null);
 
 const ticketStore = useTicketStore();
 
-const tableRef = ref(null);
-
 const printPDF = () => {
-    let element = tableRef.value.$el;
-    let opt = {
-        margin: 1,
-        filename: 'TicketsTable.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
-    html2pdf().set(opt).from(element).save();
-}
+    ticketStore.convertTicketsToPDF(filteredTickets.value);
+};
 
 onBeforeMount(async () => {
     try {
@@ -150,7 +140,7 @@ const getTechnicians = async () => {
                 </div>
             </span>
 
-            <TicketsTable :tickets="displayedTickets" :technicians="technicians" ref="tableRef" />
+            <TicketsTable :tickets="displayedTickets" :technicians="technicians"/>
             <button @click="printPDF">Convert to PDF</button>
             <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
                 <template #title>
