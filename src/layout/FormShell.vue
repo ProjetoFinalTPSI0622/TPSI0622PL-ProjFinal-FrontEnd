@@ -6,11 +6,6 @@
         <div class="bg-grey flex flex-col p-8 rounded-md border-b-opacity-50 border-b mb-12 md:mb-0 m-5 lg:mx-10 xl:mx-0">
             <slot name="Form"/>
         </div>
-
-      <button type="submit" class="text-white text-center text-lg w-full font-bold justify-center items-center bg-purple py-3 rounded-md">
-        SUMBIT
-      </button>
-
     </form>
 </template>
 

@@ -1,10 +1,12 @@
 <template v-slot:Form>
   <FormShell @submit="changePassword">
+    
     <template v-slot:FormTitle>
       <div class="flex flex-col w-full">
         <FormTitle FormTitle="Change Password" />
       </div>
     </template>
+
     <template v-slot:Form>
       <div class="flex flex-col w-full my-5">
         <div class="flex flex-col gap-5 ">
@@ -13,16 +15,9 @@
           <Input LabelTitle="Confirm Password" type="password" placeholder="Confirm password" required v-model="newPassword_confirmation" />
         </div>
       </div>
-
-
+        <ButtonSubmit textButton="Update Information" type="submit" />
     </template>
-    <template v-slot:ButtonSubmit>
-      <div class="flex justify-center mx-10">
-<!--        TODO: FIX THIS BUTTON COMPONENT-->
-        <ButtonSubmit textButton="Update Information" />
-
-      </div>
-    </template>
+    
   </FormShell>
 </template>
 

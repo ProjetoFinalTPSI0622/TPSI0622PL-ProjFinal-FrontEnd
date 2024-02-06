@@ -42,26 +42,29 @@ const handleCancelModal = () => {
 </script>
 
 <template>
-  <tr class="hoverGrey border-b-black border-b-opacity-30 border-b border-solid">
-    <td class="flex flex-col md:flex-row gap-2.5">
+  <tr class="hoverGrey border-b-black border-b-opacity-30 border-b border-solid items-start">
+
+    <td class="flex flex-col pl-2.5 sm:items-center">
       <img loading="lazy" :src="user.user_info.profile_picture_path"
-        class="aspect-square object-contain object-center w-10 overflow-hidden shrink-0 max-w-full rounded-[50%]" />
-      <span class="flex">
-        <div class="text-black text-opacity-80 text-sm sm:text-lg self-center">
+        class="aspect-square object-contain object-center w-10 h-10 md:w-20 md:h-20 overflow-hidden mr-2 md:mr-4 max-w-full rounded-[50%] hidden sm:table-cell" />
+      <div class="flex flex-col md:flex-row w-full my-4">
+        <div class="text-black text-opacity-80 text-xs sm:text-lg text-left mb-1 md:mb-0 md:mr-4 sm:w-full sm:text-center">
           {{ user.name }}
         </div>
-      </span>
+      </div>
     </td>
 
-    <td>{{ user.email }}</td>
-    <td>{{ user.user_info.class }}</td>
-    <td>{{ user.internalcode }}</td>
-    <td>
+    <td class="whitespace-nowrap hidden sm:table-cell text-lg text-center">{{ user.email }}</td>
+    <td class="whitespace-nowrap text-xs text-center sm:text-lg ">{{ user.user_info.class }}</td>
+    <td class="whitespace-nowrap text-xs text-center sm:text-lg">{{ user.internalcode }}</td>
+    
+    <td class="whitespace-nowrap text-center py-2.5 sm-py-0">
       <button @click.stop="openModal(user)"
-        class="px-4 py-2 ml-2 bg-red-500 text-white rounded hover:bg-red-700 transition duration-300">
+        class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition duration-300 text-xs sm:text-lg">
         Apagar
       </button>
     </td>
+    
     <Modal :show="showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
       <template #title>
         Apagar utilizador
@@ -77,14 +80,3 @@ const handleCancelModal = () => {
   </tr>
 </template>
 
-<style scoped>
-td {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  text-align: left;
-}
-
-td:first-child {
-  padding-left: 140px;
-}
-</style>

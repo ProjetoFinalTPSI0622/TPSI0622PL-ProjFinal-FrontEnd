@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <ButtonSubmit textButton="Create User" />
+            <ButtonSubmit textButton="Create User" type="submit" />
         </template>
     </FormShell>
 </template>
@@ -74,7 +74,6 @@ import FormTitle from '../../components/Form/FormTitle.vue';
 import Input from '../../components/Form/Input.vue';
 import Dropdown from '../Form/Dropdown.vue';
 import DatePicker from '../Form/DataPicker.vue';
-import CountryDropdown from '../../components/Form/CountryDropdown.vue';
 import ButtonSubmit from '../../components/Form/ButtonSubmit.vue';
 import { UserService } from '../../Services/UserService';
 import {onBeforeMount, onMounted, ref} from "vue";
