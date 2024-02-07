@@ -1,9 +1,9 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import router from './router';
+import router from '@/router';
 import VueCookies from 'vue-cookies';
 import { createPinia } from 'pinia';
-import './style.css';
+import '@/style.css';
 import VueSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 import Toast from 'vue-toastification'

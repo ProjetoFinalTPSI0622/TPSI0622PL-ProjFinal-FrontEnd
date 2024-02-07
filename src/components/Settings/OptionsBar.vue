@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import OptionButton from './OptionButton.vue';
+import OptionButton from '@/components/Settings/OptionsBar.vue';
 export default {
   components: {
     OptionButton,

@@ -1,4 +1,4 @@
-import { AxiosService } from './AxiosService';
+import { AxiosService } from '@/Services/AxiosService';
 
 export const NotificationsService = {
 
