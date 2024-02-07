@@ -71,7 +71,7 @@ watch(searchTerm, () => {
       </span>
 
 
-      <UsersTable :users="displayedUsers" @userDeleted="loadUsers" />
+        <UsersTable :users="displayedUsers" @userDeleted="loadUsers"/>
     </span>
   </div>
 </template>

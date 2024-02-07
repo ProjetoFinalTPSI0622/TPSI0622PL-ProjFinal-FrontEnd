@@ -120,7 +120,7 @@ const getTechnicians = async () => {
             <TopMenu :searchTerm="searchTerm" @update:searchTerm="searchTerm = $event" />
 
             <span class="flex justify-between px-5 py-2 border-b-black border-b-opacity-30 border-b border-solid">
-                <div class="text-black text-opacity-60 sm:text-xl">{{ displayedTickets.length }} Tickets</div>
+                <div class="text-black text-opacity-60 sm:text-xl">{{ tickets.length }} Tickets por Página</div>
                 <div class="flex sm:gap-2.5">
 
                     <span v-for="page in totalPages" :class="['text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer',
@@ -132,7 +132,9 @@ const getTechnicians = async () => {
                 </div>
             </span>
 
+
             <TicketsTable :tickets="displayedTickets" :technicians="technicians"/>
+
             <button @click="printPDF">Convert to PDF</button>
             <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
                 <template #title>

@@ -8,6 +8,7 @@ export const useTicketFilterStore = defineStore({
             status: 'all',
             priority: 'all',
             technician: 'all',
+            category: 'all',
             title: '',
             date: '',
         },
@@ -20,7 +21,6 @@ export const useTicketFilterStore = defineStore({
         },
     },
     actions: {
-
 
         handleFilterChange(filterName, value) {
             this.filter[filterName] = value;
@@ -51,6 +51,9 @@ export const useTicketFilterStore = defineStore({
                     return false;
                 }
                 if(this.filter.title && !ticket.title.includes(this.filter.title)) {
+                    return false;
+                }
+                if(this.filter.category !== 'all' && ticket.category.category_name !== this.filter.category) {
                     return false;
                 }
                 return !(this.filter.date && ticket.createdDate !== this.filter.date);
