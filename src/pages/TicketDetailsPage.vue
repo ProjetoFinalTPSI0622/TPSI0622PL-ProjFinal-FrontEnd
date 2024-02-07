@@ -1,20 +1,20 @@
 <script setup>
-import SideSection from "../components/SideSection.vue";
-import SideSectionTop from "../components/SideSectionTop.vue";
-import { TicketsService } from "../Services/TicketsService";
-import { UserService } from "../Services/UserService.js";
+import SideSection from "@/components/SideSection.vue";
+import SideSectionTop from "@/components/SideSectionTop.vue";
+import { TicketsService } from "@/Services/TicketsService";
+import { UserService } from "@/Services/UserService.js";
 import {onBeforeMount, reactive, ref, watch, nextTick} from 'vue';
 import { useRoute } from 'vue-router';
-import SimpleButton from '../components/SimpleButton.vue';
-import DescriptionView from '../components/TicketDetails/DescriptionView.vue';
-import CommentsView from '../components/TicketDetails/CommentsView.vue';
-import chatImg from '../assets/chat.svg';
-import descriptionImg from '../assets/descriptionWhite.svg';
-import Modal from "../components/Modal.vue";
-import { useTicketStore } from '../Stores/TicketStore.js';
-import SelectAssign from '../components/SelectAssign.vue';
+import SimpleButton from '@/components/SimpleButton.vue';
+import DescriptionView from '@/components/TicketDetails/DescriptionView.vue';
+import CommentsView from '@/components/TicketDetails/CommentsView.vue';
+import chatImg from '@/assets/chat.svg';
+import descriptionImg from '@/assets/descriptionWhite.svg';
+import Modal from "@/components/Modal.vue";
+import { useTicketStore } from '@/Stores/TicketStore.js';
+import SelectAssign from '@/components/SelectAssign.vue';
 
-import {CommentsService} from "../Services/CommentsService.js";
+import {CommentsService} from "@/Services/CommentsService.js";
 
 //TICKET
 const route = useRoute();

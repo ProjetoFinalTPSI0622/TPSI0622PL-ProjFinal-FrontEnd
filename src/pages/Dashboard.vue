@@ -20,9 +20,10 @@
   </template>
   
   <script>
-  import TicketsPerDay from '../components/Dashboard/TicketsPerDay.vue'
-  import TicketsByStatus from '../components/Dashboard/TicketsByStatus.vue'
-  import MetricByCategories from '../components/Dashboard/MetricByCategories.vue';
+
+  import MetricByCategories from '@/components/Dashboard/MetricByCategories.vue';
+  import TicketsPerDay from '@/components/Dashboard/TicketsPerDay.vue'
+  import TicketsByStatus from '@/components/Dashboard/TicketsByStatus.vue'
 
   export default {
     name: 'App',

@@ -3,7 +3,7 @@
 </template>
   
 <script>
-import { DashboardService } from '../../Services/DashboardService'
+import { DashboardService } from '@/Services/DashboardService.js'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
 

@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
-import { UserService } from "../Services/UserService.js";
-import ShowUserForm from '../components/Users/ShowUserForm.vue';
+import { UserService } from "@/Services/UserService.js";
+import ShowUserForm from '@/components/Users/ShowUserForm.vue';
 
 const route = useRoute();
 const myuser = ref({});

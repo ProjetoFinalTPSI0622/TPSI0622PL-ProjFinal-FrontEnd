@@ -1,14 +1,16 @@
 <script setup>
 import { onMounted, ref, computed, watch, onBeforeMount } from 'vue';
-import { TicketsService } from '../Services/TicketsService.js';
-import { UserService } from '../Services/UserService';
+import { TicketsService } from '@/Services/TicketsService.js';
+import { UserService } from '@/Services/UserService';
 
-import SideFilter from '../components/ShowTicket/SideFilter.vue';
-import TopMenu from '../components/ShowTicket/TopMenu.vue';
-import TicketsTable from '../components/ShowTicket/TicketsTable.vue';
-import Modal from '../components/Modal.vue';
+import SideFilter from '@/components/ShowTicket/SideFilter.vue';
+import TopMenu from '@/components/ShowTicket/TopMenu.vue';
+import TicketsTable from '@/components/ShowTicket/TicketsTable.vue';
+import Modal from '@/components/Modal.vue';
 
-import { useTicketStore } from '../Stores/TicketStore.js';
+import { useTicketStore } from '@/Stores/TicketStore.js';
+
+import html2pdf from 'html2pdf.js';
 
 const tickets = ref([]);
 const technicians = ref([]);
@@ -22,6 +24,10 @@ const assignee = ref('All');
 let currentUser = ref(null);
 
 const ticketStore = useTicketStore();
+
+const printPDF = () => {
+    ticketStore.convertTicketsToPDF(filteredTickets.value);
+};
 
 onBeforeMount(async () => {
     try {
@@ -42,37 +48,36 @@ const handleConfirmModal = () => {
     ticketStore.handleConfirmModal();
 };
 
-const displayedTickets = computed(() => {
-    let filteredTickets = tickets.value.filter((ticket) => {
+const filteredTickets = computed(() => {
+    let filtered = tickets.value.filter((ticket) => {
         const title = ticket.title ? ticket.title.toLowerCase() : '';
         const requester = ticket.createdby ? ticket.createdby.name.toLowerCase() : '';
         const assignee = ticket.assignedto ? ticket.assignedto.name.toLowerCase() : '';
 
-        return title.includes(searchTerm.value.toLowerCase()) ||
+        let matchesSearchTerm = title.includes(searchTerm.value.toLowerCase()) ||
             requester.includes(searchTerm.value.toLowerCase()) ||
             assignee.includes(searchTerm.value.toLowerCase());
+
+        let matchesStatus = status.value === 'All' || ticket.status.status_name === status.value;
+
+        let matchesCreator = creator.value !== 'Me' || (currentUser.value && currentUser.value.success && ticket.createdby.id === currentUser.value.user.id);
+
+        let matchesAssignee = assignee.value !== 'Me' || (currentUser.value && currentUser.value.success && ticket.assignedto.id === currentUser.value.user.id);
+
+        return matchesSearchTerm && matchesStatus && matchesCreator && matchesAssignee;
     });
 
-    if (status.value !== 'All') {
-        filteredTickets = filteredTickets.filter(ticket => ticket.status.status_name === status.value);
-    }
-
-    if (creator.value === 'Me' && currentUser.value && currentUser.value.success) {
-        filteredTickets = filteredTickets.filter(ticket => ticket.createdby.id === currentUser.value.user.id);
-    }
-
-    if (assignee.value === 'Me' && currentUser.value && currentUser.value.success) {
-        filteredTickets = filteredTickets.filter(ticket => ticket.assignedto.id === currentUser.value.user.id);
-    }
-
-    const startIndex = (currentPage.value - 1) * ticketsPerPage.value;
-    const endIndex = startIndex + ticketsPerPage.value;
-    return filteredTickets.slice(startIndex, endIndex);
+    return filtered;
 });
 
+const displayedTickets = computed(() => {
+    const startIndex = (currentPage.value - 1) * ticketsPerPage.value;
+    const endIndex = startIndex + ticketsPerPage.value;
+    return filteredTickets.value.slice(startIndex, endIndex);
+});
 
 const totalPages = computed(() => {
-    return Math.ceil(displayedTickets.value.length / ticketsPerPage.value);
+    return Math.ceil(filteredTickets.value.length / ticketsPerPage.value);
 });
 
 const changePage = (page) => {
@@ -135,7 +140,8 @@ const getTechnicians = async () => {
                 </div>
             </span>
 
-            <TicketsTable :tickets="displayedTickets" :technicians="technicians" />
+            <TicketsTable :tickets="displayedTickets" :technicians="technicians"/>
+            <button @click="printPDF">Convert to PDF</button>
             <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
                 <template #title>
                     Assign Technician
