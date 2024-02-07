@@ -34,6 +34,10 @@ export const DashboardService = {
         return await DashboardService.makeRequest('get', '/dashboard/ticketsPerDay');
     },
 
+    getTicketsPerMonth: async () => {
+        return await DashboardService.makeRequest('get', '/dashboard/ticketsPerMonth');
+    },
+
     getTicketsByStatus: async () => {
         return await DashboardService.makeRequest('get', '/dashboard/getStatsByStatus');
     },
