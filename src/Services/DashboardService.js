@@ -42,6 +42,8 @@ export const DashboardService = {
         return await DashboardService.makeRequest('get', '/dashboard/getStatsByStatus');
     },
 
-    
+    getMetricsByCategories: async () => {
+        return await DashboardService.makeRequest('get', '/dashboard/metricByCategories');
+    }
 
 }

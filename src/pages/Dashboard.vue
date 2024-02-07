@@ -14,6 +14,7 @@
     </div>
     <div class="border border-gray-200">
         <!-- Outro Dashboard -->
+        <MetricByCategories />
     </div>
   </div>
   </template>
@@ -21,11 +22,11 @@
   <script>
   import TicketsPerDay from '../components/Dashboard/TicketsPerDay.vue'
   import TicketsByStatus from '../components/Dashboard/TicketsByStatus.vue'
-
+  import MetricByCategories from '../components/Dashboard/MetricByCategories.vue';
 
   export default {
     name: 'App',
-    components: { TicketsPerDay, TicketsByStatus }
+    components: { TicketsPerDay, TicketsByStatus, MetricByCategories}
   }
   </script>
   
