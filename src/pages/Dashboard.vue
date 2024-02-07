@@ -18,8 +18,8 @@
   </template>
   
   <script>
-  import TicketsPerDay from '../components/Dashboard/TicketsPerDay.vue'
-  import TicketsByStatus from '../components/Dashboard/TicketsByStatus.vue'
+  import TicketsPerDay from '@/components/Dashboard/TicketsPerDay.vue'
+  import TicketsByStatus from '@/components/Dashboard/TicketsByStatus.vue'
 
 
   export default {

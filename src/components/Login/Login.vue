@@ -1,7 +1,7 @@
 <script setup>
 import {onBeforeMount, ref} from 'vue'
-import { AuthService } from '../../Services/AuthService.js';
-import router from "../../router.js";
+import { AuthService } from '@/Services/AuthService.js';
+import router from "@/router.js";
 
 const emailInputData = ref(null);
 const passwordInputData = ref(null);

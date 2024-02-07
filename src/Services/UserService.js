@@ -1,4 +1,4 @@
-import { AxiosService } from './AxiosService';
+import { AxiosService } from '@/Services/AxiosService';
 export const UserService = {
 
     getUsers: async () => {
@@ -52,5 +52,8 @@ export const UserService = {
 
     changePassword: async (passwords) => {
         return AxiosService.makeRequest('put', '/users/changePassword', passwords);
+    },
+    loadUserData: async (userId) => {
+        return AxiosService.makeRequest('get', `/users/${userId}`);
     }
 };

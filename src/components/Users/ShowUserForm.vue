@@ -1,16 +1,16 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-import FormShell from '../../layout/FormShell.vue';
-import AvatarCard from '../Form/AvatarCard.vue';
-import FormTitle from '../../components/Form/FormTitle.vue';
-import Input from '../../components/Form/Input.vue';
-import Dropdown from '../Form/Dropdown.vue';
-import DatePicker from '../Form/DataPicker.vue';
-import ButtonSubmit from '../../components/Form/ButtonSubmit.vue';
-import { UserService } from '../../Services/UserService';
-import router from "../../router.js";
-import Modal from '../Modal.vue';
-import ToastStore from '../../Stores/ToastStore.js';
+import FormShell from '@/components/Users/ShowUserForm.vue';
+import AvatarCard from '@/components/Form/AvatarCard.vue';
+import FormTitle from '@/components/Form/FormTitle.vue';
+import Input from '@/components/Form/Input.vue';
+import Dropdown from '@/components/Form/Dropdown.vue';
+import DatePicker from '@/components/Form/DataPicker.vue';
+import ButtonSubmit from '@/components/Form/ButtonSubmit.vue';
+import { UserService } from '@/Services/UserService';
+import router from "@/router.js";
+import Modal from '@/components/Modal.vue';
+import ToastStore from '@/Stores/ToastStore.js';
 
 const props = defineProps({
     myuser: Object

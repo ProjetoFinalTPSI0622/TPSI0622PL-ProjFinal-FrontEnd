@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import CheckBox from '../../Settings/notifications/CheckBox.vue';
-import OptionDescription from '../../Settings/notifications/OptionDescription.vue';
+import CheckBox from '@/components/Settings/notifications/CheckBox.vue';
+import OptionDescription from '@/components/Settings/notifications/OptionDescription.vue';
 export default {
     components: {
         CheckBox,

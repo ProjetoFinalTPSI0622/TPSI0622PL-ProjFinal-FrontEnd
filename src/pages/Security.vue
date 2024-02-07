@@ -8,9 +8,9 @@
 </template>
   
 <script>
-import SettingsBar from '../components/Settings/SettingsBar.vue';
+import SettingsBar from '@/components/Settings/SettingsBar.vue';
 
-import SecurityForm from '../components/settings/security/SecurityForm.vue';
+import SecurityForm from '@/components/settings/security/SecurityForm.vue';
 export default {
   components: {
     SettingsBar,
