@@ -19,9 +19,14 @@ app.use(pinia);
 app.use(VueCookies);
 app.use(router);
 app.component("v-select", VueSelect)
-app.mount('#app');
+
 
 app.use(Toast, {
     transition: "Vue-Toastification__bounce",
     maxToasts: 20,
     newestOnTop: true});
+
+
+
+
+app.mount('#app');
