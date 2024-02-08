@@ -7,7 +7,7 @@ export const CommentsService = {
     },
 
     createComment: async (commentData) => {
-        return AxiosService.makeRequest('post', 'comments', commentData);
+        return AxiosService.makeRequest('post', 'comments', commentData, 'multipart/form-data');
     },
 
     deleteComment: async (id) => {

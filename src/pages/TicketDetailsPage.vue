@@ -13,6 +13,7 @@ import descriptionImg from '../assets/descriptionWhite.svg';
 import Modal from "../components/Modal.vue";
 import { useTicketStore } from '../Stores/TicketStore.js';
 import SelectAssign from '../components/SelectAssign.vue';
+import CreateCommentForm from "../components/TicketDetails/CreateCommentForm.vue";
 
 import {CommentsService} from "../Services/CommentsService.js";
 
@@ -23,9 +24,6 @@ const technicians = ref([]);
 const ticketStore = useTicketStore();
 
 //COMMENTS
-const commentBody = ref('');
-const commentTypes = ref(null);
-const selectedCommentType = ref(1);
 const comments = ref([]);
 
 
@@ -33,7 +31,6 @@ const comments = ref([]);
 onBeforeMount(async () => {
   await getTicket();
   await getTechnicians();
-  await getCommentTypes();
 });
 
 const viewState = reactive({
@@ -60,37 +57,6 @@ const getTicket = async () => {
     console.error('Error fetching tickets:', error);
   }
 };
-
-const getCommentTypes = async () => {
-  try {
-    commentTypes.value = (await CommentsService.getCommentTypes()).data;
-  } catch (error) {
-    //TODO: DAR DISPLAY DA ERROR MESSAGE NUM TOAST OR SMT
-    console.error('Error fetching comment types:', error);
-  }
-};
-
-const postComment = async () => {
-
-  const commentData = {
-    comment_body: commentBody.value,
-    comment_type: selectedCommentType.value,
-    ticket_id: ticket.value.id
-  }
-  try {
-    const response = (await CommentsService.createComment(commentData));
-  } catch (error) {
-    console.error('Error posting comment:', error);
-  }
-  await nextTick(async () => {
-    await fetchComments();
-  });
-};
-
-const updateSelectedComment = (e) => {
-  selectedCommentType.value = e.target.value;
-};
-
 
 const fetchComments = async () => {
   try {
@@ -203,9 +169,8 @@ const handleConfirmModal = () => {
       </div>
 
       <div
-        class="text-purple flex sm:text-2xl text-xl h-[50vh] justify-between pl-6 pr-12 py-4 border-b-purple border-b-opacity-30 border-b border-solid items-start">
+        class="text-purple sm:text-2xl text-xl h-[50vh] overflow-auto justify-between pl-6 pr-12 py-4 border-b-purple border-b-opacity-30 border-b border-solid items-start">
         <div v-if="viewState.showComments" v-for="comment in comments" :key="comment.id">
-<!--          TODO: DANIEL POE ISTO COM FLEX :)-->
           <CommentsView :comment="comment"/>
         </div>
         <div v-else>
@@ -213,62 +178,10 @@ const handleConfirmModal = () => {
         </div>
       </div>
 
+    <div v-if="viewState.showComments">
+      <CreateCommentForm :ticket="ticket" @refreshComments="fetchComments"/>
+    </div>
 
-      <div
-        class="text-purple flex flex-col gap-4 sm:text-2xl text-xl h-[30vh] whitespace-nowrap justify-between p-3 items-start">
-
-        <div class="flex text-xl gap-2">
-          <div class="flex border-r-2 border-solid border-black border-opacity-30 pr-2">
-            <img src="../assets/corner-up-left.svg" />
-            <select class="flex px-2" v-model="selectedCommentType" @change="updateSelectedComment">
-              <option v-for="commentType in commentTypes" :key="commentType.id" :value="commentType.id">
-                {{ commentType.name }}
-              </option>
-            </select>
-          </div>
-
-          <div class="flex gap-4">
-            <p>To</p>
-            <div class="flex gap-1">
-              <img loading="lazy" src="../assets/MoNengue.jpg"
-                class="aspect-square object-cover object-center w-8 h-8 rounded-[50%]" />
-              <p>MoNengue</p>
-            </div>
-          </div>
-
-        </div>
-
-        <form class="w-full">
-          <div class="w-full border border-solid border-black border-opacity-20 rounded-lg bg-grey">
-            <div class="px-4 py-2 bg-grey rounded-t-lg">
-              <label for="comment" class="sr-only">Your comment</label>
-              <textarea id="comment" rows="4" v-model="commentBody" @input="testeInput"
-                class="w-full px-0 text-base text-gray-900 bg-grey focus:outline-none focus-visible:outline-none"
-                placeholder="Write here your comment..." required></textarea>
-            </div>
-            <div class="flex items-center justify-between px-3 py-2 border-t">
-              <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
-                <button type="button"
-                  class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
-                  <img src="../assets/text.svg" />
-                </button>
-                <button type="button"
-                  class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
-                  <img src="../assets/emoji.svg" />
-                </button>
-                <button type="button"
-                  class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
-                  <img src="../assets/attach.svg" />
-                </button>
-              </div>
-              <button type="submit" @click.prevent="postComment"
-                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverBlue">
-                Post comment
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
     </div>
     <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
       <template #title>
