@@ -45,12 +45,13 @@
 
 
 <script>
-        import axios from 'axios';
-    import FormShell from '../../layout/FormShell.vue';
-    import AvatarCard from '../Form/AvatarCard.vue';
-    import FormTitle from '../../components/Form/FormTitle.vue';
-    import Input from '../../components/Form/Input.vue';
-    import ButtonSubmit from '../../components/Form/ButtonSubmit.vue';
+    import axios from 'axios';
+    import FormShell from '@/layout/FormShell.vue';
+    import AvatarCard from '@/Form/AvatarCard.vue';
+    import FormTitle from '@/components/Form/FormTitle.vue';
+    import Input from '@/components/Form/Input.vue';
+    import ButtonSubmit from '@/components/Form/ButtonSubmit.vue';
+    import { AxiosService } from '@/Services/AxiosService.js';
 
     export default {
       components: {
@@ -74,9 +75,7 @@
       methods: {
         // Método para atualizar as informações do usuário
         updateUser() {
-          // Faça uma solicitação ao seu backend para atualizar o usuário
-          axios
-            .put(`http://127.0.0.1:8000/users/${this.user.id}`, this.user)
+          AxiosService.updateUser(this.user)
             .then((response) => {
               console.log('User updated successfully:', response.data);
               // Redirecione ou tome outra ação após a atualização
@@ -90,11 +89,9 @@
         handleImageSelected(image) {
           this.user.avatar = image;
         },
-        ImageHandler(image) {
         // Método para carregar os dados do usuário a serem editados
         loadUserData(userId) {
-          axios
-            .get(`http://127.0.0.1:8000/users/${userId}`)
+          AxiosService.loadUserData(userId)
             .then((response) => {
               // Preencha os dados do usuário com os dados recebidos do backend
               this.user = response.data;
@@ -102,6 +99,7 @@
             .catch((error) => {
               console.error('Error loading user data:', error);
             });
+
         },
       },
 
@@ -112,6 +110,7 @@
       },
     };
     </script>
+<!--
     })
     .catch((error) => {
     console.error('Error updating user:', error);
@@ -143,4 +142,4 @@
     this.loadUserData(userId);
     },
     };
-</script>
+</script>-->

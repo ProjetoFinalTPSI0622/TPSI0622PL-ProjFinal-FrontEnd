@@ -2,14 +2,16 @@
 //sorry goncalo idk how to use composition ou options ou whatever
 
 import { ref, reactive, onBeforeMount } from 'vue'
-import { NotificationsService } from '../../services/NotificationsService'
-import { UserService } from '../../services/UserService';
+import { NotificationsService } from '@/Services/NotificationsService'
+import { UserService } from '@/Services/UserService';
+import { NotificationHandler } from "@/Services/NotificationHandler.js";
 
 const currentUser = ref(null);
 
 const showDropdown = ref(false);
 const notificationCount = ref(0);
 const notifications = ref([]);
+
 const dropdownItems = reactive([
     { id: 1, name: 'yooooo', href: '#link1' },
     { id: 2, name: 'yooooo', href: '#link2' },
@@ -22,16 +24,20 @@ const toggleDropdown = () => {
 
 onBeforeMount(async () => {
     
-    checkNotificationCount();
-    getNotifications();
+    await checkNotificationCount();
+    await getNotifications();
     currentUser.value = (await UserService.getAuthedUser()).data;
 });
 
 const getNotifications = async () => {
-    notifications.value = (await NotificationsService.getNotifications()).data;
+    notifications.value = NotificationHandler((await NotificationsService.getNotifications()).data);
 }
 const checkNotificationCount = async () => {
+    const oldValue = notificationCount.value;
     notificationCount.value = (await NotificationsService.getNotificationsCount()).data.count;
+    if (oldValue !== notificationCount.value) {
+        await getNotifications();
+    }
 }
 
 setInterval(() => {

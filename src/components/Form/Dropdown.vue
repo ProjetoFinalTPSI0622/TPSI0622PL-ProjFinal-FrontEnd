@@ -13,8 +13,8 @@
   </div>
 </template>
 
-<script setup>
-import { ref, watch, } from "vue";
+<script setup >
+import { onMounted, ref, watch, } from "vue";
 
 const props = defineProps({
   LabelTitle: {
@@ -29,6 +29,11 @@ const props = defineProps({
     type: [String, Number],
     required: true
   }
+});
+
+ onMounted(() => {
+  console.log(props);
+  console.log(props.options);
 });
 
 const selectedOption = ref(null);

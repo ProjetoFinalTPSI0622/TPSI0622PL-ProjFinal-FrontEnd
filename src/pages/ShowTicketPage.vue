@@ -1,14 +1,16 @@
 <script setup>
 import { onMounted, ref, computed, watch, onBeforeMount } from 'vue';
-import { TicketsService } from '../Services/TicketsService.js';
-import { UserService } from '../Services/UserService';
+import { UserService } from '@/Services/UserService';
+import { useTicketFilterStore } from '@/Stores/TicketFilterStore.js';
 
-import SideFilter from '../components/ShowTicket/SideFilter.vue';
-import TopMenu from '../components/ShowTicket/TopMenu.vue';
-import TicketsTable from '../components/ShowTicket/TicketsTable.vue';
-import Modal from '../components/Modal.vue';
+import SideFilter from '@/components/ShowTicket/SideFilter.vue';
+import TopMenu from '@/components/ShowTicket/TopMenu.vue';
+import TicketsTable from '@/components/ShowTicket/TicketsTable.vue';
+import Modal from '@/components/Modal.vue';
 
-import { useTicketStore } from '../Stores/TicketStore.js';
+import { useTicketStore } from '@/Stores/TicketStore.js';
+
+import html2pdf from 'html2pdf.js';
 
 const tickets = ref([]);
 const technicians = ref([]);
@@ -23,15 +25,31 @@ let currentUser = ref(null);
 
 const ticketStore = useTicketStore();
 
+const printPDF = () => {
+    ticketStore.convertTicketsToPDF(tickets.value);
+};
+
 onBeforeMount(async () => {
+
+  const TicketFilter = useTicketFilterStore();
+
     try {
-        tickets.value = (await TicketsService.getTickets()).data;
-        currentUser.value = await UserService.getAuthedUser();
+      tickets.value = (await TicketFilter.getTickets);
     } catch (error) {
         console.error("Erro ao procurar tickets:", error);
     }
 
-    await getTechnicians();
+    try{
+      currentUser.value = await UserService.getAuthedUser();
+    } catch (error) {
+      console.error("Erro ao procurar user:", error);
+    }
+
+    try{
+      await getTechnicians();
+    } catch (error) {
+      console.error("Erro ao procurar técnicos:", error);
+    }
 });
 
 const handleCancelModal = () => {
@@ -42,37 +60,16 @@ const handleConfirmModal = () => {
     ticketStore.handleConfirmModal();
 };
 
+
+
 const displayedTickets = computed(() => {
-    let filteredTickets = tickets.value.filter((ticket) => {
-        const title = ticket.title ? ticket.title.toLowerCase() : '';
-        const requester = ticket.createdby ? ticket.createdby.name.toLowerCase() : '';
-        const assignee = ticket.assignedto ? ticket.assignedto.name.toLowerCase() : '';
-
-        return title.includes(searchTerm.value.toLowerCase()) ||
-            requester.includes(searchTerm.value.toLowerCase()) ||
-            assignee.includes(searchTerm.value.toLowerCase());
-    });
-
-    if (status.value !== 'All') {
-        filteredTickets = filteredTickets.filter(ticket => ticket.status.status_name === status.value);
-    }
-
-    if (creator.value === 'Me' && currentUser.value && currentUser.value.success) {
-        filteredTickets = filteredTickets.filter(ticket => ticket.createdby.id === currentUser.value.user.id);
-    }
-
-    if (assignee.value === 'Me' && currentUser.value && currentUser.value.success) {
-        filteredTickets = filteredTickets.filter(ticket => ticket.assignedto.id === currentUser.value.user.id);
-    }
-
     const startIndex = (currentPage.value - 1) * ticketsPerPage.value;
     const endIndex = startIndex + ticketsPerPage.value;
-    return filteredTickets.slice(startIndex, endIndex);
+    return tickets.value.slice(startIndex, endIndex);
 });
 
-
 const totalPages = computed(() => {
-    return Math.ceil(displayedTickets.value.length / ticketsPerPage.value);
+    return Math.ceil(tickets.value.length / ticketsPerPage.value);
 });
 
 const changePage = (page) => {
@@ -123,7 +120,7 @@ const getTechnicians = async () => {
             <TopMenu :searchTerm="searchTerm" @update:searchTerm="searchTerm = $event" />
 
             <span class="flex justify-between px-5 py-2 border-b-black border-b-opacity-30 border-b border-solid">
-                <div class="text-black text-opacity-60 sm:text-xl">{{ tickets.length }} Tickets</div>
+                <div class="text-black text-opacity-60 sm:text-xl">{{ tickets.length }} Tickets por Página</div>
                 <div class="flex sm:gap-2.5">
 
                     <span v-for="page in totalPages" :class="['text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer',
@@ -135,7 +132,10 @@ const getTechnicians = async () => {
                 </div>
             </span>
 
-            <TicketsTable :tickets="displayedTickets" :technicians="technicians" />
+
+            <TicketsTable :tickets="displayedTickets" :technicians="technicians"/>
+
+            <button @click="printPDF">Convert to PDF</button>
             <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
                 <template #title>
                     Assign Technician

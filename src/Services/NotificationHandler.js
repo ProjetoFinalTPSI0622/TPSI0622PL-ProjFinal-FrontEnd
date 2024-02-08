@@ -1,5 +1,6 @@
 export const NotificationHandler = (response) => {
     const handledNotifications = [];
+    console.log(response)
     // "{"event_type":"ticket_created","ticket_id":13,"created_by":1,"ticket_title":"fsdfsdf"}"
     response.forEach(response => {
         switch (response.notification.notification_data.event_type) {
@@ -42,5 +43,6 @@ export const NotificationHandler = (response) => {
                 break;
         }
     })
+    console.log(handledNotifications)
     return handledNotifications;
 }

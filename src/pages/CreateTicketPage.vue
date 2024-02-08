@@ -1,10 +1,10 @@
 <script setup>
-import SideSection from "../components/SideSection.vue";
-import SideSectionTop from "../components/SideSectionTop.vue";
-import { TicketsService } from "../Services/TicketsService";
-import { UserService } from "../Services/UserService";
+import SideSection from "@/components/SideSection.vue";
+import SideSectionTop from "@/components/SideSectionTop.vue";
+import { TicketsService } from "@/Services/TicketsService";
+import { UserService } from "@/Services/UserService";
 import { onBeforeMount, ref, reactive } from "vue";
-import router from "../router.js";
+import router from "@/router.js";
 
 
 const category = ref({

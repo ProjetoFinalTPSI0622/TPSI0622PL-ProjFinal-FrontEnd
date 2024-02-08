@@ -1,9 +1,9 @@
 <script setup>
 
 import {onMounted, ref, computed, watch, onBeforeMount} from 'vue';
-import { UserService } from '../Services/UserService';
-import TopMenu from '../components/Users/TopMenu.vue';
-import UsersTable from '../components/Users/UsersTable.vue';
+import { UserService } from '@/Services/UserService';
+import TopMenu from '@/components/Users/TopMenu.vue';
+import UsersTable from '@/components/Users/UsersTable.vue';
 
 const users = ref([]);
 const currentPage = ref(1);
@@ -71,7 +71,7 @@ watch(searchTerm, () => {
       </span>
 
 
-      <UsersTable :users="displayedUsers" @userDeleted="loadUsers" />
+        <UsersTable :users="displayedUsers" @userDeleted="loadUsers"/>
     </span>
   </div>
 </template>
