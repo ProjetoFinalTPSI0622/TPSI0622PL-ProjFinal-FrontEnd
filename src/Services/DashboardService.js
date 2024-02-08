@@ -6,10 +6,16 @@ export const DashboardService = {
         return await AxiosService.makeRequest('get', '/dashboard/ticketsPerDay');
     },
 
+    getTicketsPerMonth: async () => {
+        return await DashboardService.makeRequest('get', '/dashboard/ticketsPerMonth');
+    },
+
     getTicketsByStatus: async () => {
         return await AxiosService.makeRequest('get', '/dashboard/getStatsByStatus');
     },
 
-    
+    getMetricsByCategories: async () => {
+        return await DashboardService.makeRequest('get', '/dashboard/metricByCategories');
+    }
 
 }
