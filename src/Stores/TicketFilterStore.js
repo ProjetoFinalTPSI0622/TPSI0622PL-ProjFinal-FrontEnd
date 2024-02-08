@@ -38,7 +38,6 @@ export const useTicketFilterStore = defineStore({
             };
         },
         filterTickets () {
-            console.log(this.tickets)
             return this.tickets.filter(ticket => {
                 if(this.filter.status !== 'all' && ticket.status.status_name !== this.filter.status) {
                     return false;
