@@ -44,7 +44,7 @@ const showTicketModal = (technicianName, selectbox, oldValue) => {
         <td class="text-white text-xs sm:text-lg">
             <div class="flex justify-center sm:block">
                 <div class="bg-red-600 py-2 px-4 rounded-3xl w-fit">
-                    {{ ticket.status.status_name }}
+                    {{ ticket.status.name }}
                 </div>
             </div>
         </td>

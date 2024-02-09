@@ -29,7 +29,7 @@ export default {
         const response = await DashboardService.getTicketsByStatus();
         if (response.success) {
             const data = response.data.sort((a, b) => a.status - b.status).map(item => item.total);
-            const labels = response.data.map(item => item.status_name);
+            const labels = response.data.map(item => item.name);
             this.chartData = {
                 labels: labels,
                 datasets: [

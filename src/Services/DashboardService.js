@@ -7,7 +7,7 @@ export const DashboardService = {
     },
 
     getTicketsPerMonth: async () => {
-        return await DashboardService.makeRequest('get', '/dashboard/ticketsPerMonth');
+        return await AxiosService.makeRequest('get', '/dashboard/ticketsPerMonth');
     },
 
     getTicketsByStatus: async () => {
@@ -15,7 +15,7 @@ export const DashboardService = {
     },
 
     getMetricsByCategories: async () => {
-        return await DashboardService.makeRequest('get', '/dashboard/metricByCategories');
+        return await AxiosService.makeRequest('get', '/dashboard/metricByCategories');
     }
 
 }
