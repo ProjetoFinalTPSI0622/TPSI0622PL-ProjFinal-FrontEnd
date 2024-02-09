@@ -1,6 +1,6 @@
 <script setup>
 
-import {defineProps, onBeforeMount, onMounted} from 'vue';
+import {defineProps} from 'vue';
 
 const props = defineProps({
     comment: Object

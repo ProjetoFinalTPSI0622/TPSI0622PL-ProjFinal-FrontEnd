@@ -13,7 +13,7 @@ import descriptionImg from '@/assets/descriptionWhite.svg';
 import Modal from "@/components/Modal.vue";
 import { useTicketStore } from '@/Stores/TicketStore.js';
 import SelectAssign from '@/components/SelectAssign.vue';
-import CreateCommentForm from "../components/TicketDetails/CreateCommentForm.vue";
+import CreateCommentForm from "@/components/TicketDetails/CreateCommentForm.vue";
 
 import {CommentsService} from "@/Services/CommentsService.js";
 
@@ -95,11 +95,11 @@ const handleConfirmModal = () => {
 <template>
   <div class="flex w-full">
     <SideSection :ticket="ticket">
-      <SideSectionTop>Ticket Details</SideSectionTop>
+      <SideSectionTop>Detalhes do Ticket</SideSectionTop>
       <div class="flex flex-col p-2 xl:p-5 gap-4">
         <div class="flex flex-col gap-3">
           <label class="text-pink-600 text-l xl:text-lg justify-center">
-            Requester
+            Criado por:
           </label>
           <div
             class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
@@ -110,7 +110,7 @@ const handleConfirmModal = () => {
         </div>
         <div class="flex flex-col gap-3">
           <label class="text-pink-600 text-l xl:text-lg justify-center">
-            Assigned to
+            Técnico
           </label>
           <div class="flex justify-between w-40 lg:w-full">
             <SelectAssign :assignedto="ticket.assignedto" :technicians="technicians" @show-modal="handleShowModal" />
@@ -123,7 +123,7 @@ const handleConfirmModal = () => {
           </label>
           <div
             class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-            {{ ticket.category ? ticket.category.category_name : 'N/A' }}
+            {{ ticket.category ? ticket.category.name : 'N/A' }}
           </div>
         </div>
         <div class="flex flex-col gap-3">
@@ -132,7 +132,7 @@ const handleConfirmModal = () => {
           </label>
           <div
             class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-            {{ ticket.priority ? ticket.priority.priority_name : 'N/A' }}
+            {{ ticket.priority ? ticket.priority.name : 'N/A' }}
           </div>
         </div>
         <div class="flex flex-col gap-3">
@@ -142,13 +142,13 @@ const handleConfirmModal = () => {
           <select
             class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
             <option disabled selected>
-              {{ ticket.status ? ticket.status.status_name : 'N/A' }}
+              {{ ticket.status ? ticket.status.name : 'N/A' }}
             </option>
           </select>
         </div>
         <SimpleButton class="w-full py-1 mt-4">
           <img class="self-center" src="../assets/remove.svg" />
-          Close ticket
+          Fechar ticket
         </SimpleButton>
       </div>
     </SideSection>
@@ -162,7 +162,7 @@ const handleConfirmModal = () => {
           </div>
           <div class="flex justify-end">
             <SimpleButton @click="viewState.showComments = !viewState.showComments">
-              {{ viewState.showComments ? 'Description' : 'Comments' }}
+              {{ viewState.showComments ? 'Descrição' : 'Comentários' }}
               <img :src="viewState.showComments ? descriptionImg : chatImg">
             </SimpleButton>
           </div>

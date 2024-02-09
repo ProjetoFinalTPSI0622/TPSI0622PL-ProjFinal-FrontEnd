@@ -1,7 +1,6 @@
 <script setup>
-import { onBeforeMount, ref, nextTick } from 'vue';
-import { CommentsService } from "../../Services/CommentsService.js";
-import { defineEmits } from 'vue';
+import { onBeforeMount, ref, nextTick, defineEmits } from 'vue';
+import { CommentsService } from "@/Services/CommentsService.js";
 
 const emit = defineEmits(['refreshComments']);
 
@@ -102,7 +101,7 @@ const postComment = async () => {
                     <label for="comment" class="sr-only">Your comment</label>
                     <textarea id="comment" rows="4" v-model="commentBody" @input="testeInput"
                         class="w-full px-0 text-base text-gray-900 bg-grey focus:outline-none focus-visible:outline-none"
-                        placeholder="Write here your comment..." required></textarea>
+                        placeholder="Escreva o seu comentário..." required></textarea>
                 </div>
                 <div class="flex items-center justify-between px-3 py-2 border-t">
                     <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
@@ -139,7 +138,7 @@ const postComment = async () => {
                     </div>
                     <button type="submit" @click.prevent="postComment"
                         class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverBlue">
-                        Post comment
+                        Enviar comentário
                     </button>
                 </div>
             </div>
