@@ -33,9 +33,9 @@ import Input from '../../Form/Input.vue';
 import Colorpicker from './Colorpicker.vue';
 import Dropdown from '../../Form/Dropdown.vue';
 import { StatesService } from '../../../Services/StatesService';
-import { onBeforeMount, ref, watch } from 'vue';
+import { onBeforeMount, ref} from 'vue';
 
-const buttonText = ref('Salvar');
+const buttonText = ref('');
 const states = ref([]);
 const selected = ref({ state: '' });
 
