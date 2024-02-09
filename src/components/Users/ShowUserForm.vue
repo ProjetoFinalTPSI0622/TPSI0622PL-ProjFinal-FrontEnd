@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-import FormShell from '@/components/Users/ShowUserForm.vue';
+import FormShell from '@/layout/FormShell.vue';
 import AvatarCard from '@/components/Form/AvatarCard.vue';
 import FormTitle from '@/components/Form/FormTitle.vue';
 import Input from '@/components/Form/Input.vue';

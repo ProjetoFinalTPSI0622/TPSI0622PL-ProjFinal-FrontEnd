@@ -9,12 +9,11 @@
 <script>
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-import { DashboardService } from '@/Services/DashboardService'
-
+import { DashboardService } from '../../Services/DashboardService'
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
-    name: 'TicketsPerDayChart',
+    name: 'MetricByCategoriesChart',
     components: { Bar },
     data() {
         return {
@@ -39,7 +38,7 @@ export default {
         async fetchChartData() {
             let response;
             if (this.groupBy === 'day') {
-                response = await DashboardService.getTicketsPerDay();
+                response = await DashboardService.getMetricsByCategories();
             } else {
                 response = await DashboardService.getTicketsPerMonth();
             }
@@ -83,7 +82,7 @@ export default {
                     const monthData = apiData.completed.find(m => m.month === month);
                     return monthData ? monthData.total : 0;
                 });
-
+                
                 return {
                     labels: months,
                     datasets: [
