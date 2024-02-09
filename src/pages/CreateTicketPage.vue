@@ -67,11 +67,11 @@ onBeforeMount(async () => {
 <template>
     <div class="flex w-full">
         <SideSection>
-            <SideSectionTop>New Ticket</SideSectionTop>
+            <SideSectionTop>Novo Ticket</SideSectionTop>
             <div class="flex flex-col p-2 xl:p-5 gap-4">
                 <div class="flex flex-col gap-3">
                     <label class="text-pink-600 text-l xl:text-lg justify-center">
-                        Requester
+                        Criado por:
                     </label>
                     <div
                         class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
@@ -87,7 +87,7 @@ onBeforeMount(async () => {
                         class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
                         <option disabled selected>Escolha uma categoria</option>
                         <option v-for="category in category.categories" :key="category.id" :value="category.id">
-                            {{ category.category_name }}
+                            {{ category.name }}
                         </option>
                     </select>
                 </div>
@@ -99,7 +99,7 @@ onBeforeMount(async () => {
                         class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
                         <option disabled selected>Escolha a urgência</option>
                         <option v-for="priority in priority.priorities" :key="priority.id" :value="priority.id">
-                            {{ priority.priority_name }}
+                            {{ priority.name }}
                         </option>
                     </select>
                 </div>
@@ -110,7 +110,7 @@ onBeforeMount(async () => {
 
             <span
                 class="text-purple flex sm:text-2xl text-xl h-[9vh] whitespace-nowrap justify-between p-3 border-b-purple border-b-opacity-30 border-b border-solid items-start">
-                <input type="text" placeholder="Title" v-model="ticketTitle"
+                <input type="text" placeholder="Titulo" v-model="ticketTitle"
                     class="bg-grey text-black text-opacity-60 text-xl w-full pt-2 pb-1.5 px-3 rounded-xl border border-solid border-black border-opacity-20" />
             </span>
             <span
@@ -123,14 +123,14 @@ onBeforeMount(async () => {
 
                 <div class="flex gap-2">
                     <img src="../assets/corner-up-left.svg" />
-                    <span>Description of your problem</span>
+                    <span>Descrição do seu problema</span>
                 </div>
                 <form class="w-full">
                     <div class="w-full border border-solid border-black border-opacity-20 rounded-lg bg-grey">
                         <div class="px-4 py-2 bg-grey rounded-t-lg">
                             <textarea id="comment" rows="4" v-model="ticketDescription"
                                 class="w-full px-0 text-base text-gray-900 bg-grey focus:outline-none focus-visible:outline-none"
-                                placeholder="Write here your problem as detailed as possible..." required>
+                                placeholder="Descreva aqui o seu problema de forma detalhada..." required>
 
                             </textarea>
                         </div>
@@ -151,7 +151,7 @@ onBeforeMount(async () => {
                             </div>
                             <button type="submit" @click.prevent="submitHandler" :disabled="isSubmitting"
                                 class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverBlue">
-                                Create Ticket
+                                Criar Ticket
                             </button>
                         </div>
                     </div>
