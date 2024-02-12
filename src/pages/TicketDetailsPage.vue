@@ -3,7 +3,7 @@ import SideSection from "@/components/SideSection.vue";
 import SideSectionTop from "@/components/SideSectionTop.vue";
 import { TicketsService } from "@/Services/TicketsService";
 import { UserService } from "@/Services/UserService.js";
-import {onBeforeMount, reactive, ref, watch, nextTick} from 'vue';
+import { onBeforeMount, reactive, ref, watch, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 import SimpleButton from '@/components/SimpleButton.vue';
 import DescriptionView from '@/components/TicketDetails/DescriptionView.vue';
@@ -15,7 +15,7 @@ import { useTicketStore } from '@/Stores/TicketStore.js';
 import SelectAssign from '@/components/SelectAssign.vue';
 import CreateCommentForm from "@/components/TicketDetails/CreateCommentForm.vue";
 
-import {CommentsService} from "@/Services/CommentsService.js";
+import { CommentsService } from "@/Services/CommentsService.js";
 
 
 //TICKET
@@ -69,13 +69,13 @@ const fetchComments = async () => {
 };
 
 watch(
-    ()=> viewState.showComments,
-    async() => {
-      if (viewState.showComments) {
-        console.log('fetching comments')
-        await fetchComments();
-      }
+  () => viewState.showComments,
+  async () => {
+    if (viewState.showComments) {
+      console.log('fetching comments')
+      await fetchComments();
     }
+  }
 )
 
 const handleShowModal = (technicianName, selectbox, oldValue) => {
@@ -93,7 +93,7 @@ const handleConfirmModal = () => {
 </script>
 
 <template>
-  <div class="flex w-full">
+  <div class="flex h-[84vh] sm:h-full w-full">
     <SideSection :ticket="ticket">
       <SideSectionTop>Detalhes do Ticket</SideSectionTop>
       <div class="flex flex-col p-2 xl:p-5 gap-4">
@@ -155,8 +155,8 @@ const handleConfirmModal = () => {
 
     <div class="flex flex-col w-full lg:w-[80%]">
 
-      <div class="justify-center flex flex-col px-5 h-[12vh] sm:h-[9vh] border-b-black border-b border-solid">
-        <span class="justify-between flex flex-col xl:flex-row gap-2 xl:gap-5">
+      <div class="justify-center flex flex-col py-2 px-5 h-[12vh] sm:h-[9vh] border-b-black border-b border-solid">
+        <span class="justify-between flex flex-col sm:flex-row gap-2 xl:gap-5">
           <div class="text-purple text-2xl">
             {{ ticket.title ? ticket.title : 'N/A' }}
           </div>
@@ -170,18 +170,19 @@ const handleConfirmModal = () => {
       </div>
 
       <div
-        class="text-purple sm:text-2xl text-xl h-[50vh] overflow-auto justify-between pl-6 pr-12 py-4 border-b-purple border-b-opacity-30 border-b border-solid items-start">
+        class="text-purple sm:text-2xl text-xl overflow-auto justify-between pl-6 pr-12 py-4 items-start"
+        :class="{ 'h-[80vh]': !viewState.showComments, 'h-[53vh] border-b-purple border-b-opacity-30 border-b border-solid': viewState.showComments }">
         <div v-if="viewState.showComments" v-for="comment in comments" :key="comment.id">
-          <CommentsView :comment="comment"/>
+          <CommentsView :comment="comment" />
         </div>
         <div v-else>
           <DescriptionView :description="ticket.description" />
         </div>
       </div>
 
-    <div v-if="viewState.showComments">
-      <CreateCommentForm :ticket="ticket" @refreshComments="fetchComments"/>
-    </div>
+      <div class="sm:h-[30vh]" v-if="viewState.showComments">
+        <CreateCommentForm :ticket="ticket" @refreshComments="fetchComments" />
+      </div>
 
     </div>
     <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
