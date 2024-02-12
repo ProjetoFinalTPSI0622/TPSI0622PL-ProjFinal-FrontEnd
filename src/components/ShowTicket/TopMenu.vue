@@ -1,9 +1,14 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, reactive } from 'vue';
 import SimpleButton from '../SimpleButton.vue';
 import SearchBox from '../SearchBox.vue';
 import { RouterLink } from 'vue-router';
-import { reactive } from 'vue';
+import { useTicketFilterStore } from '@/Stores/TicketFilterStore.js';
+import { UserService } from '@/Services/UserService';
+import { StatesService } from '@/Services/StatesService';
+import { TicketsService } from '@/Services/TicketsService';
+
+const ticketFilterStore = useTicketFilterStore();
 
 const props = defineProps({
     searchTerm: String
@@ -14,23 +19,36 @@ const state = reactive({
     isOpen: false,
     selectedOptions: [],
     dropdownItems: [
-        { id: 1, name: 'Estado', href: '#' },
-        { id: 2, name: 'Categoria', href: '#' },
+        { id: 'user', name: 'Criado por' },
+        { id: 'technician', name: 'Técnico' },
+        { id: 'category', name: 'Categoria' },
+        { id: 'priority', name: 'Prioridade' },
+        { id: 'status', name: 'Estado' },
     ],
 });
+
+const serviceMethods = {
+    user: UserService.getUsers,
+    technician: UserService.getTechnicians,
+    category: TicketsService.getCategories,
+    priority: TicketsService.getPriorities,
+    status: StatesService.getStates,
+};
 
 const toggleDropdown = () => {
     state.isOpen = !state.isOpen;
 };
 
-const selectOption = (option) => {
+const selectOption = async (option) => {
     if (!state.selectedOptions.find(o => o.id === option.id)) {
-        state.selectedOptions.push({
-            ...option, isOpen: false, selectedNestedOptions: [], dropdownItems: [
-                { id: 1, name: 'Nested 1', href: '#' },
-                { id: 2, name: 'Nested 2', href: '#' },
-            ]
-        });
+        const serviceMethod = serviceMethods[option.id];
+        if (serviceMethod) {
+            const dropdownItems = (await serviceMethod()).data.map(item => ({ id: item.id, name: item.name }));
+
+            state.selectedOptions.push({
+                ...option, isOpen: false, selectedNestedOptions: [], dropdownItems
+            });
+        }
     }
     state.isOpen = false;
 };
@@ -41,10 +59,18 @@ const selectNestedOption = (option) => {
     }
     option.selectedNestedOption = null;
     option.isOpen = false;
+
+    ticketFilterStore.handleFilterChange(option.id, option.selectedNestedOptions.map(o => o.name));
 };
 
 const removeNestedOption = (option, nestedOption) => {
     option.selectedNestedOptions = option.selectedNestedOptions.filter(o => o.id !== nestedOption.id);
+
+    if (option.selectedNestedOptions.length === 0) {
+        ticketFilterStore.handleFilterChange(option.id, 'all');
+    } else {
+        ticketFilterStore.handleFilterChange(option.id, option.selectedNestedOptions.map(o => o.id));
+    }
 };
 
 </script>

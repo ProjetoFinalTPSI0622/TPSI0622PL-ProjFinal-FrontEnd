@@ -37,7 +37,4 @@ export const TicketsService = {
     getMyTickets: async (id) => {
         return AxiosService.makeRequest('get', `tickets/user/${id}`);
     },
-
-
-
 }

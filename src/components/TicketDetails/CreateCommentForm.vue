@@ -102,16 +102,7 @@ const postComment = async () => {
                 </textarea>
             </div>
             <div class="flex items-center justify-between px-3 py-2 border-t">
-                <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
-                    <button type="button"
-                        class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
-                        <img src="../../assets/text.svg" />
-                    </button>
-                    <button type="button"
-                        class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
-                        <img src="../../assets/emoji.svg" />
-                    </button>
-
+                <div class="flex">
                     <input type="file" @change="handleFileChange" multiple class="hidden" ref="fileInputRef">
                     <button type="button" @click="triggerFileInput"
                         class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
