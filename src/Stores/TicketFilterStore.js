@@ -46,11 +46,6 @@ export const useTicketFilterStore = defineStore({
         },
         filterTickets(tickets) {
 
-            if (!Array.isArray(tickets)) {
-                // If tickets is not an array, return an empty array
-                return [];
-            }
-
             const filteredTickets = tickets.filter(ticket => {
                 if (this.filter.user !== 'all' && !this.filter.user.includes(ticket.createdby.name)) {
                     return false;
