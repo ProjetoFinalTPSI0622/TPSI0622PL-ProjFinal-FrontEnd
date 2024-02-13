@@ -1,13 +1,12 @@
 <script setup>
 
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import { useTicketFilterStore } from '@/Stores/TicketFilterStore.js';
 import { UserService } from '@/Services/UserService';
 import { StatesService } from '@/Services/StatesService';
 import { TicketsService } from '@/Services/TicketsService';
 
 const ticketFilterStore = useTicketFilterStore();
-
 
 const state = reactive({
     isOpen: false,
@@ -66,6 +65,16 @@ const removeNestedOption = (option, nestedOption) => {
         ticketFilterStore.handleFilterChange(option.id, option.selectedNestedOptions.map(o => o.id));
     }
 };
+
+const resetSelectedOptions = () => {
+    state.selectedOptions.forEach(option => {
+        option.selectedNestedOptions = [];
+    });
+    state.selectedOptions = [];
+};
+
+watch(() => ticketFilterStore.sideFilterChange, resetSelectedOptions);
+
 </script>
 
 <template>
@@ -79,7 +88,8 @@ const removeNestedOption = (option, nestedOption) => {
             class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
             <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                 <a v-for="item in state.dropdownItems" :key="item.id" :href="item.href" @click.prevent="selectOption(item)"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer" role="menuitem">{{
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+                    role="menuitem">{{
                         item.name }}</a>
             </div>
         </div>

@@ -14,18 +14,26 @@ onMounted(async () => {
 
 const showAllTickets = () => {
     ticketFilterStore.handleFilterReset();
+    emitFilterChange();
 };
 
 const toggleAssignedToMe = () => {
     ticketFilterStore.handleFilterChange('technician', authedUser.value.data.name);
+    emitFilterChange();
 };
 
 const toggleMyTickets = () => {
     ticketFilterStore.handleFilterChange('user', authedUser.value.data.name);
+    emitFilterChange();
 };
 
 const toggleStatus = (status) => {
     ticketFilterStore.handleFilterChange('status', status);
+    emitFilterChange();
+};
+
+const emitFilterChange = () => {
+    ticketFilterStore.handleSideFilterChange();
 };
 </script>
 

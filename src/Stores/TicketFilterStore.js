@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { TicketsService } from '@/Services/TicketsService';
+import { ref } from 'vue';
 
 export const useTicketFilterStore = defineStore({
     id: 'ticketFilter',
@@ -16,6 +17,7 @@ export const useTicketFilterStore = defineStore({
             searchTerm: '',
         },
         tickets: [],
+        sideFilterChange: ref(0),
     }),
     getters: {
         async getTickets() {
@@ -31,6 +33,10 @@ export const useTicketFilterStore = defineStore({
 
         handleFilterChange(filterName, value) {
             this.filter[filterName] = value;
+        },
+
+        handleSideFilterChange() {
+            this.sideFilterChange++;
         },
 
         handleFilterReset() {
