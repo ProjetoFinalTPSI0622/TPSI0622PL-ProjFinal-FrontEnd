@@ -1,17 +1,8 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
 import SimpleButton from '../SimpleButton.vue';
 import SearchBox from '../SearchBox.vue';
 import { RouterLink } from 'vue-router';
 import FilterDropdown from '@/components/FilterDropdown.vue';
-
-
-const props = defineProps({
-    searchTerm: String
-});
-const emit = defineEmits(['update:searchTerm']);
-
-
 
 </script>
 
@@ -29,6 +20,6 @@ const emit = defineEmits(['update:searchTerm']);
             <FilterDropdown />
         </div>
 
-        <SearchBox :searchTerm="props.searchTerm" @update:searchTerm="emit('update:searchTerm', $event)" />
+        <SearchBox />
     </div>
 </template>

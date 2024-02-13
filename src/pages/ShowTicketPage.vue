@@ -95,7 +95,7 @@ const getTechnicians = async () => {
 
         <span class="flex flex-col w-full lg:w-[80%]">
 
-            <TopMenu :searchTerm="searchTerm" @update:searchTerm="searchTerm = $event" />
+            <TopMenu />
 
             <span class="flex justify-between px-5 py-2 border-b-black border-b-opacity-30 border-b border-solid">
                 <div class="text-black text-opacity-60 sm:text-xl">{{ TicketFilter.filteredTickets.length }} Tickets</div>

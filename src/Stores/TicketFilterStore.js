@@ -13,6 +13,7 @@ export const useTicketFilterStore = defineStore({
             title: '',
             createdDate: '',
             closedDate: '',
+            searchTerm: '',
         },
         tickets: [],
     }),
@@ -42,11 +43,20 @@ export const useTicketFilterStore = defineStore({
                 title: '',
                 createdDate: '',
                 closedDate: '',
+                searchTerm: '',
             };
         },
         filterTickets(tickets) {
 
             const filteredTickets = tickets.filter(ticket => {
+                const searchTermLower = this.filter.searchTerm.toLowerCase();
+                if (this.filter.searchTerm &&
+                    !ticket.createdby.name.toLowerCase().includes(searchTermLower) &&
+                    !ticket.title.toLowerCase().includes(searchTermLower) &&
+                    !(ticket.assignedto?.name.toLowerCase() || '').includes(searchTermLower) &&
+                    !ticket.status.name.toLowerCase().includes(searchTermLower)) {
+                    return false;
+                }
                 if (this.filter.user !== 'all' && !this.filter.user.includes(ticket.createdby.name)) {
                     return false;
                 }
