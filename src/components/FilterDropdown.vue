@@ -54,6 +54,7 @@ const selectNestedOption = (option) => {
     option.isOpen = false;
 
     ticketFilterStore.handleFilterChange(option.id, option.selectedNestedOptions.map(o => o.name));
+    ticketFilterStore.resetSideFilter();
 };
 
 const removeNestedOption = (option, nestedOption) => {
@@ -84,7 +85,7 @@ watch(() => ticketFilterStore.sideFilterChange, resetSelectedOptions);
             <div class="text-white sm:text-lg">Filtros</div>
         </button>
 
-        <div v-if="state.isOpen"
+        <div v-if="state.isOpen" 
             class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
             <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                 <a v-for="item in state.dropdownItems" :key="item.id" :href="item.href" @click.prevent="selectOption(item)"

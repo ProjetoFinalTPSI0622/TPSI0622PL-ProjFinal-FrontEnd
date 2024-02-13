@@ -18,6 +18,7 @@ export const useTicketFilterStore = defineStore({
         },
         tickets: [],
         sideFilterChange: ref(0),
+        selectedSideFilter: null,
     }),
     getters: {
         async getTickets() {
@@ -37,6 +38,10 @@ export const useTicketFilterStore = defineStore({
 
         handleSideFilterChange() {
             this.sideFilterChange++;
+        },
+
+        resetSideFilter() {
+            this.selectedSideFilter = null;
         },
 
         handleFilterReset() {
