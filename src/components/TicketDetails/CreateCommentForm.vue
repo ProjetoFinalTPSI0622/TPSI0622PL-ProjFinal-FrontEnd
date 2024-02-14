@@ -114,6 +114,7 @@ const postComment = async () => {
                 <TiptapEditor v-model="commentBody" />
             </div>
             <div class="flex items-center justify-between px-3 py-2 border-t">
+
                 <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
                     
                     <div class="relative">
@@ -125,6 +126,9 @@ const postComment = async () => {
                                 <EmojiPicker v-if="isEmojiPickerVisible" :native="true" @select="onSelectEmoji" />
                             </div>
                         </div>
+
+//verificar
+                <div class="flex">
 
                     <input type="file" @change="handleFileChange" multiple class="hidden" ref="fileInputRef">
                     <button type="button" @click="triggerFileInput"
