@@ -176,7 +176,7 @@ const handleConfirmModal = () => {
           <CommentsView :comment="comment" />
         </div>
         <div v-else>
-          <DescriptionView :description="ticket.description" />
+          <DescriptionView :myTicket="ticket" />
         </div>
       </div>
 

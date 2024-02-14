@@ -11,7 +11,7 @@ export const TicketsService = {
     },
 
     createTicket: async (ticketData) => {
-        return AxiosService.makeRequest('post', 'tickets', ticketData);
+        return AxiosService.makeRequest('post', 'tickets', ticketData, 'multipart/form-data');
     },
 
     updateTicket: async (ticketData) => {

@@ -5,7 +5,42 @@ import { TicketsService } from "@/Services/TicketsService";
 import { UserService } from "@/Services/UserService";
 import { onBeforeMount, ref, reactive } from "vue";
 import router from "@/router.js";
+import EmojiPicker from 'vue3-emoji-picker';
+import 'vue3-emoji-picker/css';
+import TiptapEditor from '@/components/TicketDetails/TiptapEditor.vue';
 
+
+const isEmojiPickerVisible = ref(false);
+
+const attachedFiles = ref([]);
+const fileInputRef = ref(null);
+
+const toggleEmojiPicker = () => {
+    isEmojiPickerVisible.value = !isEmojiPickerVisible.value;
+};
+
+const onSelectEmoji = (emoji) => {
+    ticketDescription.value += emoji.i;
+    isEmojiPickerVisible.value = false;
+};
+
+const triggerFileInput = () => {
+    fileInputRef.value.click();
+};
+
+const handleFileChange = (event) => {
+    for (const file of event.target.files) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            attachedFiles.value.push({ src: e.target.result, file });
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+const removeAttachedFile = (index) => {
+    attachedFiles.value.splice(index, 1);
+};
 
 const category = ref({
     categories: [],
@@ -23,27 +58,26 @@ const ticketTitle = ref("");
 
 const isSubmitting = ref(false);
 
-
-const ticketData = ref({
-    title: "",
-    description: "",
-    priority: 0,
-    category: 0,
-})
-
 const submitHandler = async () => {
 
-  ticketData.value.title = ticketTitle.value;
-  ticketData.value.description = ticketDescription.value;
-  ticketData.value.priority = priority.value.selectedPriority;
-  ticketData.value.category = category.value.selectedCategory;
-  try {
+    const formData = new FormData();
+
+    formData.append("title", ticketTitle.value);
+    formData.append("description", ticketDescription.value);
+    formData.append("priority", priority.value.selectedPriority);
+    formData.append("category", category.value.selectedCategory);
+
+    attachedFiles.value.forEach((fileObj, index) => {
+        formData.append(`files[${index}]`, fileObj.file);
+    });
+
+    try {
         isSubmitting.value = true;
-        const createdTicket = await TicketsService.createTicket(ticketData.value);
+        const createdTicket = await TicketsService.createTicket(formData);
         isSubmitting.value = false;
-        await router.push({name: "ticketDetails", params: {ticketId: createdTicket.data.id}})
+        await router.push({ name: "ticketDetails", params: { ticketId: createdTicket.data.id } })
     } catch (e) {
-      console.log(e);
+        console.log(e);
         isSubmitting.value = false;
     }
 };
@@ -125,29 +159,49 @@ onBeforeMount(async () => {
                     <img src="../assets/corner-up-left.svg" />
                     <span>Descrição do seu problema</span>
                 </div>
+
                 <form class="w-full">
                     <div class="w-full border border-solid border-black border-opacity-20 rounded-lg bg-grey">
                         <div class="px-4 py-2 bg-grey rounded-t-lg">
-                            <textarea id="comment" rows="4" v-model="ticketDescription"
-                                class="w-full px-0 text-base text-gray-900 bg-grey focus:outline-none focus-visible:outline-none"
-                                placeholder="Descreva aqui o seu problema de forma detalhada..." required>
 
-                            </textarea>
+                            <TiptapEditor v-model="ticketDescription" />
+
                         </div>
+
                         <div class="flex items-center justify-between px-3 py-2 border-t">
                             <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
-                                <button type="button"
-                                    class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
-                                    <img src="../assets/text.svg" />
-                                </button>
-                                <button type="button"
-                                    class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
-                                    <img src="../assets/emoji.svg" />
-                                </button>
-                                <button type="button"
+
+                                <div class="relative">
+                                    <button type="button" @click="toggleEmojiPicker"
+                                        class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                                        <img src="../assets/emoji.svg" />
+                                    </button>
+                                    <div v-if="isEmojiPickerVisible" class="absolute bottom-full mb-2 left-0 z-50">
+                                        <EmojiPicker v-if="isEmojiPickerVisible" :native="true" @select="onSelectEmoji" />
+                                    </div>
+                                </div>
+
+                                <input type="file" @change="handleFileChange" multiple class="hidden" ref="fileInputRef">
+                                <button type="button" @click="triggerFileInput"
                                     class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
                                     <img src="../assets/attach.svg" />
                                 </button>
+
+                                <div v-if="attachedFiles.length" class="flex gap-3">
+                                    <div v-for="(attached, index) in attachedFiles" :key="index" class="relative">
+
+                                        <img :src="attached.src"
+                                            class="aspect-square object-cover object-center w-10 h-10 overflow-hidden shrink-0"
+                                            alt="Imagem anexada">
+
+                                        <button @click="removeAttachedFile(index)"
+                                            class="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 text-xs leading-none"
+                                            style="transform: translate(50%, -50%);">&times
+                                        </button>
+
+                                    </div>
+                                </div>
+
                             </div>
                             <button type="submit" @click.prevent="submitHandler" :disabled="isSubmitting"
                                 class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverBlue">
@@ -156,6 +210,7 @@ onBeforeMount(async () => {
                         </div>
                     </div>
                 </form>
+
             </div>
 
         </div>
