@@ -180,7 +180,7 @@ const handleConfirmModal = () => {
         </div>
       </div>
 
-      <div class="sm:h-[30vh]" v-if="viewState.showComments">
+      <div v-if="viewState.showComments">
         <CreateCommentForm :ticket="ticket" @refreshComments="fetchComments" />
       </div>
 

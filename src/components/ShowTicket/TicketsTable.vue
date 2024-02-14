@@ -32,10 +32,12 @@ const clickHandler = (id) => {
             </tr>
         </thead>
 
-        <tbody>
-            <TicketItem @click="clickHandler(ticket.id)" v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"
-                :technicians="technicians" />
-        </tbody>
+        <div class="max-h-[56vh] overflow-y-auto">
+            <tbody>
+                <TicketItem @click="clickHandler(ticket.id)" v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"
+                    :technicians="technicians" />
+            </tbody>
+        </div>
 
     </table>
 </template>
@@ -50,4 +52,21 @@ th {
 tbody:hover {
     cursor: pointer;
 }
+
+table {
+    display: block;
+    width: 100%;
+}
+
+thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+tbody {
+    display: table;
+    width: 100%;
+}
+
 </style>
