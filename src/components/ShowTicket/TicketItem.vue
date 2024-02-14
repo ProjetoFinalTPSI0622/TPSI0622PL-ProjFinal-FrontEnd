@@ -3,16 +3,18 @@ import { defineProps, ref } from 'vue';
 import SelectAssign from '../SelectAssign.vue';
 import { useTicketStore } from '../../Stores/TicketStore.js';
 
-defineProps({
+const props = defineProps({
     ticket: Object,
     technicians: Array
 });
 
 const ticketStore = useTicketStore(); 
 
-const showTicketModal = (technicianName, selectbox, oldValue) => {
-    ticketStore.handleShowModal(technicianName, selectbox, oldValue); 
+const showTicketModal = (technicianID, oldValue) => {
+    const ticketID = props.ticket.id;
+    ticketStore.handleShowModal(technicianID, ticketID, oldValue);
 };
+
 </script>
 
 <template>

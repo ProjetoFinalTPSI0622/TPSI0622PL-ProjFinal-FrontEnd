@@ -127,8 +127,6 @@ const postComment = async () => {
                             </div>
                         </div>
 
-//verificar
-                <div class="flex">
 
                     <input type="file" @change="handleFileChange" multiple class="hidden" ref="fileInputRef">
                     <button type="button" @click="triggerFileInput"
@@ -150,7 +148,6 @@ const postComment = async () => {
 
                         </div>
                     </div>
-
                 </div>
                 <button type="submit" @click.prevent="postComment"
                     class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverBlue">

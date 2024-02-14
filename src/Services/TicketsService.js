@@ -34,7 +34,23 @@ export const TicketsService = {
         return AxiosService.makeRequest('get', 'priorities');
     },
 
+    getStatus : async () => {
+        return AxiosService.makeRequest('get', 'status');
+    },
+
     getMyTickets: async (id) => {
         return AxiosService.makeRequest('get', `tickets/user/${id}`);
     },
+
+    assignTechnician: async (ticketId, technicianId) => {
+        return AxiosService.makeRequest('put', `tickets/${ticketId}/assign/${technicianId}`);
+    },
+
+    getStatuses: async () => {
+        return AxiosService.makeRequest('get', 'status');
+    },
+
+    updateStatus : async (ticketId, statusId) => {
+        return AxiosService.makeRequest('put', `tickets/${ticketId}/status/${statusId}`);
+    }
 }

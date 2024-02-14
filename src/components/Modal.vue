@@ -3,7 +3,7 @@ import { defineProps, defineEmits } from 'vue';
 import ToastStore from '@/Stores/ToastStore.js';
 
 const props = defineProps({
-    show: Boolean
+    show: Boolean,
 });
 
 const emit = defineEmits(['Confirm', 'Cancel']);
