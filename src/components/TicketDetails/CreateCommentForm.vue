@@ -1,14 +1,28 @@
 <script setup>
 import { onBeforeMount, ref, nextTick, defineEmits } from 'vue';
 import { CommentsService } from "@/Services/CommentsService.js";
+import EmojiPicker from 'vue3-emoji-picker';
+import 'vue3-emoji-picker/css';
+import TiptapEditor from '@/components/TicketDetails/TiptapEditor.vue';
 
 const emit = defineEmits(['refreshComments']);
 
+const isEmojiPickerVisible = ref(false);
+
 const selectedCommentType = ref(1);
 const commentTypes = ref(null);
-const commentBody = ref('');
+const commentBody = ref(null);
 const attachedFiles = ref([]);
 const fileInputRef = ref(null);
+
+const toggleEmojiPicker = () => {
+    isEmojiPickerVisible.value = !isEmojiPickerVisible.value;
+};
+
+const onSelectEmoji = (emoji) => {
+    commentBody.value += emoji.i;
+    isEmojiPickerVisible.value = false;
+};
 
 const triggerFileInput = () => {
     fileInputRef.value.click();
@@ -96,13 +110,26 @@ const postComment = async () => {
 
         <form class="w-full border border-solid border-black border-opacity-20 rounded-lg bg-grey">
             <div class="px-4 py-2 bg-grey rounded-t-lg">
-                <textarea id="comment" rows="4" v-model="commentBody" @input="testeInput"
-                    class="w-full h-16 px-0 text-base text-gray-900 bg-grey focus:outline-none focus-visible:outline-none"
-                    placeholder="Escreva o seu comentário..." required>
-                </textarea>
+
+                <TiptapEditor v-model="commentBody" />
             </div>
             <div class="flex items-center justify-between px-3 py-2 border-t">
+
+                <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
+                    
+                    <div class="relative">
+                            <button type="button" @click="toggleEmojiPicker"
+                                class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                                <img src="../../assets/emoji.svg" />
+                            </button>
+                            <div v-if="isEmojiPickerVisible" class="absolute bottom-full mb-2 left-0 z-50">
+                                <EmojiPicker v-if="isEmojiPickerVisible" :native="true" @select="onSelectEmoji" />
+                            </div>
+                        </div>
+
+//verificar
                 <div class="flex">
+
                     <input type="file" @change="handleFileChange" multiple class="hidden" ref="fileInputRef">
                     <button type="button" @click="triggerFileInput"
                         class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">

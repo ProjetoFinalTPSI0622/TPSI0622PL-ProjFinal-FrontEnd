@@ -19,7 +19,8 @@ const mydate = new Date(props.comment.created_at);
               {{ comment.user.name }} - <span class="text-sm text-gray-600">{{ mydate.toLocaleString() }}</span>
             </p>
             <p class="text-black bg-stone-200 rounded-lg p-3 text-opacity-65">
-              {{ comment.comment_body }}
+
+              <div class="prose max-w-none" v-html="comment.comment_body"></div>
 
               <div v-if="comment.attachments && comment.attachments.length" class="mt-4">
                 <span v-for="(attachment, index) in comment.attachments" :key="index" class="ml-2 inline-block">
