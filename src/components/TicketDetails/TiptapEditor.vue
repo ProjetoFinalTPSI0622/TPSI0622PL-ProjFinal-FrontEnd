@@ -5,6 +5,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
 import Placeholder from '@tiptap/extension-placeholder'
 import EmojiPicker from 'vue3-emoji-picker'
+import 'vue3-emoji-picker/css';
 
 import BoldIcon from 'vue-material-design-icons/FormatBold.vue'
 import ItalicIcon from 'vue-material-design-icons/FormatItalic.vue'
