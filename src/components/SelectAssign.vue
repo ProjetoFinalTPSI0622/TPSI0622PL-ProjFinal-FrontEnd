@@ -5,7 +5,7 @@ const selectbox = ref(null);
 let oldValue = 0;
 
 defineProps({
-    currentValue: String,
+    currentValue: Object,
     newValues: Array
 });
 

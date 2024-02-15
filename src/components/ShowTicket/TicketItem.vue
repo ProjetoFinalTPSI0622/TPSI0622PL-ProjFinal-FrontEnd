@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref } from 'vue';
+import {defineProps, onBeforeMount, ref} from 'vue';
 import SelectAssign from '../SelectAssign.vue';
 import { useTicketStore } from '../../Stores/TicketStore.js';
 
@@ -8,11 +8,16 @@ const props = defineProps({
     technicians: Array
 });
 
+onBeforeMount(() => {
+    console.log(props.ticket);
+    console.log(props.technicians);
+})
+
 const ticketStore = useTicketStore(); 
 
 const showTicketModal = (technicianID, oldValue) => {
     const ticketID = props.ticket.id;
-    ticketStore.handleShowModal(technicianID, ticketID, oldValue);
+    ticketStore.handleShowModalTech(technicianID, ticketID, oldValue);
 };
 
 </script>
@@ -40,7 +45,8 @@ const showTicketModal = (technicianID, oldValue) => {
         </td>
         <td class="text-black text-opacity-80 text-sm sm:text-lg">
             <div class="flex justify-center sm:justify-start sm:w-40">
-                <SelectAssign :assignedto="ticket.assignedto" :technicians="technicians" @show-modal="showTicketModal" />
+
+                <SelectAssign :currentValue="ticket.assignedto" :newValues="technicians" @show-modal="showTicketModal" />
             </div>
         </td>
         <td class="text-white text-xs sm:text-lg">

@@ -1,5 +1,4 @@
 <script setup>
-//sorry goncalo idk how to use composition ou options ou whatever
 
 import { ref, reactive, onBeforeMount } from 'vue'
 import { NotificationsService } from '@/Services/NotificationsService'
@@ -59,15 +58,18 @@ setInterval(() => {
                 <!-- Ícone de Notificação -->
                 <img class="w-7 sm:min-w-8" src="../../assets/Bell.svg" @click="toggleDropdown">
                 <!-- Contador de Notificações -->
+              <div v-if="notificationCount > 0">
                 <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2 py-1">{{
                     notificationCount }}</span>
+              </div>
                 <!-- Dropdown de Notificações -->
                 <div v-if="showDropdown"
                     class="absolute top-full right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
                     <router-link v-for="notification in notifications"
                         :to="{ name: 'ticketDetails', params: { ticketId: notification.ticketid } }" :key="notification.id"
                         href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        {{ notification.message }}
+                      <div v-html="notification.message"></div>
+
                     </router-link>
                 </div>
             </div>
