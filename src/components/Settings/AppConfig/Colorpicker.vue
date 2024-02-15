@@ -13,7 +13,7 @@
   
 <script>
 import { ref } from 'vue';
-import {StatesService} from '@/Services/StatesService';
+import {StatusesService} from '@/Services/StatusesService';
 
 export default {
   props: {
@@ -25,14 +25,14 @@ export default {
 
     const changeColor = () => {
         context.emit("update:buttonText", color.value);
-        createState(); 
+        createStatus(); 
     };
 
-    const createState = () => {
-      StatesService.createState({ name: props.buttonText, color: color.value })
+    const createStatus = () => {
+      StatusesService.createState({ name: props.buttonText, color: color.value })
     };
 
-    return { color, changeColor, createState };
+    return { color, changeColor, createStatus };
   },
 };
 
