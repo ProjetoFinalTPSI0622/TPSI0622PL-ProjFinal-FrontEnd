@@ -158,19 +158,19 @@ const UpdateUser = async () => {
             <div class="flex flex-col w-full my-5">
                 
                 <div class="flex flex-col gap-5 md:flex-row">
-                    <Input LabelTitle="Full Name" type="name" required v-model="user.name" />
-                    <Input LabelTitle="Email" type="email" required v-model="user.email" />
+                    <Input LabelTitle="Full Name: *" type="name" required v-model="user.name" />
+                    <Input LabelTitle="Email: *" type="email" required v-model="user.email" />
                 </div>
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
-                    <Input LabelTitle="Internal Code" type="text" required v-model="user.internalcode" />
-                    <Input LabelTitle="Class" type="text" required v-model="userInfo.class" />
+                    <Input LabelTitle="Internal Code: *" type="text" required v-model="user.internalcode" />
+                    <Input LabelTitle="Class:" type="text" v-model="userInfo.class" />
                 </div>
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
 
                     <Dropdown 
-                        LabelTitle="Role" 
+                        LabelTitle="Role:" 
                         :options="roles" 
                         v-model="user.role"
                         :modelValue="user.role"
@@ -178,7 +178,7 @@ const UpdateUser = async () => {
 
 
                     <Dropdown 
-                        LabelTitle="Gender" 
+                        LabelTitle="Gender:" 
                         :options="genders" 
                         v-model="userInfo.gender_id"
                         :modelValue="userInfo.gender_id"
@@ -186,7 +186,7 @@ const UpdateUser = async () => {
 
 
                     <DatePicker 
-                        LabelTitle="Birthday Date" 
+                        LabelTitle="Birthday Date: *" 
                         required 
                         v-model="userInfo.birthday_date" 
                         :modelValue="userInfo.birthday_date" />
@@ -195,22 +195,22 @@ const UpdateUser = async () => {
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row ">
                     <div class="flex flex-col md:flex-row md:items-end gap-3 lg:w-2/4">
-                        <Input LabelTitle="NIF" type="text" required v-model="userInfo.nif" />
+                        <Input LabelTitle="NIF: *" type="text" required v-model="userInfo.nif" />
                     </div>
-                    <Input LabelTitle="Phone Number" type="text" required v-model="userInfo.phone_number" />
+                    <Input LabelTitle="Phone Number:" type="text" v-model="userInfo.phone_number" />
                 </div>
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row ">
-                    <Input LabelTitle="Address" type="address" required v-model="userInfo.address" />
-                    <Input LabelTitle="Zip Code" type="text" required v-model="userInfo.postal_code" />
+                    <Input LabelTitle="Address:" type="address" v-model="userInfo.address" />
+                    <Input LabelTitle="Zip Code:" type="text" v-model="userInfo.postal_code" />
                 </div>
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row md:mt-5">
-                    <Input LabelTitle="State/Province" type="text" required v-model="userInfo.district" />
-                    <Input LabelTitle="City" type="text" required v-model="userInfo.city" />
+                    <Input LabelTitle="State/Province:" type="text" v-model="userInfo.district" />
+                    <Input LabelTitle="City:" type="text" v-model="userInfo.city" />
 
                     <Dropdown 
-                        LabelTitle="Country" 
+                        LabelTitle="Country:" 
                         :options="countries" 
                         v-model="userInfo.country_id"
                         @update:model-value="handleDropdownChange" />
