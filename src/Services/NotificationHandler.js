@@ -1,14 +1,18 @@
 export const NotificationHandler = (response) => {
+
     const handledNotifications = [];
-    console.log(response)
-    // "{"event_type":"ticket_created","ticket_id":13,"created_by":1,"ticket_title":"fsdfsdf"}"
+
     response.forEach(response => {
+        const notification = response.notification;
+        const notificationData = notification.notification_data;
+        const ticket = notificationData.ticket;
+
         switch (response.notification.notification_data.event_type) {
             case 'ticket_created':
                 handledNotifications.push({
-                    id: response.notification.id,
-                    ticketid: response.notification.notification_data.ticket_id,
-                    message: `Ticket ${response.notification.notification_data.ticket_id} criado por ${response.notification.notification_data.created_by}`
+                    id: notification.id,
+                    ticketid: ticket.id,
+                    message: `Ticket #${ ticket.id }, ${ ticket.description } criado por ${ticket.createdby.name}`
                 })
                 break;
             case 'ticketStatusUpdated':
@@ -43,6 +47,5 @@ export const NotificationHandler = (response) => {
                 break;
         }
     })
-    console.log(handledNotifications)
     return handledNotifications;
 }

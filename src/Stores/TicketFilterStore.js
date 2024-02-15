@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
-import { TicketsService } from '@/Services/TicketsService';
-import { ref } from 'vue';
+import {defineStore} from 'pinia';
+import {TicketsService} from '@/Services/TicketsService';
+import {ref} from 'vue';
 
 export const useTicketFilterStore = defineStore({
     id: 'ticketFilter',
@@ -21,16 +21,17 @@ export const useTicketFilterStore = defineStore({
         selectedSideFilter: null,
     }),
     getters: {
-        async getTickets() {
-            const allTickets = (await TicketsService.getTickets()).data;
-            this.tickets = allTickets;
-            return this.tickets;
-        },
+
         filteredTickets() {
             return this.filterTickets(this.tickets);
         },
     },
     actions: {
+        async getTickets() {
+            console.log('inside get tickets')
+            this.tickets = (await TicketsService.getTickets()).data;
+            return this.tickets;
+        },
 
         handleFilterChange(filterName, value) {
             this.filter[filterName] = value;

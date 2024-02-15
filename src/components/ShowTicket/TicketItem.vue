@@ -1,18 +1,20 @@
 <script setup>
-import { defineProps, ref } from 'vue';
+import {defineProps, onBeforeMount, ref} from 'vue';
 import SelectAssign from '../SelectAssign.vue';
 import { useTicketStore } from '../../Stores/TicketStore.js';
 
-defineProps({
+const props = defineProps({
     ticket: Object,
     technicians: Array
 });
 
 const ticketStore = useTicketStore(); 
 
-const showTicketModal = (technicianName, selectbox, oldValue) => {
-    ticketStore.handleShowModal(technicianName, selectbox, oldValue); 
+const showTicketModal = (technicianID, oldValue) => {
+    const ticketID = props.ticket.id;
+    ticketStore.handleShowModalTech(technicianID, ticketID, oldValue);
 };
+
 </script>
 
 <template>
@@ -38,7 +40,8 @@ const showTicketModal = (technicianName, selectbox, oldValue) => {
         </td>
         <td class="text-black text-opacity-80 text-sm sm:text-lg">
             <div class="flex justify-center sm:justify-start sm:w-40">
-                <SelectAssign :assignedto="ticket.assignedto" :technicians="technicians" @show-modal="showTicketModal" />
+
+                <SelectAssign :currentValue="ticket.assignedto" :newValues="technicians" @show-modal="showTicketModal" />
             </div>
         </td>
         <td class="text-white text-xs sm:text-lg">
