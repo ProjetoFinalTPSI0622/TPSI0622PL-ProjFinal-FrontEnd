@@ -1,5 +1,5 @@
 <template>
-    <div class="md:flex w-full">
+    <div class="md:flex w-full h-fit">
         <SettingsBar/>
         <div class="flex flex-col w-full m-10">
             <ConfigureApp/>
