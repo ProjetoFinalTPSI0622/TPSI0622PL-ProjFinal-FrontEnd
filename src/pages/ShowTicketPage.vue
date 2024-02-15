@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, computed, watch, onBeforeMount } from 'vue';
+import { ref, computed, watch, onBeforeMount } from 'vue';
 import { UserService } from '@/Services/UserService';
 import { useTicketFilterStore } from '@/Stores/TicketFilterStore.js';
 
@@ -23,19 +23,40 @@ let currentUser = ref(null);
 const ticketStore = useTicketStore();
 const TicketFilter = useTicketFilterStore();
 
+
 const printPDF = () => {
     ticketStore.convertTicketsToPDF(tickets.value);
 };
 
-onBeforeMount(async () => {
+const fetchTickets = async () => {
+  try {
+    console.log('inside fetchTickets')
+    tickets.value = await TicketFilter.getTickets();
+  } catch (error) {
+    console.error("Error fetching tickets:", error);
+  }
+};
+
+const fetchUsers = async () => {
     try {
-        tickets.value = await TicketFilter.getTickets;
+        currentUser.value = await UserService.getAuthedUser();
+    } catch (error) {
+        console.error("Error fetching user:", error);
+    }
+};
+
+
+
+onBeforeMount(async () => {
+
+    try {
+      await fetchTickets();
     } catch (error) {
         console.error("Erro ao procurar tickets:", error);
     }
 
     try {
-        currentUser.value = await UserService.getAuthedUser();
+      await fetchUsers();
     } catch (error) {
         console.error("Erro ao procurar user:", error);
     }

@@ -47,6 +47,5 @@ export const NotificationHandler = (response) => {
                 break;
         }
     })
-    console.log(handledNotifications)
     return handledNotifications;
 }

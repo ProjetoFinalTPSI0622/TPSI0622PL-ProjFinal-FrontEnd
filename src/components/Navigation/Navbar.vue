@@ -39,6 +39,11 @@ const checkNotificationCount = async () => {
     }
 }
 
+const markAsSeen = async (id) => {
+    await NotificationsService.markAsSeen(id);
+    await checkNotificationCount();
+}
+
 setInterval(() => {
     checkNotificationCount();
 }, 60000); //60 segundos
@@ -66,6 +71,7 @@ setInterval(() => {
                 <div v-if="showDropdown"
                     class="absolute top-full right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
                     <router-link v-for="notification in notifications"
+                         @click.prevent="markAsSeen(notification.id)"
                         :to="{ name: 'ticketDetails', params: { ticketId: notification.ticketid } }" :key="notification.id"
                         href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                       <div v-html="notification.message"></div>

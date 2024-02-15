@@ -8,11 +8,6 @@ const props = defineProps({
     technicians: Array
 });
 
-onBeforeMount(() => {
-    console.log(props.ticket);
-    console.log(props.technicians);
-})
-
 const ticketStore = useTicketStore(); 
 
 const showTicketModal = (technicianID, oldValue) => {

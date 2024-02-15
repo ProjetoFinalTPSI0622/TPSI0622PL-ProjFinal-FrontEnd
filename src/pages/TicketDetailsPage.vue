@@ -4,7 +4,7 @@ import SideSectionTop from "@/components/SideSectionTop.vue";
 import { TicketsService } from "@/Services/TicketsService";
 import { UserService } from "@/Services/UserService.js";
 import { onBeforeMount, reactive, ref, watch, nextTick } from 'vue';
-import { useRoute } from 'vue-router';
+import {onBeforeRouteUpdate, useRoute} from 'vue-router';
 import SimpleButton from '@/components/SimpleButton.vue';
 import DescriptionView from '@/components/TicketDetails/DescriptionView.vue';
 import CommentsView from '@/components/TicketDetails/CommentsView.vue';
@@ -28,6 +28,14 @@ const statuses = ref([]);
 //COMMENTS
 const comments = ref([]);
 
+onBeforeRouteUpdate((to, from, next) => {
+  getTicket(to.params.ticketId)
+      .then(() => next())
+      .catch(error => {
+        console.error('Error fetching ticket details:', error);
+        next(false); 
+      });
+});
 
 
 onBeforeMount(async () => {
