@@ -29,7 +29,7 @@ export default {
     };
 
     const createStatus = () => {
-      StatusesService.createState({ name: props.buttonText, color: color.value })
+      StatusesService.createStatus({ name: props.buttonText, color: color.value })
     };
 
     return { color, changeColor, createStatus };
