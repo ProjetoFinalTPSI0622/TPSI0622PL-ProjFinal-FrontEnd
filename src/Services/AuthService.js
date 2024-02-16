@@ -12,4 +12,10 @@ export const AuthService = {
     userLogout: async () => {
         return await AxiosService.makeRequest('get', '/auth/logout');
     },
+    userRoles: async () => {
+        return await AxiosService.makeRequest('get', '/auth/roles');
+    },
+    getUserRole: async (id) => {
+        return await AxiosService.makeRequest('get', `/auth/roles/${id}`);
+    }
 };

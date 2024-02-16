@@ -1,6 +1,7 @@
 export const NotificationHandler = (response) => {
 
     const handledNotifications = [];
+    // "{"event_type":"ticket_created","ticket_id":13,"created_by":1,"ticket_title":"fsdfsdf"}"
 
     response.forEach(response => {
         const notification = response.notification;

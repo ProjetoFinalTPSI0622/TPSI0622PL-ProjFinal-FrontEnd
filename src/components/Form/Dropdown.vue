@@ -5,7 +5,7 @@
         @change="handleChange"
         v-model="selectedOption"
         class="bg-white text-purple text-base text-wrap border border-solid border-purple pl-2.5 py-1.5 rounded-lg">
-      <option value="" disabled selected>Select the {{ LabelTitle }}</option>
+      <option value="" disabled selected>Selecione o {{ LabelTitle }}</option>
       <option v-for="option in props.options" :key="option.id" :value="option.id">
         {{ option.name }}
       </option>
@@ -22,7 +22,7 @@ const props = defineProps({
     required: true
   },
   options: {
-    type: Array,
+    type: Array || string,
     required: true
   },
   modelValue: {
@@ -41,5 +41,6 @@ watch(() => props.modelValue, (newValue) => {
 const handleChange = (event) => {
   selectedOption.value = event.target.value;
   emit('update:modelValue', selectedOption.value);
+
 };
 </script>
