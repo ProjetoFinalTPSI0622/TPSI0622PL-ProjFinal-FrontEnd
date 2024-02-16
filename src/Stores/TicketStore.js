@@ -1,30 +1,68 @@
 import { defineStore } from 'pinia';
 import ToastStore from '@/Stores/ToastStore.js';
+import { TicketsService } from '@/Services/TicketsService.js';
 
 export const useTicketStore = defineStore({
     id: 'modal',
     state: () => ({
         showModal: false,
-        selectedTechnician: '',
-        selectBox: null,
+        newValue: null,
+        ticketID: null,
         oldValue: 0,
+        type: '',
     }),
     actions: {
-        handleShowModal(technicianName, selectbox, oldValue) {
+        handleShowModalStatus(technicianID, ticketID, oldValue) {
             this.showModal = true;
-            this.selectBox = selectbox;
+            this.ticketID = ticketID;
             this.oldValue = oldValue;
-            this.selectedTechnician = technicianName;
+            this.newValue = technicianID;
+            this.type='status';
+        },
+        handleShowModalTech(technicianID, ticketID, oldValue) {
+            this.showModal = true;
+            this.ticketID = ticketID;
+            this.oldValue = oldValue;
+            this.newValue = technicianID;
+            this.type='technician';
         },
         handleCancelModal() {
             this.showModal = false;
-            this.selectBox.selectedIndex = this.oldValue;
         },
-        handleConfirmModal() {
+        async handleConfirmModal() {
+            switch (this.type) {
+                case 'status':
+                    await this.changeStatus();
+                    break;
+                case 'technician':
+                    await this.assignTechnician();
+                    break;
+            }
             this.showModal = false;
-            this.oldValue = this.selectBox.selectedIndex;
-            ToastStore().triggerToast(`O técnico ${this.selectedTechnician} foi assignado ao ticket !`, 'success');
         },
+
+        async changeStatus() {
+            const response = await TicketsService.updateStatus(this.ticketID, this.newValue);
+            if(response.success) {
+                ToastStore().triggerToast(`O status do ticket foi alterado !`, 'success');
+            }
+            else(
+                ToastStore().triggerToast(`Erro ao alterar o status do ticket !`, 'error')
+            )
+        },
+
+        async assignTechnician() {
+            const response = await TicketsService.assignTechnician(this.ticketID, this.newValue);
+            if(response.success) {
+                ToastStore().triggerToast(`O técnico foi assignado ao ticket !`, 'success');
+            }
+            else(
+                ToastStore().triggerToast(`Erro ao assignar o técnico ao ticket !`, 'error')
+            )
+        },
+
+
+
         convertTicketsToPDF(filteredTickets) {
             let ticketsElement = document.createElement('div');
             filteredTickets.forEach(ticket => {

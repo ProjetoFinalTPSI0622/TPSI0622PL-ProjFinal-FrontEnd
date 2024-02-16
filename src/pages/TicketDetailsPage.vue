@@ -4,7 +4,7 @@ import SideSectionTop from "@/components/SideSectionTop.vue";
 import { TicketsService } from "@/Services/TicketsService";
 import { UserService } from "@/Services/UserService.js";
 import { onBeforeMount, reactive, ref, watch, nextTick } from 'vue';
-import { useRoute } from 'vue-router';
+import {onBeforeRouteUpdate, useRoute} from 'vue-router';
 import SimpleButton from '@/components/SimpleButton.vue';
 import DescriptionView from '@/components/TicketDetails/DescriptionView.vue';
 import CommentsView from '@/components/TicketDetails/CommentsView.vue';
@@ -23,15 +23,25 @@ const route = useRoute();
 const ticket = ref({});
 const technicians = ref([]);
 const ticketStore = useTicketStore();
+const statuses = ref([]);
 
 //COMMENTS
 const comments = ref([]);
 
+onBeforeRouteUpdate((to, from, next) => {
+  getTicket(to.params.ticketId)
+      .then(() => next())
+      .catch(error => {
+        console.error('Error fetching ticket details:', error);
+        next(false); 
+      });
+});
 
 
 onBeforeMount(async () => {
   await getTicket();
   await getTechnicians();
+  await getStatuses();
 });
 
 const viewState = reactive({
@@ -59,6 +69,14 @@ const getTicket = async () => {
   }
 };
 
+const getStatuses = async () => {
+  try {
+    statuses.value = (await TicketsService.getStatuses()).data;
+  } catch (error) {
+    console.error('Error fetching statuses:', error);
+  }
+};
+
 const fetchComments = async () => {
   try {
     comments.value = (await CommentsService.getComments(ticket.value.id)).data.comments;
@@ -78,8 +96,12 @@ watch(
   }
 )
 
-const handleShowModal = (technicianName, selectbox, oldValue) => {
-  ticketStore.handleShowModal(technicianName, selectbox, oldValue);
+const handleShowModalStatus = (technicianName, oldValue) => {
+  ticketStore.handleShowModalStatus(technicianName, ticket.value.id, oldValue);
+};
+
+const handleShowModalTech = (technicianName, oldValue) => {
+  ticketStore.handleShowModalTech(technicianName, ticket.value.id, oldValue);
 };
 
 const handleCancelModal = () => {
@@ -113,7 +135,7 @@ const handleConfirmModal = () => {
             Técnico
           </label>
           <div class="flex justify-between w-40 lg:w-full">
-            <SelectAssign :assignedto="ticket.assignedto" :technicians="technicians" @show-modal="handleShowModal" />
+            <SelectAssign :currentValue="ticket.assignedto" :newValues="technicians" @show-modal="handleShowModalTech" />
           </div>
         </div>
 
@@ -139,12 +161,9 @@ const handleConfirmModal = () => {
           <label class="text-pink-600 text-l xl:text-lg justify-center">
             Estado
           </label>
-          <select
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-            <option disabled selected>
-              {{ ticket.status ? ticket.status.name : 'N/A' }}
-            </option>
-          </select>
+          <div class="flex justify-between w-40 lg:w-full">
+            <SelectAssign :currentValue="ticket.status" :newValues="statuses" @show-modal="handleShowModalStatus" />
+          </div>
         </div>
         <SimpleButton class="w-full py-1 mt-4">
           <img class="self-center" src="../assets/remove.svg" />
@@ -176,11 +195,11 @@ const handleConfirmModal = () => {
           <CommentsView :comment="comment" />
         </div>
         <div v-else>
-          <DescriptionView :description="ticket.description" />
+          <DescriptionView :myTicket="ticket" />
         </div>
       </div>
 
-      <div class="sm:h-[30vh]" v-if="viewState.showComments">
+      <div v-if="viewState.showComments">
         <CreateCommentForm :ticket="ticket" @refreshComments="fetchComments" />
       </div>
 

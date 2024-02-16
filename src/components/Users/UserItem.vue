@@ -42,29 +42,35 @@ const handleCancelModal = () => {
 </script>
 
 <template>
-  <tr class="hoverGrey border-b-black border-b-opacity-30 border-b border-solid items-start">
+  <tr class="hoverGrey border-b-black border-b-opacity-30 border-b border-solid grid grid-cols-3 sm:grid-cols-4 gap-4 pl-[10%] pr-[5%] sm:pl-[20%] sm:pr-[15%]">
 
-    <td class="flex flex-col pl-2.5 sm:items-center">
+    <td class="flex flex-col gap-1 py-2 overflow-hidden overflow-ellipsis">
       <img loading="lazy" :src="user.user_info.profile_picture_path"
-        class="aspect-square object-contain object-center w-10 h-10 md:w-20 md:h-20 overflow-hidden mr-2 md:mr-4 max-w-full rounded-[50%] hidden sm:table-cell" />
-      <div class="flex flex-col md:flex-row w-full my-4">
-        <div class="text-black text-opacity-80 text-xs sm:text-lg text-left mb-1 md:mb-0 md:mr-4 sm:w-full sm:text-center">
+        class="aspect-square object-cover content-start w-12 overflow-hidden shrink-0 max-w-full rounded-[50%]" />
+      <div class="flex w-full ">
+        <div class="whitespace-nowrap text-black text-opacity-80 text-xs sm:text-lg text-left sm:w-full overflow-hidden overflow-ellipsis">
           {{ user.name }}
         </div>
       </div>
     </td>
 
-    <td class="whitespace-nowrap hidden sm:table-cell text-lg text-center">{{ user.email }}</td>
-    <td class="whitespace-nowrap text-xs text-center sm:text-lg ">{{ user.user_info.class }}</td>
-    <td class="whitespace-nowrap text-xs text-center sm:text-lg">{{ user.internalcode }}</td>
-    
-    <td class="whitespace-nowrap text-center py-2.5 sm-py-0">
+    <td
+      class="whitespace-nowrap text-xs sm:text-lg self-center overflow-hidden overflow-ellipsis">
+      {{ user.user_info.class }}
+    </td>
+    <td
+      class="hidden sm:block whitespace-nowrap text-xs sm:text-lg self-center overflow-hidden overflow-ellipsis">
+      {{ user.internalcode }}
+    </td>
+
+    <td
+      class="whitespace-nowrap  py-2.5 sm-py-0 self-center">
       <button @click.stop="openModal(user)"
         class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition duration-300 text-xs sm:text-lg">
         Apagar
       </button>
     </td>
-    
+
     <Modal :show="showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
       <template #title>
         Apagar utilizador

@@ -10,4 +10,8 @@ export const NotificationsService = {
         return await AxiosService.makeRequest('get', '/notifications/check');
     },
 
+    markAsSeen: async (id) => {
+        return await AxiosService.makeRequest('post', `/notifications/markAsSeen/${id}`);
+    },
+
 };
