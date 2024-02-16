@@ -42,6 +42,7 @@ onBeforeMount(async () => {
   await getTicket();
   await getTechnicians();
   await getStatuses();
+  await getAuthedUser();
 });
 
 const viewState = reactive({

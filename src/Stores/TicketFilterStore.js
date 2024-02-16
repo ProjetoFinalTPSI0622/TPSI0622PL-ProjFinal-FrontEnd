@@ -28,7 +28,6 @@ export const useTicketFilterStore = defineStore({
     },
     actions: {
         async getTickets() {
-            console.log('inside get tickets')
             this.tickets = (await TicketsService.getTickets()).data;
             return this.tickets;
         },

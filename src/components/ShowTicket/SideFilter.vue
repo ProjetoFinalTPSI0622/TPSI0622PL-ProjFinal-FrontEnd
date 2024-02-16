@@ -3,14 +3,14 @@ import { ref, reactive, onMounted, watch } from 'vue';
 import SideSection from '../SideSection.vue';
 import SideSectionTop from '../SideSectionTop.vue';
 import { useTicketFilterStore } from '@/Stores/TicketFilterStore';
-import { UserService } from '@/Services/UserService';
+import { useAuthedUserStore } from '@/Stores/UserStore';
 
 const ticketFilterStore = useTicketFilterStore();
-let authedUser = ref(null);
 let state = reactive({ selected: null });
+const authedUserStore = useAuthedUserStore();
 
 onMounted(async () => {
-    authedUser.value = await UserService.getAuthedUser();
+    await authedUserStore.fetchAuthedUser();    
 });
 
 const showAllTickets = () => {
@@ -20,19 +20,19 @@ const showAllTickets = () => {
 };
 
 const toggleAssignedToMe = () => {
-    ticketFilterStore.handleFilterChange('technician', authedUser.value.data.name);
+    ticketFilterStore.handleFilterChange('technician', authedUserStore.currentUser.name);
     state.selected = 'Assignados a mim';
     emitFilterChange();
 };
 
 const toggleMyTickets = () => {
-    ticketFilterStore.handleFilterChange('user', authedUser.value.data.name);
+    ticketFilterStore.handleFilterChange('user', authedUserStore.currentUser.name);
     state.selected = 'Os meus tickets';
     emitFilterChange();
 };
 
 const toggleStatus = (status) => {
-    ticketFilterStore.handleFilterReset(); 
+    ticketFilterStore.handleFilterReset();
     ticketFilterStore.handleFilterChange('status', status);
     state.selected = status;
     emitFilterChange();
@@ -86,44 +86,19 @@ watch(() => ticketFilterStore.filteredTickets, () => {
                         <span
                             class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
-                    <span @click="toggleStatus('Unassigned')"
-                        :class="{ 'bg-greyDark': state.selected === 'Unassigned' }"
-                        class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
-                        <div class="text-purple text-l xl:text-lg">
-                            Unassigned</div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
-                    </span>
-                    <span @click="toggleStatus('Assigned')" :class="{ 'bg-greyDark': state.selected === 'Assigned' }"
+                    <span @click="toggleStatus('Em progresso')"
+                        :class="{ 'bg-greyDark': state.selected === 'Em progresso' }"
                         class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
                         <div class="text-purple text-l xl:text-lg whitespace-nowrap">
-                            Assigned
+                            Em progresso
                         </div>
                         <span
                             class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
-                    <span @click="toggleStatus('In Progress')"
-                        :class="{ 'bg-greyDark': state.selected === 'In Progress' }"
+                    <span @click="toggleStatus('Completo')" :class="{ 'bg-greyDark': state.selected === 'Completo' }"
                         class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
                         <div class="text-purple text-l xl:text-lg whitespace-nowrap">
-                            In Progress
-                        </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
-                    </span>
-                    <span @click="toggleStatus('Completed')"
-                        :class="{ 'bg-greyDark': state.selected === 'Completed' }"
-                        class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
-                        <div class="text-purple text-l xl:text-lg whitespace-nowrap">
-                            Completed
-                        </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
-                    </span>
-                    <span @click="toggleStatus('Solved')" :class="{ 'bg-greyDark': state.selected === 'Solved' }"
-                        class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
-                        <div class="text-purple text-l xl:text-lg whitespace-nowrap">
-                            Solved
+                            Completo
                         </div>
                         <span
                             class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
