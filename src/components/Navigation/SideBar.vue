@@ -4,7 +4,7 @@
 
         <router-link to="/" class="lg:w-full w-6"><img src="../../assets/home.svg"></router-link>
         <router-link to="/tickets/show" class="lg:w-full w-6"><img src="../../assets/ticket.svg"></router-link>
-        <router-link to="/users" class="lg:w-full w-6"><img src="../../assets/user.svg"></router-link>
+        <router-link v-if="isAdmin" to="/users" class="lg:w-full w-6"><img src="../../assets/user.svg"></router-link>
         <router-link to="/dashboard" class="lg:w-full w-6"><img src="../../assets/pie-chart.svg"></router-link>
         <img class="md:hidden min-w-4" src="../../assets/Ellipse 5.svg">
     </div>
@@ -12,7 +12,13 @@
 
 <script setup>
 import { RouterLink } from 'vue-router';
+import { computed } from 'vue';
+import { AuthService } from '@/Services/AuthService';
 
+const isAdmin = computed(() => {
+  const userRole = AuthService.getUserRole();
+  return userRole === 'admin';
+});
 
 </script>
 
