@@ -7,12 +7,16 @@ const emit = defineEmits(['refreshComments']);
 
 const selectedCommentType = ref(1);
 const commentTypes = ref(null);
-const commentBody = ref(null);
+const commentBody = ref('');
 const attachedFiles = ref([]);
 
 const props = defineProps({
     ticket: Object
 });
+
+const handleUpdateAttachedFiles = (newFiles) => {
+    attachedFiles.value = newFiles;
+};
 
 onBeforeMount(async () => {
     await getCommentTypes();
@@ -72,7 +76,7 @@ const postComment = async () => {
         </div>
         <form class="w-full border border-solid border-black border-opacity-20 rounded-lg bg-grey">
             <div class="px-4 py-2 bg-grey rounded-t-lg">
-                <TiptapEditor v-model="commentBody" :attachedFiles="attachedFiles" />
+                <TiptapEditor v-model="commentBody" :attachedFiles="attachedFiles" @update:attachedFiles="handleUpdateAttachedFiles" />
             </div>
         </form>
     </div>

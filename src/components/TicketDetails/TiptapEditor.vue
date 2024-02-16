@@ -22,9 +22,13 @@ import RedoIcon from 'vue-material-design-icons/Redo.vue'
 
 const props = defineProps({
     modelValue: String,
+    attachedFiles: Array,
 })
 
-const emit = defineEmits(['update:modelValue'])
+const fileInputRef = ref(null)
+const emit = defineEmits(['update:modelValue', 'update:attachedFiles'])
+const isEmojiPickerVisible = ref(false)
+const myAttachedFiles = ref(props.attachedFiles)
 
 const editor = useEditor({
     content: props.modelValue,
@@ -51,15 +55,12 @@ watch(() => props.modelValue, (newValue) => {
     editor.value.commands.setContent(newValue);
 })
 
-const isEmojiPickerVisible = ref(false)
-const attachedFiles = ref([])
-
 const toggleEmojiPicker = () => {
     isEmojiPickerVisible.value = !isEmojiPickerVisible.value
 }
 
 const onSelectEmoji = (emoji) => {
-    editor.chain().focus().insertContent(emoji.i).run()
+    editor.value.chain().focus().insertContent(emoji.i).run()
     isEmojiPickerVisible.value = false
 }
 
@@ -68,19 +69,26 @@ const triggerFileInput = () => {
 }
 
 const handleFileChange = (event) => {
-    const file = event.target.files[0]
-    const reader = new FileReader()
-    reader.onload = (e) => {
-        attachedFiles.value.push({ src: e.target.result })
+    for (const file of event.target.files) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            myAttachedFiles.value.push({ src: e.target.result, file });
+            
+            emit('update:attachedFiles', myAttachedFiles.value)
+        };
+        reader.readAsDataURL(file);
     }
-    reader.readAsDataURL(file)
-}
+};
 
 const removeAttachedFile = (index) => {
-    attachedFiles.value.splice(index, 1)
+    myAttachedFiles.value.splice(index, 1)
+    emit('update:attachedFiles', myAttachedFiles.value)
 }
 
-const fileInputRef = ref(null)
+watch(() => props.attachedFiles, (newVal) => {
+    myAttachedFiles.value = [...newVal];
+});
+
 
 </script>
 
@@ -137,6 +145,7 @@ const fileInputRef = ref(null)
             :disabled="!editor.can().chain().focus().redo().run()" class="disabled:text-gray-400">
             <RedoIcon />
         </button>
+
         <div class="relative">
             <button type="button" @click="toggleEmojiPicker"
                 class="inline-flex justify-center items-center text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
@@ -146,13 +155,15 @@ const fileInputRef = ref(null)
                 <EmojiPicker v-if="isEmojiPickerVisible" :native="true" @select="onSelectEmoji" />
             </div>
         </div>
+        
+        <input type="file" ref="fileInputRef" @change="handleFileChange" multiple class="hidden" />
         <button type="button" @click="triggerFileInput"
             class="inline-flex justify-center items-center text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
             <img src="../../assets/attach.svg" />
         </button>
-        <input type="file" ref="fileInputRef" @change="handleFileChange" class="hidden" />
-        <div v-if="attachedFiles.length" class="flex gap-3">
-            <div v-for="(attached, index) in attachedFiles" :key="index" class="relative">
+
+        <div v-if="myAttachedFiles.length" class="flex gap-3">
+            <div v-for="(attached, index) in myAttachedFiles" :key="index" class="relative">
                 <img :src="attached.src" class="aspect-square object-cover object-center w-10 h-10 overflow-hidden shrink-0"
                     alt="Attached image">
                 <button @click="removeAttachedFile(index)"
@@ -161,6 +172,7 @@ const fileInputRef = ref(null)
                 </button>
             </div>
         </div>
+
     </section>
     <editor-content :editor="editor" />
 </template>

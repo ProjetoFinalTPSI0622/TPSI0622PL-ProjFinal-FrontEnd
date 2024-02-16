@@ -1,7 +1,7 @@
 <script setup>
 
 const props = defineProps({
-    myTicket: String
+    myTicket: Object
 });
 </script>
 
