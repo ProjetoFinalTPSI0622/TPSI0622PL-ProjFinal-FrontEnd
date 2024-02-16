@@ -4,7 +4,7 @@
 
         <router-link to="/" class="lg:w-full w-6"><img src="../../assets/home.svg"></router-link>
         <router-link to="/tickets/show" class="lg:w-full w-6"><img src="../../assets/ticket.svg"></router-link>
-        <router-link to="/users" class="lg:w-full w-6"><img src="../../assets/user.svg"></router-link>
+        <router-link v-if="authedUserStore.userRole === 'admin'" to="/users" class="lg:w-full w-6"><img src="../../assets/user.svg"></router-link>
         <router-link to="/dashboard" class="lg:w-full w-6"><img src="../../assets/pie-chart.svg"></router-link>
         <img class="md:hidden min-w-4" src="../../assets/Ellipse 5.svg">
     </div>
@@ -12,7 +12,13 @@
 
 <script setup>
 import { RouterLink } from 'vue-router';
+import { onBeforeMount } from 'vue';
+import { useAuthedUserStore } from '@/Stores/UserStore.js';
 
+const authedUserStore = useAuthedUserStore();
+
+onBeforeMount(async () => {
+    await authedUserStore.fetchAuthedUser();
+});
 
 </script>
-

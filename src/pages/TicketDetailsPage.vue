@@ -3,7 +3,7 @@ import SideSection from "@/components/SideSection.vue";
 import SideSectionTop from "@/components/SideSectionTop.vue";
 import { TicketsService } from "@/Services/TicketsService";
 import { UserService } from "@/Services/UserService.js";
-import { onBeforeMount, reactive, ref, watch, nextTick } from 'vue';
+import { onBeforeMount, reactive, ref, watch } from 'vue';
 import {onBeforeRouteUpdate, useRoute} from 'vue-router';
 import SimpleButton from '@/components/SimpleButton.vue';
 import DescriptionView from '@/components/TicketDetails/DescriptionView.vue';
@@ -14,9 +14,10 @@ import Modal from "@/components/Modal.vue";
 import { useTicketStore } from '@/Stores/TicketStore.js';
 import SelectAssign from '@/components/SelectAssign.vue';
 import CreateCommentForm from "@/components/TicketDetails/CreateCommentForm.vue";
-
 import { CommentsService } from "@/Services/CommentsService.js";
+import { useAuthedUserStore } from '@/Stores/UserStore.js';
 
+const authedUserStore = useAuthedUserStore();
 
 //TICKET
 const route = useRoute();
@@ -42,6 +43,7 @@ onBeforeMount(async () => {
   await getTicket();
   await getTechnicians();
   await getStatuses();
+  await authedUserStore.fetchAuthedUser();
 });
 
 const viewState = reactive({
@@ -165,7 +167,7 @@ const handleConfirmModal = () => {
             <SelectAssign :currentValue="ticket.status" :newValues="statuses" @show-modal="handleShowModalStatus" />
           </div>
         </div>
-        <SimpleButton class="w-full py-1 mt-4">
+        <SimpleButton v-if="authedUserStore.userRole === 'admin'" class="w-full py-1 mt-4">
           <img class="self-center" src="../assets/remove.svg" />
           Fechar ticket
         </SimpleButton>

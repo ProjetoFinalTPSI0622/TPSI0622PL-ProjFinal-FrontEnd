@@ -19,12 +19,6 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
-        path: '/settings/notifications',
-        name: 'Notifications',
-        component: () => import('@/pages/Notifications.vue'),
-        meta: { requiresAuth: true }
-      },
-      {
         path: '/settings/security',
         name: 'Security',
         component: () => import('@/pages/security.vue'),
@@ -34,7 +28,7 @@ const routes = [
         path: '/settings/configurations',
         name: 'Configurations',
         component: () => import('./pages/ConfigureAppPage.vue'),
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true, requiredRole: ['admin', 'technician'] }
       },
       {
         path: '/tickets/show',
@@ -52,30 +46,31 @@ const routes = [
         path: '/tickets/:ticketId',
         name: 'ticketDetails',
         component: () => import('@/pages/TicketDetailsPage.vue'),
+        meta: { requiresAuth: true, requiredRole: ['admin', 'technician'] }    //// TODO: add created by user role
       },
       {
         path: '/users',
         name: 'Users',
         component: () => import('@/pages/UsersPage.vue'),
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true, requiredRole: 'admin' }
       },
       {
         path: '/users/create',
         name: 'CreateUsers',
         component: () => import('@/pages/CreateUserPage.vue'),
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true, requiredRole: 'admin' }
       },
       {
         path: '/users/:userId',
         name: 'userDetails',
         component: () => import('@/pages/UserDetailsPage.vue'),
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true, requiredRole: 'admin' }
       },
       {
         path: '/dashboard',
         name: 'dashboard',
         component: () => import('@/pages/Dashboard.vue'),
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true, requiredRole: ['admin', 'technician'] }
       },
     ],
 
@@ -100,20 +95,20 @@ const routes = [
       }
     }
   },
-    {
-      path: '/logout',
-      name: 'Logout',
-      component: () => import('@/pages/LogoutPage.vue'),
-      beforeEnter: async (to, from, next) => {
-        const authResult = await AuthService.userLogout();
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: () => import('@/pages/LogoutPage.vue'),
+    beforeEnter: async (to, from, next) => {
+      const authResult = await AuthService.userLogout();
 
-        if (authResult.success) {
-          next({ name: "Login" });
-        } else {
-          next({ name: "Login" });
-        }
+      if (authResult.success) {
+        next({ name: "Login" });
+      } else {
+        next({ name: "Login" });
       }
     }
+  }
 ];
 
 const router = createRouter({
@@ -125,6 +120,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     try {
       const authResult = await AuthService.checkAuth();
+      console.log(authResult.data.roles[0].name);
 
       if (!authResult.success) {
         next({
@@ -132,7 +128,16 @@ router.beforeEach(async (to, from, next) => {
           query: { redirect: to.fullPath },
         });
       } else {
-        next();
+        if (to.matched.some((record) => record.meta.requiredRole)) {
+          const requiredRoles = to.matched.find((record) => record.meta.requiredRole).meta.requiredRole;
+          if (!requiredRoles.includes(authResult.data.roles[0].name)) {
+            next({ name: "NotFound" });
+          } else {
+            next();
+          }
+        } else {
+          next();
+        }
       }
     } catch (error) {
       console.error("Error during authentication:", error);
@@ -144,7 +149,6 @@ router.beforeEach(async (to, from, next) => {
   } else {
     next();
   }
-
 });
 
 export default router;

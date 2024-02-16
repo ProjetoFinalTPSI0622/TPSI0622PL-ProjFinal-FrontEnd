@@ -12,4 +12,5 @@ export const AuthService = {
     userLogout: async () => {
         return await AxiosService.makeRequest('get', '/auth/logout');
     },
+    
 };

@@ -3,43 +3,14 @@ import SideSection from "@/components/SideSection.vue";
 import SideSectionTop from "@/components/SideSectionTop.vue";
 import { TicketsService } from "@/Services/TicketsService";
 import { UserService } from "@/Services/UserService";
-import { onBeforeMount, ref, reactive } from "vue";
+import { onBeforeMount, ref } from "vue";
 import router from "@/router.js";
-import EmojiPicker from 'vue3-emoji-picker';
-import 'vue3-emoji-picker/css';
 import TiptapEditor from '@/components/TicketDetails/TiptapEditor.vue';
 
-
-const isEmojiPickerVisible = ref(false);
-
 const attachedFiles = ref([]);
-const fileInputRef = ref(null);
 
-const toggleEmojiPicker = () => {
-    isEmojiPickerVisible.value = !isEmojiPickerVisible.value;
-};
-
-const onSelectEmoji = (emoji) => {
-    ticketDescription.value += emoji.i;
-    isEmojiPickerVisible.value = false;
-};
-
-const triggerFileInput = () => {
-    fileInputRef.value.click();
-};
-
-const handleFileChange = (event) => {
-    for (const file of event.target.files) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            attachedFiles.value.push({ src: e.target.result, file });
-        };
-        reader.readAsDataURL(file);
-    }
-};
-
-const removeAttachedFile = (index) => {
-    attachedFiles.value.splice(index, 1);
+const handleUpdateAttachedFiles = (newFiles) => {
+    attachedFiles.value = newFiles;
 };
 
 const category = ref({
@@ -155,59 +126,24 @@ onBeforeMount(async () => {
             <div
                 class="text-purple flex flex-col gap-4 sm:text-2xl text-xl h-[30vh] whitespace-nowrap justify-between p-3 items-start">
 
-                <div class="flex gap-2">
-                    <img src="../assets/corner-up-left.svg" />
-                    <span>Descrição do seu problema</span>
+                <div class="flex justify-between text-xl gap-2 w-full">
+                    <div class="flex">
+                        <img src="../assets/corner-up-left.svg" />
+                        <span class="flex px-2">Descrição do seu problema</span>
+                    </div>
+                    <button type="submit" @click.prevent="submitHandler" :disabled="isSubmitting"
+                        class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverBlue">
+                        Criar Ticket
+                    </button>
+
                 </div>
 
-                <form class="w-full">
-                    <div class="w-full border border-solid border-black border-opacity-20 rounded-lg bg-grey">
-                        <div class="px-4 py-2 bg-grey rounded-t-lg">
+                <form class="w-full border border-solid border-black border-opacity-20 rounded-lg bg-grey">
+                    <div class="px-4 py-2 bg-grey rounded-t-lg">
 
-                            <TiptapEditor v-model="ticketDescription" />
+                        <TiptapEditor v-model="ticketDescription" :attachedFiles="attachedFiles"
+                            @update:attachedFiles="handleUpdateAttachedFiles" />
 
-                        </div>
-
-                        <div class="flex items-center justify-between px-3 py-2 border-t">
-                            <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
-
-                                <div class="relative">
-                                    <button type="button" @click="toggleEmojiPicker"
-                                        class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
-                                        <img src="../assets/emoji.svg" />
-                                    </button>
-                                    <div v-if="isEmojiPickerVisible" class="absolute bottom-full mb-2 left-0 z-50">
-                                        <EmojiPicker v-if="isEmojiPickerVisible" :native="true" @select="onSelectEmoji" />
-                                    </div>
-                                </div>
-
-                                <input type="file" @change="handleFileChange" multiple class="hidden" ref="fileInputRef">
-                                <button type="button" @click="triggerFileInput"
-                                    class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
-                                    <img src="../assets/attach.svg" />
-                                </button>
-
-                                <div v-if="attachedFiles.length" class="flex gap-3">
-                                    <div v-for="(attached, index) in attachedFiles" :key="index" class="relative">
-
-                                        <img :src="attached.src"
-                                            class="aspect-square object-cover object-center w-10 h-10 overflow-hidden shrink-0"
-                                            alt="Imagem anexada">
-
-                                        <button @click="removeAttachedFile(index)"
-                                            class="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 text-xs leading-none"
-                                            style="transform: translate(50%, -50%);">&times
-                                        </button>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                            <button type="submit" @click.prevent="submitHandler" :disabled="isSubmitting"
-                                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverBlue">
-                                Criar Ticket
-                            </button>
-                        </div>
                     </div>
                 </form>
 

@@ -3,7 +3,7 @@
 import { reactive, watch } from 'vue';
 import { useTicketFilterStore } from '@/Stores/TicketFilterStore.js';
 import { UserService } from '@/Services/UserService';
-import { StatesService } from '@/Services/StatesService';
+import { StatusesService } from '@/Services/StatusesService';
 import { TicketsService } from '@/Services/TicketsService';
 
 const ticketFilterStore = useTicketFilterStore();
@@ -25,7 +25,7 @@ const serviceMethods = {
     technician: UserService.getTechnicians,
     category: TicketsService.getCategories,
     priority: TicketsService.getPriorities,
-    status: StatesService.getStates,
+    status: StatusesService.getStatuses,
 };
 
 const toggleDropdown = () => {
