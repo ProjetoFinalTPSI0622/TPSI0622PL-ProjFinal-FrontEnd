@@ -6,6 +6,7 @@
         <router-link to="/tickets/show" class="lg:w-full w-6"><img src="../../assets/ticket.svg"></router-link>
         <router-link v-if="authedUserStore.userRole === 'admin'" to="/users" class="lg:w-full w-6"><img src="../../assets/user.svg"></router-link>
         <router-link to="/dashboard" class="lg:w-full w-6"><img src="../../assets/pie-chart.svg"></router-link>
+        <router-link to="/settings/configurations" class="lg:w-full w-6"><img src="../../assets/settings.svg"></router-link>
         <img class="md:hidden min-w-4" src="../../assets/Ellipse 5.svg">
     </div>
 </template>

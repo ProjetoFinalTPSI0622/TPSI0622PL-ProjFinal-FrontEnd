@@ -1,6 +1,6 @@
 <template>
     <div class="md:flex w-full h-full">
-        <SettingsBar />
+        
         <div class="flex flex-col w-[75%] p-8">
             <div class="overflow-y-auto">
                 <ConfigureApp />
