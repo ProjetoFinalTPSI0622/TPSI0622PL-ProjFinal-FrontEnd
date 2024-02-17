@@ -1,31 +1,50 @@
 <script setup>
 
-import { ref, reactive, onBeforeMount } from 'vue'
+import { ref, reactive, onBeforeMount, onMounted, onUnmounted } from 'vue'
 import { NotificationsService } from '@/Services/NotificationsService'
 import { UserService } from '@/Services/UserService';
 import { NotificationHandler } from "@/Services/NotificationHandler.js";
 
+
+
 const currentUser = ref(null);
+const userInfo = ref(null);
 
 const showDropdown = ref(false);
 const notificationCount = ref(0);
 const notifications = ref([]);
 
 const dropdownItems = reactive([
-    { id: 1, name: 'yooooo', href: '#link1' },
-    { id: 2, name: 'yooooo', href: '#link2' },
-    { id: 3, name: 'Settings', routeName: 'Account' },
-    { id: 4, name: 'LogOut', routeName: 'Logout' }
+    { id: 1, name: 'Settings', routeName: 'Account' },
+    { id: 2, name: 'LogOut', routeName: 'Logout' }
 ],);
 const toggleDropdown = () => {
     showDropdown.value = !showDropdown.value;
 }
 
+const fetchUser = async () => {
+    currentUser.value = (await UserService.getAuthedUser()).data;
+    userInfo.value = (await UserService.getUser(currentUser.value.id)).data;
+};
+
 onBeforeMount(async () => {
     
     await checkNotificationCount();
     await getNotifications();
-    currentUser.value = (await UserService.getAuthedUser()).data;
+    await fetchUser();
+});
+
+
+const updateUserInfo = () => {
+  fetchUser();
+};
+
+onMounted(() => {
+  window.addEventListener('user-updated', updateUserInfo);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('user-updated', updateUserInfo);
 });
 
 const getNotifications = async () => {
@@ -79,14 +98,17 @@ setInterval(() => {
                     </router-link>
                 </div>
             </div>
-
             <div
                 class="relative bg-purple hidden md:flex flex-row h-full rounded-3xl items-center content-between py-5 pl-2 sm:gap-5 sm:pl-4 hoverBlue">
                 <input type="checkbox" id="sortbox" class="hidden absolute">
                 <label for="sortbox" class="flex items-center gap-2 cursor-pointer">
-                    <img src="../../assets/Chevron Down.svg">
-                    <p class="hidden sm:block text-white text-xl">{{ currentUser ? currentUser.name : '' }}</p>
-                    <img class="w-12" src="../../assets/Ellipse 5.svg">
+                    <img src="../../assets/Chevron Down.svg" >
+                    <p class="hidden sm:block text-white text-xl">{{ currentUser ? currentUser.name : '' }} </p>
+                    <p>{{ 	 }}</p>
+            
+                    
+                    <img loading="lazy" v-if="userInfo?.user_info?.profile_picture_path" :src="userInfo.user_info.profile_picture_path" alt="Imagem Utilizador"
+        class="aspect-square object-cover content-start w-12 overflow-hidden shrink-0 max-w-full rounded-[50%]" />
                 </label>
 
                 <div id="sortboxmenu"

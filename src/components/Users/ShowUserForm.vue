@@ -133,6 +133,7 @@ const UpdateUser = async () => {
         await UserService.updateUserInfo(formData).then((response) => {
             
             if (response.success) {
+                window.dispatchEvent(new Event('user-updated'));
                 showModal.value = false;
                 router.push({ name: 'Users' });
                 ToastStore().triggerToast(`Utilizador actualizado com sucesso!`, 'success');
