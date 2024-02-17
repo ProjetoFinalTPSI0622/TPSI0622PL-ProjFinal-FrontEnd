@@ -104,9 +104,6 @@ setInterval(() => {
                 <label for="sortbox" class="flex items-center gap-2 cursor-pointer">
                     <img src="../../assets/Chevron Down.svg" >
                     <p class="hidden sm:block text-white text-xl">{{ currentUser ? currentUser.name : '' }} </p>
-                    <p>{{ 	 }}</p>
-            
-                    
                     <img loading="lazy" v-if="userInfo?.user_info?.profile_picture_path" :src="userInfo.user_info.profile_picture_path" alt="Imagem Utilizador"
         class="aspect-square object-cover content-start w-12 overflow-hidden shrink-0 max-w-full rounded-[50%]" />
                 </label>
