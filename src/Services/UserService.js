@@ -13,6 +13,7 @@ export const UserService = {
         return AxiosService.makeRequest('post', '/users', user, );
     },
 
+
     createUserInfo: async (userInfo) => {
         return AxiosService.makeRequest('post', '/userInfo', userInfo, 'multipart/form-data');
     },
