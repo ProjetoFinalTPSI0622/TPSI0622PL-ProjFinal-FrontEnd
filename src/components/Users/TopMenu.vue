@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue';
-import SimpleButton from '../SimpleButton.vue';
-import SearchBox from '../SearchBox.vue';
+import SimpleButton from '@/components/SimpleButton.vue';
+import SearchBox from '@/components/Users/UsersSearchBox.vue';
 import { RouterLink } from 'vue-router';
 
 const props = defineProps({
