@@ -25,10 +25,10 @@ const clickHandler = (id) => {
 
         <thead>
             <tr class="border-b-black border-b-opacity-30 border-b border-solid">
-                <th class="hidden sm:flex pl-5">REQUESTER</th>
-                <th>TITLE</th>
-                <th>ASSIGNEE</th>
-                <th>STATUS</th>
+                <th class="hidden sm:flex pl-5">CRIADO POR</th>
+                <th>TITULO</th>
+                <th>TÉCNICO</th>
+                <th>ESTADO</th>
             </tr>
         </thead>
 

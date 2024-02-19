@@ -12,7 +12,6 @@ const state = reactive({
     isOpen: false,
     selectedOptions: [],
     dropdownItems: [
-        { id: 'user', name: 'Criado por' },
         { id: 'technician', name: 'Técnico' },
         { id: 'category', name: 'Categoria' },
         { id: 'priority', name: 'Prioridade' },
@@ -21,7 +20,6 @@ const state = reactive({
 });
 
 const serviceMethods = {
-    user: UserService.getUsers,
     technician: UserService.getTechnicians,
     category: TicketsService.getCategories,
     priority: TicketsService.getPriorities,
