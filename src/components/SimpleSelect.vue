@@ -35,11 +35,14 @@ const handleMousedown = () => {
         class="border bg-white w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20"
         :disabled="authedUserStore.userRole !== 'admin'">
         <option selected>
-            {{ currentValue ? currentValue.name : 'Unassigned' }}
+            {{ currentValue ? currentValue.name : 'Sem Técnico' }}
         </option>
 
-        <option v-for="newValue in newValues" :key="newValue.id" :value="newValue.id">
-            {{ newValue.name }}
-        </option>
+        <template v-for="newValue in newValues">
+            <option :key="newValue.id" :value="newValue.id"
+                v-if="newValue && (!currentValue || newValue.name !== currentValue.name)">
+                {{ newValue.name }}
+            </option>
+        </template>
     </select>
 </template>

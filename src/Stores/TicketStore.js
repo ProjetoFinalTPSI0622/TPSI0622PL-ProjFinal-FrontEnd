@@ -17,14 +17,14 @@ export const useTicketStore = defineStore({
             this.ticketID = ticketID;
             this.oldValue = oldValue;
             this.newValue = technicianID;
-            this.type='status';
+            this.type = 'status';
         },
         handleShowModalTech(technicianID, ticketID, oldValue) {
             this.showModal = true;
             this.ticketID = ticketID;
             this.oldValue = oldValue;
             this.newValue = technicianID;
-            this.type='technician';
+            this.type = 'technician';
         },
         handleCancelModal() {
             this.showModal = false;
@@ -43,25 +43,52 @@ export const useTicketStore = defineStore({
 
         async changeStatus() {
             const response = await TicketsService.updateStatus(this.ticketID, this.newValue);
-            if(response.success) {
+            if (response.success) {
                 ToastStore().triggerToast(`O status do ticket foi alterado !`, 'success');
             }
-            else(
+            else (
                 ToastStore().triggerToast(`Erro ao alterar o status do ticket !`, 'error')
             )
         },
 
         async assignTechnician() {
             const response = await TicketsService.assignTechnician(this.ticketID, this.newValue);
-            if(response.success) {
+            if (response.success) {
                 ToastStore().triggerToast(`O técnico foi assignado ao ticket !`, 'success');
+                const statusResponse = await TicketsService.updateStatus(this.ticketID, 2);
+                if (statusResponse.success) {
+                    ToastStore().triggerToast(` status do tiOcket foi alterado para "Em Progresso"!`, 'success');
+                } else {
+                    ToastStore().triggerToast(`Erro ao alterar o status do ticket para "Em Progresso"!`, 'error');
+                }
+            } else {
+                ToastStore().triggerToast(`Erro ao assignar o técnico ao ticket !`, 'error');
             }
-            else(
-                ToastStore().triggerToast(`Erro ao assignar o técnico ao ticket !`, 'error')
-            )
         },
 
+        async closeTicket(ticketID) {
+            const response = await TicketsService.closeTicket(ticketID);
+            if (response.success) {
+                ToastStore().triggerToast(`O ticket foi fechado !`, 'success');
+            } else {
+                ToastStore().triggerToast(`Erro ao fechar o ticket !`, 'error');
+            }
+        },
 
+        async reopenTicket(ticketID) {
+            const response = await TicketsService.reopenTicket(ticketID);
+            if (response.success) {
+                ToastStore().triggerToast(`O ticket foi reaberto!`, 'success');
+                const updateAssignedToResponse = await TicketsService.assignTechnician(ticketID, null);
+                if (updateAssignedToResponse.success) {
+                    ToastStore().triggerToast(`O técnico foi removido do ticket !`, 'success');
+                } else {
+                    ToastStore().triggerToast(`Erro ao remover o técnico do ticket !`, 'error');
+                }
+            } else {
+                ToastStore().triggerToast(`Erro ao reabrir o ticket !`, 'error');
+            }
+        },
 
         convertTicketsToPDF(filteredTickets) {
             let ticketsElement = document.createElement('div');
