@@ -4,7 +4,7 @@ import SideSectionTop from "@/components/SideSectionTop.vue";
 import { TicketsService } from "@/Services/TicketsService";
 import { UserService } from "@/Services/UserService.js";
 import { onBeforeMount, reactive, ref, watch } from 'vue';
-import {onBeforeRouteUpdate, useRoute} from 'vue-router';
+import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import SimpleButton from '@/components/SimpleButton.vue';
 import DescriptionView from '@/components/TicketDetails/DescriptionView.vue';
 import CommentsView from '@/components/TicketDetails/CommentsView.vue';
@@ -12,10 +12,12 @@ import chatImg from '@/assets/chat.svg';
 import descriptionImg from '@/assets/descriptionWhite.svg';
 import Modal from "@/components/Modal.vue";
 import { useTicketStore } from '@/Stores/TicketStore.js';
-import SelectAssign from '@/components/SelectAssign.vue';
+import SimpleSelect from '@/components/SimpleSelect.vue';
 import CreateCommentForm from "@/components/TicketDetails/CreateCommentForm.vue";
 import { CommentsService } from "@/Services/CommentsService.js";
 import { useAuthedUserStore } from '@/Stores/UserStore.js';
+import ToastStore from '@/Stores/ToastStore.js';
+
 
 const authedUserStore = useAuthedUserStore();
 
@@ -31,11 +33,11 @@ const comments = ref([]);
 
 onBeforeRouteUpdate((to, from, next) => {
   getTicket(to.params.ticketId)
-      .then(() => next())
-      .catch(error => {
-        console.error('Error fetching ticket details:', error);
-        next(false); 
-      });
+    .then(() => next())
+    .catch(error => {
+      console.error('Error fetching ticket details:', error);
+      next(false);
+    });
 });
 
 
@@ -73,7 +75,8 @@ const getTicket = async () => {
 
 const getStatuses = async () => {
   try {
-    statuses.value = (await TicketsService.getStatuses()).data;
+    const response = (await TicketsService.getStatuses()).data;
+    statuses.value = response.filter(status => status.name !== 'Completo');
   } catch (error) {
     console.error('Error fetching statuses:', error);
   }
@@ -82,7 +85,6 @@ const getStatuses = async () => {
 const fetchComments = async () => {
   try {
     comments.value = (await CommentsService.getComments(ticket.value.id)).data.comments;
-    console.log(comments.value)
   } catch (error) {
     console.error('Error fetching comments:', error);
   }
@@ -114,6 +116,14 @@ const handleConfirmModal = () => {
   ticketStore.handleConfirmModal();
 };
 
+const closeTicket = async () => {
+  await ticketStore.closeTicket(ticket.value.id);
+};
+
+const reopenTicket = async () => {
+  await ticketStore.reopenTicket(ticket.value.id);
+};
+
 </script>
 
 <template>
@@ -137,7 +147,7 @@ const handleConfirmModal = () => {
             Técnico
           </label>
           <div class="flex justify-between w-40 lg:w-full">
-            <SelectAssign :currentValue="ticket.assignedto" :newValues="technicians" @show-modal="handleShowModalTech" />
+            <SimpleSelect :currentValue="ticket.assignedto" :newValues="technicians" @show-modal="handleShowModalTech" />
           </div>
         </div>
 
@@ -164,12 +174,18 @@ const handleConfirmModal = () => {
             Estado
           </label>
           <div class="flex justify-between w-40 lg:w-full">
-            <SelectAssign :currentValue="ticket.status" :newValues="statuses" @show-modal="handleShowModalStatus" />
+            <SimpleSelect :currentValue="ticket.status" :newValues="statuses" @show-modal="handleShowModalStatus" />
           </div>
         </div>
-        <SimpleButton v-if="authedUserStore.userRole === 'admin'" class="w-full py-1 mt-4">
+        <SimpleButton @click="closeTicket"
+          v-if="authedUserStore.userRole === 'admin' && ticket.status.name !== 'Completo'" class="w-full py-1 mt-4">
           <img class="self-center" src="../assets/remove.svg" />
           Fechar ticket
+        </SimpleButton>
+        <SimpleButton @click="reopenTicket"
+          v-if="authedUserStore.userRole === 'admin' && ticket.status.name === 'Completo'" class="w-full py-1 mt-4">
+          <img class="self-center" src="../assets/redo.svg" />
+          Reabrir ticket
         </SimpleButton>
       </div>
     </SideSection>
@@ -190,8 +206,7 @@ const handleConfirmModal = () => {
         </span>
       </div>
 
-      <div
-        class="text-purple sm:text-2xl text-xl overflow-auto justify-between pl-6 pr-12 py-4 items-start"
+      <div class="text-purple sm:text-2xl text-xl overflow-auto justify-between pl-6 pr-12 py-4 items-start"
         :class="{ 'h-[80vh]': !viewState.showComments, 'h-[53vh] border-b-purple border-b-opacity-30 border-b border-solid': viewState.showComments }">
         <div v-if="viewState.showComments" v-for="comment in comments" :key="comment.id">
           <CommentsView :comment="comment" />

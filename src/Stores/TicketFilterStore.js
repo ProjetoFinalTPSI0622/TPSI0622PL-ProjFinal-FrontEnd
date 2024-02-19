@@ -6,7 +6,6 @@ export const useTicketFilterStore = defineStore({
     id: 'ticketFilter',
     state: () => ({
         filter: {
-            user: 'all',
             technician: 'all',
             category: 'all',
             priority: 'all',
@@ -46,7 +45,6 @@ export const useTicketFilterStore = defineStore({
 
         handleFilterReset() {
             this.filter = {
-                user: 'all',
                 technician: 'all',
                 category: 'all',
                 priority: 'all',
@@ -62,13 +60,9 @@ export const useTicketFilterStore = defineStore({
             const filteredTickets = tickets.filter(ticket => {
                 const searchTermLower = this.filter.searchTerm.toLowerCase();
                 if (this.filter.searchTerm &&
-                    !ticket.createdby.name.toLowerCase().includes(searchTermLower) &&
                     !ticket.title.toLowerCase().includes(searchTermLower) &&
                     !(ticket.assignedto?.name.toLowerCase() || '').includes(searchTermLower) &&
                     !ticket.status.name.toLowerCase().includes(searchTermLower)) {
-                    return false;
-                }
-                if (this.filter.user !== 'all' && !this.filter.user.includes(ticket.createdby.name)) {
                     return false;
                 }
                 if (this.filter.technician !== 'all' && ticket.assignedto && !this.filter.technician.includes(ticket.assignedto.name)) {

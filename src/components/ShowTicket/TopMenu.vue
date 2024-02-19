@@ -2,7 +2,7 @@
 import SimpleButton from '../SimpleButton.vue';
 import SearchBox from '../SearchBox.vue';
 import { RouterLink } from 'vue-router';
-import FilterDropdown from '@/components/FilterDropdown.vue';
+import FilterDropdown from '@/components/ShowTicket/FilterDropdown.vue';
 
 </script>
 

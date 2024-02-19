@@ -1,6 +1,6 @@
 <script setup>
-import {defineProps, onBeforeMount, ref} from 'vue';
-import SelectAssign from '../SelectAssign.vue';
+import { defineProps, onBeforeMount, ref } from 'vue';
+import SimpleSelect from '../SimpleSelect.vue';
 import { useTicketStore } from '../../Stores/TicketStore.js';
 
 const props = defineProps({
@@ -8,7 +8,7 @@ const props = defineProps({
     technicians: Array
 });
 
-const ticketStore = useTicketStore(); 
+const ticketStore = useTicketStore();
 
 const showTicketModal = (technicianID, oldValue) => {
     const ticketID = props.ticket.id;
@@ -41,12 +41,12 @@ const showTicketModal = (technicianID, oldValue) => {
         <td class="text-black text-opacity-80 text-sm sm:text-lg">
             <div class="flex justify-center sm:justify-start sm:w-40">
 
-                <SelectAssign :currentValue="ticket.assignedto" :newValues="technicians" @show-modal="showTicketModal" />
+                <SimpleSelect :currentValue="ticket.assignedto" :newValues="technicians" @show-modal="showTicketModal" />
             </div>
         </td>
-        <td class="text-white text-xs sm:text-lg">
+        <td class="text-white text-xs sm:text-base">
             <div class="flex justify-center sm:block">
-                <div class="bg-red-600 py-2 px-4 rounded-3xl w-fit">
+                <div :style="{ backgroundColor: ticket.status.color }" class="py-2 px-4 rounded-3xl w-fit">
                     {{ ticket.status.name }}
                 </div>
             </div>

@@ -52,5 +52,13 @@ export const TicketsService = {
 
     updateStatus : async (ticketId, statusId) => {
         return AxiosService.makeRequest('put', `tickets/${ticketId}/status/${statusId}`);
-    }
+    },
+
+    closeTicket: async (ticketId) => {
+        return AxiosService.makeRequest('put', `tickets/${ticketId}/close`);
+    },
+
+    reopenTicket: async (ticketId) => {
+        return AxiosService.makeRequest('put', `tickets/${ticketId}/reopen`);
+    },
 }
