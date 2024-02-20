@@ -16,6 +16,10 @@ export const DashboardService = {
 
     getMetricsByCategories: async () => {
         return await AxiosService.makeRequest('get', '/dashboard/metricByCategories');
+    },
+
+    getTicketsByCategories: async () => {
+        return await AxiosService.makeRequest('get', '/dashboard/ticketsByCategories');
     }
 
 }
