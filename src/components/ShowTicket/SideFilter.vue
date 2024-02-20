@@ -6,8 +6,8 @@ import { useTicketFilterStore } from '@/Stores/TicketFilterStore';
 import { useAuthedUserStore } from '@/Stores/UserStore';
 
 const ticketFilterStore = useTicketFilterStore();
-let state = reactive({ selected: null });
 const authedUserStore = useAuthedUserStore();
+let state = reactive({ selected: null });
 
 onMounted(async () => {
     await authedUserStore.fetchAuthedUser();    
@@ -20,12 +20,14 @@ const showAllTickets = () => {
 };
 
 const toggleAssignedToMe = () => {
+    ticketFilterStore.handleFilterReset();
     ticketFilterStore.handleFilterChange('technician', authedUserStore.currentUser.name);
     state.selected = 'Assignados a mim';
     emitFilterChange();
 };
 
 const toggleMyTickets = () => {
+    ticketFilterStore.handleFilterReset();
     ticketFilterStore.handleFilterChange('user', authedUserStore.currentUser.name);
     state.selected = 'Os meus tickets';
     emitFilterChange();
@@ -86,11 +88,11 @@ watch(() => ticketFilterStore.filteredTickets, () => {
                         <span
                             class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
-                    <span @click="toggleStatus('Em progresso')"
-                        :class="{ 'bg-greyDark': state.selected === 'Em progresso' }"
+                    <span @click="toggleStatus('Em Progresso')"
+                        :class="{ 'bg-greyDark': state.selected === 'Em Progresso' }"
                         class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
                         <div class="text-purple text-l xl:text-lg whitespace-nowrap">
-                            Em progresso
+                            Em Progresso
                         </div>
                         <span
                             class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>

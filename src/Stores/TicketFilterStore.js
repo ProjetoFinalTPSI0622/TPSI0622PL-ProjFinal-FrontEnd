@@ -1,11 +1,12 @@
-import {defineStore} from 'pinia';
-import {TicketsService} from '@/Services/TicketsService';
-import {ref} from 'vue';
+import { defineStore } from 'pinia';
+import { TicketsService } from '@/Services/TicketsService';
+import { ref } from 'vue';
 
 export const useTicketFilterStore = defineStore({
     id: 'ticketFilter',
     state: () => ({
         filter: {
+            user: 'all',
             technician: 'all',
             category: 'all',
             priority: 'all',
@@ -45,6 +46,7 @@ export const useTicketFilterStore = defineStore({
 
         handleFilterReset() {
             this.filter = {
+                user: 'all',
                 technician: 'all',
                 category: 'all',
                 priority: 'all',
@@ -56,7 +58,6 @@ export const useTicketFilterStore = defineStore({
             };
         },
         filterTickets(tickets) {
-
             const filteredTickets = tickets.filter(ticket => {
                 const searchTermLower = this.filter.searchTerm.toLowerCase();
                 if (this.filter.searchTerm &&
@@ -65,7 +66,10 @@ export const useTicketFilterStore = defineStore({
                     !ticket.status.name.toLowerCase().includes(searchTermLower)) {
                     return false;
                 }
-                if (this.filter.technician !== 'all' && ticket.assignedto && !this.filter.technician.includes(ticket.assignedto.name)) {
+                if (this.filter.user !== 'all' && ticket.createdby && !this.filter.user.includes(ticket.createdby.name)) {
+                    return false;
+                }
+                if (this.filter.technician !== 'all' && (!ticket.assignedto || ticket.assignedto.name !== this.filter.technician)) {
                     return false;
                 }
                 if (this.filter.category !== 'all' && !this.filter.category.includes(ticket.category.name)) {
@@ -86,7 +90,7 @@ export const useTicketFilterStore = defineStore({
 
                 return true;
             });
-
+            console.log(this.filter);
             return filteredTickets;
         }
     },
