@@ -1,13 +1,11 @@
 <template>
   <div class="particles-container">
     <div ref="particlesAnimation" id="particles-js"></div>
-    <div class="form-container">
+    <div class="z-10 w-[75%] md:w-[50%] bg-white rounded">
       <slot />
     </div>
   </div>
 </template>
-
-
 
 <script setup>
 import { onMounted, ref } from 'vue';
@@ -165,13 +163,5 @@ const loadParticles = (animation) => {
     width: 100%;
     height: 100%;
   }
-}
-
-.form-container {
-  z-index: 1;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  width: 50%;
 }
 </style>

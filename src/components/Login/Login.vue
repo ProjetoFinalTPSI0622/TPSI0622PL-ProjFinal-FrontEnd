@@ -1,13 +1,12 @@
 <template>
-  <div class="h-screen w-screen ">
+  <div class="h-screen w-screen">
   <LoginAnimation>    
     <div class="flex flex-col items-center md:justify-center lg:py-0 md:max-w-screen-md">
-        <!-- IMAGE -->
+        <!-- FORM -->
         <div class="w-full rounded-lg shadow flex flex-col items-center">
           <img class="mt-5 w-48 object-contain" src="../../assets/logo.png">
           <div class="w-full p-6 space-y-4 md:space-y-6 sm:p-8">
 
-            <!-- TITLE -->
             <h1 class="text-xl font-bold leading-tight tracking-tight">
               Sign in to your account
             </h1>
