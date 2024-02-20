@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosConfig = {
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: 'https://api.cesaedesk.atec-porto.eu/api/',
     withCredentials: true,
     timeout: 30000,
 };

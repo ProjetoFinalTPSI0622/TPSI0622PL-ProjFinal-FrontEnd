@@ -1,0 +1,1 @@
+import{A as t}from"./index-ImCnauOu.js";const a={getStatuses:async()=>await t.makeRequest("get","/statuses"),createStatus:async e=>await t.makeRequest("post","/statuses",e),updateStatus:async e=>t.makeRequest("put",`/statuses/${e.id}`,e),deleteStatus:async e=>await t.makeRequest("delete",`/statuses/${e}`)};export{a as S};
