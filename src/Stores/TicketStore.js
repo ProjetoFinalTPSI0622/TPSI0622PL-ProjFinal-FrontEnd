@@ -26,9 +26,18 @@ export const useTicketStore = defineStore({
             this.newValue = technicianID;
             this.type = 'technician';
         },
+        handleShowModalPriority(priority, ticketID, oldValue) {
+            this.showModal = true;
+            this.ticketID = ticketID;
+            this.oldValue = oldValue;
+            this.newValue = priority;
+            this.type = 'priority';
+        },
+
         handleCancelModal() {
             this.showModal = false;
         },
+
         async handleConfirmModal() {
             switch (this.type) {
                 case 'status':
@@ -36,6 +45,9 @@ export const useTicketStore = defineStore({
                     break;
                 case 'technician':
                     await this.assignTechnician();
+                    break;
+                case 'priority':
+                    await this.changePriority();
                     break;
             }
             this.showModal = false;
@@ -63,6 +75,15 @@ export const useTicketStore = defineStore({
                 }
             } else {
                 ToastStore().triggerToast(`Erro ao assignar o técnico ao ticket !`, 'error');
+            }
+        },
+
+        async changePriority() {
+            const response = await TicketsService.updatePriority(this.ticketID, this.newValue);
+            if (response.success) {
+                ToastStore().triggerToast(`A prioridade do ticket foi alterada !`, 'success');
+            } else {
+                ToastStore().triggerToast(`Erro ao alterar a prioridade do ticket !`, 'error');
             }
         },
 

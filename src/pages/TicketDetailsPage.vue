@@ -24,9 +24,11 @@ const authedUserStore = useAuthedUserStore();
 //TICKET
 const route = useRoute();
 const ticket = ref({});
+const isloading = ref(true);
 const technicians = ref([]);
 const ticketStore = useTicketStore();
 const statuses = ref([]);
+const priorities = ref([]);
 
 //COMMENTS
 const comments = ref([]);
@@ -45,12 +47,27 @@ onBeforeMount(async () => {
   await getTicket();
   await getTechnicians();
   await getStatuses();
-  await authedUserStore.fetchAuthedUser();
+  await getPriorities();
+  isloading.value = false;
 });
 
 const viewState = reactive({
   showComments: false,
 });
+
+const getPriorities = async () => {
+  try {
+    const response = (await TicketsService.getPriorities());
+    if (response.success) {
+      priorities.value = response.data;
+      console.log(priorities.value);
+    } else {
+      console.error('Invalid response structure:', response);
+    }
+  } catch (error) {
+    console.error('Error fetching priorities:', error);
+  }
+};
 
 const getTechnicians = async () => {
   try {
@@ -108,6 +125,10 @@ const handleShowModalTech = (technicianName, oldValue) => {
   ticketStore.handleShowModalTech(technicianName, ticket.value.id, oldValue);
 };
 
+const handleShowModalPriority = (priority, oldValue) => {
+  ticketStore.handleShowModalPriority(priority, ticket.value.id, oldValue);
+}; 
+
 const handleCancelModal = () => {
   ticketStore.handleCancelModal();
 };
@@ -127,7 +148,12 @@ const reopenTicket = async () => {
 </script>
 
 <template>
-  <div class="flex h-[84vh] sm:h-full w-full">
+  <div v-if="isloading" class="flex h-full w-full justify-center items-center">
+    <div
+      class="flex h-20 w-20 animate-spin rounded-full border-8 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]">
+    </div>
+  </div>
+  <div v-if="!isloading" class="flex h-[84vh] sm:h-full w-full">
     <SideSection :ticket="ticket">
       <SideSectionTop>Detalhes do Ticket</SideSectionTop>
       <div class="flex flex-col p-2 xl:p-5 gap-4">
@@ -164,9 +190,8 @@ const reopenTicket = async () => {
           <label class="text-pink-600 text-l xl:text-lg justify-center">
             Urgência
           </label>
-          <div
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-            {{ ticket.priority ? ticket.priority.name : 'N/A' }}
+          <div class="flex justify-between w-40 lg:w-full">
+            <SimpleSelect :currentValue="ticket.priority" :newValues="priorities" @show-modal="handleShowModalPriority" />
           </div>
         </div>
         <div class="flex flex-col gap-3">
