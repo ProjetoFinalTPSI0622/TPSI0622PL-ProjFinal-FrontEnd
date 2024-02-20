@@ -9,10 +9,6 @@ const ticketFilterStore = useTicketFilterStore();
 const authedUserStore = useAuthedUserStore();
 let state = reactive({ selected: null });
 
-onMounted(async () => {
-    await authedUserStore.fetchAuthedUser();    
-});
-
 const showAllTickets = () => {
     ticketFilterStore.handleFilterReset();
     state.selected = 'Todos os tickets';
@@ -61,23 +57,15 @@ watch(() => ticketFilterStore.filteredTickets, () => {
                 </span>
                 <div @click="toggleAssignedToMe" :class="{ 'bg-greyDark': state.selected === 'Assignados a mim' }"
                     class="hoverGreyDark rounded-t-lg justify-center py-3.5 px-2 flex flex-col border-b-purple border-b-opacity-30 border-b border-solid">
-                    <span class="justify-between flex">
-                        <div class="text-purple text-l xl:text-lg whitespace-nowrap pr-2">
-                            Assignados a mim
-                        </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
-                    </span>
+                    <div class="text-purple text-l xl:text-lg whitespace-nowrap pr-2">
+                        Assignados a mim
+                    </div>
                 </div>
                 <div @click="toggleMyTickets" :class="{ 'bg-greyDark': state.selected === 'Os meus tickets' }"
                     class="hoverGreyDark rounded-t-lg justify-center py-3.5 px-2 flex flex-col border-b-purple border-b-opacity-30 border-b border-solid">
-                    <span class="justify-between flex">
-                        <div class="text-purple text-l xl:text-lg whitespace-nowrap pr-2">
-                            Os meus tickets
-                        </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
-                    </span>
+                    <div class="text-purple text-l xl:text-lg whitespace-nowrap pr-2">
+                        Os meus tickets
+                    </div>
                 </div>
                 <div class="justify-center flex flex-col pt-2">
                     <span @click="toggleStatus('Pendente')" :class="{ 'bg-greyDark': state.selected === 'Pendente' }"
@@ -85,8 +73,6 @@ watch(() => ticketFilterStore.filteredTickets, () => {
                         <div class="text-purple text-l xl:text-lg whitespace-nowrap">
                             Pendente
                         </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
                     <span @click="toggleStatus('Em Progresso')"
                         :class="{ 'bg-greyDark': state.selected === 'Em Progresso' }"
@@ -94,16 +80,12 @@ watch(() => ticketFilterStore.filteredTickets, () => {
                         <div class="text-purple text-l xl:text-lg whitespace-nowrap">
                             Em Progresso
                         </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
                     <span @click="toggleStatus('Completo')" :class="{ 'bg-greyDark': state.selected === 'Completo' }"
                         class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
                         <div class="text-purple text-l xl:text-lg whitespace-nowrap">
                             Completo
                         </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
                 </div>
             </div>

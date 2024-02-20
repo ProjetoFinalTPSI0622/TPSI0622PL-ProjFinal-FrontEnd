@@ -11,11 +11,6 @@ defineProps({
     newValues: Array
 });
 
-
-onBeforeMount(async () => {
-    await authedUserStore.fetchAuthedUser();
-});
-
 const emit = defineEmits(['show-modal']);
 
 const showTicketModal = (selectedID) => {

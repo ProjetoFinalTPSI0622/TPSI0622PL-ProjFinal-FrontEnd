@@ -29,7 +29,6 @@ const printPDF = () => {
 onBeforeMount(async () => {
     await fetchTickets();
     await getTechnicians();
-    await authedUserStore.fetchAuthedUser();
 });
 
 const fetchTickets = async () => {
