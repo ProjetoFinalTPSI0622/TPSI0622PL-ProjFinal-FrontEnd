@@ -1,1 +1,0 @@
-import{_ as t,e as s,f as r,n}from"./index-ImCnauOu.js";const o={},c={class:"text-white text-lg sm:text-xl justify-center bg-purple py-0.5 px-3 rounded-xl flex gap-2 w-fit cursor-pointer"};function l(e,a){return s(),r("span",c,[n(e.$slots,"default")])}const f=t(o,[["render",l]]);export{f as S};
