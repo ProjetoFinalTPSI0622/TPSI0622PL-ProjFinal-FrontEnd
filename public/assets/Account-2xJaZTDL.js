@@ -1,1 +1,0 @@
-import{S as t}from"./SettingsBar-Q0JCp4ar.js";import{_ as o,b as s,d as c,j as n,e as a,c as r}from"./index-Wf_wPvl6.js";const l={components:{SettingsBar:t}},_={class:"md:flex w-full"},f=a("div",{class:"flex flex-col h-fit w-full"},null,-1);function i(d,p,m,u,x,B){const e=s("SettingsBar");return r(),c("div",_,[n(e),f])}const $=o(l,[["render",i]]);export{$ as default};
