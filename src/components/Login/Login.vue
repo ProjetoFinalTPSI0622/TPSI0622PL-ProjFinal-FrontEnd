@@ -1,10 +1,10 @@
 <template>
   <div class="h-screen w-screen ">
   <LoginAnimation>    
-    <div class="flex flex-col items-center md:justify-center px-6 py-20 mx-auto h-screen lg:py-0 md:max-w-screen-md">
+    <div class="flex flex-col items-center md:justify-center lg:py-0 md:max-w-screen-md">
         <!-- IMAGE -->
         <div class="w-full rounded-lg shadow flex flex-col items-center">
-          <img class="mt-10 w-48 mr-2 object-contain" src="../../assets/logo.png">
+          <img class="mt-5 w-48 object-contain" src="../../assets/logo.png">
           <div class="w-full p-6 space-y-4 md:space-y-6 sm:p-8">
 
             <!-- TITLE -->
