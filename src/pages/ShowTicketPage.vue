@@ -115,11 +115,6 @@ watch(searchTerm, () => {
 
                 <TicketsTable :tickets="displayedTickets" :technicians="technicians" />
 
-                <div v-bind:style="{ width: authedUserStore.userRole === 'admin' ? '80vw' : '96vw' }"
-                    class="hidden sm:flex pr-5 py-2 justify-end fixed bottom-0 bg-white border-t border-black border-solid border-opacity-30">
-                    <SimpleButton @click="printPDF">Converter para PDF</SimpleButton>
-                </div>
-
                 <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
                     <template #title>
                         Assign Technician

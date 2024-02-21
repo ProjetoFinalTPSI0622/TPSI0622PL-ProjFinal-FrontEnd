@@ -18,11 +18,11 @@ const showTicketModal = (technicianID, oldValue) => {
 </script>
 
 <template>
-    <tr class="border-b-black border-b-opacity-30 border-b border-solid hoverGrey flex justify-between px-3">
+    <tr class="border-b-black border-b-opacity-30 border-b border-solid hoverGrey flex justify-between pl-3 h-fit">
         <td class="hidden sm:flex w-1/4 sm:w-1/5">
             <div class="flex gap-2.5 min-w-fit">
                 <img loading="lazy" src="../../assets/MoNengue.jpg"
-                    class="aspect-square object-cover object-center max-w-12 max-h-12 overflow-hidden shrink-0 rounded-[50%]" />
+                    class="aspect-square object-cover object-center max-w-11 max-h-11 overflow-hidden shrink-0 rounded-[50%]" />
                 <div
                     class="text-black text-opacity-80 text-sm sm:text-lg self-center whitespace-nowrap overflow-hidden overflow-ellipsis">
                     {{ ticket.createdby.name }}
