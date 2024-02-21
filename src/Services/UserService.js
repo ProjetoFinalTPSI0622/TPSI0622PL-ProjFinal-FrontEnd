@@ -56,5 +56,8 @@ export const UserService = {
     },
     loadUserData: async (userId) => {
         return AxiosService.makeRequest('get', `/users/${userId}`);
-    }
+    },
+    resetPassword: async (user) => {
+        return AxiosService.makeRequest('put', '/users/resetPassword', user);
+    },
 };
