@@ -59,18 +59,18 @@ const handleCancelModal = () => {
       {{ user.user_info.class }}
     </td>
     <td
-      class="hidden sm:block whitespace-nowrap text-xs sm:text-lg self-center overflow-hidden overflow-ellipsis">
+      class="hidden lg:block whitespace-nowrap text-xs sm:text-lg self-center overflow-hidden overflow-ellipsis">
       {{ user.internalcode }}
     </td>
 
     <td
       class="whitespace-nowrap  py-2.5 sm-py-0 self-center">
       <button @click.stop="openModal(user)"
-        class="px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-700 transition duration-300 text-xs sm:text-lg">
+        class="px-2 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-700 transition duration-300 text-xs sm:text-lg">
         Apagar
       </button>
       <button @click.stop="openModal(user)"
-        class="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-red-700 transition duration-300 text-xs sm:text-lg">
+        class="px-2 py-2 bg-yellow-600 text-white rounded hover:bg-red-700 transition duration-300 text-xs sm:text-lg">
         Reset Password
       </button>
     </td>

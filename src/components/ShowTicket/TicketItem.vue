@@ -18,35 +18,29 @@ const showTicketModal = (technicianID, oldValue) => {
 </script>
 
 <template>
-    <tr class="border-b-black border-b-opacity-30 border-b border-solid hoverGrey">
-        <td class="hidden sm:flex pl-5">
+    <tr class="border-b-black border-b-opacity-30 border-b border-solid hoverGrey flex justify-between px-3">
+        <td class="hidden sm:flex w-1/4 sm:w-1/5">
             <div class="flex gap-2.5 min-w-fit">
                 <img loading="lazy" src="../../assets/MoNengue.jpg"
-                    class="aspect-square object-cover object-center w-12 overflow-hidden shrink-0 max-w-full rounded-[50%]" />
-                <div class="flex flex-col h-full justify-center">
-                    <div class="hidden sm:block text-black text-opacity-80 text-sm sm:text-lg">
-                        {{ ticket.createdby.name }}
-                    </div>
-                    <div class="hidden lg:block text-black text-opacity-50 text-sm sm:text-lg whitespace-nowrap">
-                        {{ ticket.createdby.email }}
-                    </div>
+                    class="aspect-square object-cover object-center max-w-12 max-h-12 overflow-hidden shrink-0 rounded-[50%]" />
+                <div
+                    class="text-black text-opacity-80 text-sm sm:text-lg self-center whitespace-nowrap overflow-hidden overflow-ellipsis">
+                    {{ ticket.createdby.name }}
                 </div>
             </div>
         </td>
-        <td class="text-black text-opacity-80 text-sm sm:text-lg">
-            <div class="flex justify-center sm:justify-start">
-                {{ ticket.title }}
-            </div>
+        <td
+            class="text-black text-opacity-80 text-sm sm:text-lg w-1/4 sm:w-1/5 self-center sm:whitespace-nowrap sm:overflow-hidden sm:overflow-ellipsis">
+            {{ ticket.title }}
         </td>
-        <td class="text-black text-opacity-80 text-sm sm:text-lg">
-            <div class="flex justify-center sm:justify-start sm:w-40">
-
+        <td class="text-black text-opacity-80 text-sm sm:text-lg w-1/4 sm:w-1/5">
+            <div class="">
                 <SimpleSelect :currentValue="ticket.assignedto" :newValues="technicians" @show-modal="showTicketModal" />
             </div>
         </td>
-        <td class="text-white text-xs sm:text-base">
-            <div class="flex justify-center sm:block">
-                <div :style="{ backgroundColor: ticket.status.color }" class="py-2 px-4 rounded-3xl w-fit">
+        <td class="text-white text-xs sm:text-base w-1/4 sm:w-1/5">
+            <div class="">
+                <div :style="{ backgroundColor: ticket.status.color }" class="py-2 px-1.5 sm:px-4 rounded-2xl w-fit">
                     {{ ticket.status.name }}
                 </div>
             </div>

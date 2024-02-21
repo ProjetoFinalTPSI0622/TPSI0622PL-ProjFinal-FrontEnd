@@ -32,8 +32,8 @@ const DeleteUser = () => {
     <thead>
       <tr class="grid grid-cols-3 sm:grid-cols-4 pl-[10%] pr-[5%] sm:pl-[20%] sm:pr-[15%] border-b-black border-b-opacity-30 border-b border-solid">
         <th class="w-1/4 self-center">NOME</th>
-        <th class="w-1/4 self-center">TURMA</th>
-        <th class="hidden sm:block w-1/4 self-center">CÓDIGO INTERNO</th>
+        <th class="hidden sm:block w-1/4 self-center">TURMA</th>
+        <th class="hidden lg:block w-1/4 self-center">CÓDIGO INTERNO</th>
         <th class="w-1/4 self-center">ACÇÕES</th>
       </tr>
     </thead>

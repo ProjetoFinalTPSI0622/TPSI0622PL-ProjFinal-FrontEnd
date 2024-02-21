@@ -14,7 +14,7 @@ import SimpleButton from '@/components/SimpleButton.vue';
 const tickets = ref([]);
 const technicians = ref([]);
 const currentPage = ref(1);
-const ticketsPerPage = ref(5);
+const ticketsPerPage = ref("All");
 const searchTerm = ref('');
 
 const authedUserStore = useAuthedUserStore();
@@ -62,17 +62,20 @@ const handleConfirmModal = () => {
 
 const displayedTickets = computed(() => {
     const filteredTickets = TicketFilter.filteredTickets;
-    const startIndex = (currentPage.value - 1) * ticketsPerPage.value;
-    const endIndex = startIndex + ticketsPerPage.value;
+    const startIndex = (currentPage.value - 1) * (ticketsPerPage.value === "All" ? filteredTickets.length : ticketsPerPage.value);
+    const endIndex = startIndex + (ticketsPerPage.value === "All" ? filteredTickets.length : ticketsPerPage.value);
     return filteredTickets.slice(startIndex, endIndex);
 });
 
 const totalPages = computed(() => {
-    return Math.ceil(TicketFilter.filteredTickets.length / ticketsPerPage.value);
+    return ticketsPerPage.value === "All" ? 1 : Math.ceil(TicketFilter.filteredTickets.length / ticketsPerPage.value);
 });
 
 const changePage = (page) => {
     currentPage.value = page;
+    if (ticketsPerPage.value !== "All") {
+        ticketsPerPage.value = Number(ticketsPerPage.value);
+    }
 };
 
 watch(searchTerm, () => {
@@ -99,7 +102,7 @@ watch(searchTerm, () => {
                             <option value="5">5 por pagina</option>
                             <option value="10">10 por pagina</option>
                             <option value="20">20 por pagina</option>
-                            <option :value="TicketFilter.filteredTickets.length">All</option>
+                            <option value="All">All</option>
                         </select>
                         <span v-for="page in totalPages" :class="['text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer',
                             { 'bg-purple text-white': page === currentPage, 'aspect-[0.8148148148148148]': true }]"
