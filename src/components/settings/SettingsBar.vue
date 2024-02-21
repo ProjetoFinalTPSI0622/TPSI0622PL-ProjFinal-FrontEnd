@@ -6,12 +6,6 @@
     <router-link to="/Settings/Security" class="w-full">
       <OptionButton btnName="Password & Segurança" btnDescription="Detalhes sobre a password" />
     </router-link>
-    <router-link to="/Settings/Notifications" class="w-full">
-      <OptionButton btnName="Notificações" btnDescription="Detalhes sobre seu sistema de notificações" />
-    </router-link>
-    <router-link to="/Settings/Configurations" class="w-full">
-      <OptionButton btnName="Configurações da APP" btnDescription="Detalhes gerais da aplicação" />
-    </router-link>
    </div>
 </template>
 

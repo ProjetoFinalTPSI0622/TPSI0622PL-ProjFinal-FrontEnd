@@ -120,7 +120,6 @@ router.beforeEach(async (to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     try {
       const authResult = await AuthService.checkAuth();
-      console.log(authResult.data.roles[0].name);
 
       if (!authResult.success) {
         next({

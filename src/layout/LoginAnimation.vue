@@ -1,7 +1,7 @@
 <template>
   <div class="particles-container">
     <div ref="particlesAnimation" id="particles-js"></div>
-    <div class="z-10 w-[75%] md:w-[50%] bg-white rounded">
+    <div class="z-10 w-[75%] md:w-[50%] xl:w-[40%] bg-white rounded">
       <slot />
     </div>
   </div>
