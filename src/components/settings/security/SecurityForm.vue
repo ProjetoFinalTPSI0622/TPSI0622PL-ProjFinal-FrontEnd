@@ -15,7 +15,7 @@
           v-model="newPassword_confirmation" />
       </div>
     </div>
-    <ButtonSubmit textButton="Update Information" type="submit" />
+    <ButtonSubmit textButton="Atualizar Informação" type="submit" />
   </form>
 </template>
 

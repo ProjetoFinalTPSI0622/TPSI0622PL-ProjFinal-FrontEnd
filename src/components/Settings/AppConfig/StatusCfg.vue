@@ -47,7 +47,7 @@
                   <button class="text-xs bg-green-400 rounded-lg px-2 py-1.5"
                     @click="openEditModal(status.id)">Editar</button>
 
-                  <Modal :show="showEditModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
+                  <Modal :show="showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
                     <template v-slot:title>Editar Estado</template>
                     <template v-slot:content>
                       <div class="flex gap-5">
@@ -57,7 +57,10 @@
                         </div>
                         <div class="flex flex-col">
                           <p class="pl-2">Cor</p>
-                          <input v-model="editedStatus.color" class="border rounded-lg px-2 py-1 mb-2">
+                          <div class="flex">
+                            <Colorpicker @updateColor="handleUpdateColor" />
+                            <input v-model="editedStatus.color" class="border rounded-lg px-2 py-1 mb-2">
+                          </div>
                         </div>
                       </div>
                     </template>
@@ -91,7 +94,6 @@ import Modal from '@/components/Modal.vue';
 const inputText = ref('');
 const color = ref("#25183E");
 const statuses = ref([]);
-const showEditModal = ref(false);
 const showModal = ref(false);
 const editedStatus = ref({
   id: null,
@@ -127,10 +129,9 @@ const createStatus = async (statusValue, colorValue) => {
 
 const openEditModal = (id) => {
   // Carregar valores atuais do status com base no ID
-  // Supondo que você tenha um método getStatus no seu serviço
   StatusesService.getStatuses(id).then((status) => {
     // editedStatus.value = { ...status };
-    showEditModal.value = true;
+    showModal.value = true;
   });
 };
 
@@ -148,7 +149,7 @@ const updateStatus = async () => {
       name: editedStatus.value.name,
       color: editedStatus.value.color
     });
-    loadData(); // Recarregar dados após a atualização
+    loadData();
     closeEditModal();
   } catch (error) {
     console.error('Error:', error.response);

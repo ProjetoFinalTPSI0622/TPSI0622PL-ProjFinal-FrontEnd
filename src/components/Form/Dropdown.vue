@@ -1,6 +1,6 @@
 <template>
   <div class="flex grow basis-[0%] flex-col">
-    <label class="text-black text-xs mb-2 pl-2">{{ LabelTitle }}</label>
+    <label class="text-pink text-xs mb-2 pl-2">{{ LabelTitle }}</label>
     <select
         @change="handleChange"
         v-model="selectedOption"

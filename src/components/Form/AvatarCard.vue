@@ -6,13 +6,13 @@
                 <img v-else :src="avatar" alt="AvatarDefault">
             </div>
             <div class="flex flex-col items-center md:items-start md:justify-center">
-                <h2 class="text-primary text-xl lg:text-2xl">Upload Photo</h2>
+                <h2 class="text-primary text-xl lg:text-2xl">Atualizar Foto</h2>
                 <p class="text-primary text-opacity-50 text-base mt-2.5" v-if="fileName"> {{ fileName }} </p>
             </div>
         </div>
         <label
             class="text-white text-center text-lg font-bold justify-center items-center bg-purple py-3 rounded-md cursor-pointer my-auto w-6/12 md:w-5/12 lg:w-4/12">
-            <span>Choose Photo</span>
+            <span>Escolher Foto</span>
             <input type="file" class="hidden" @change="ImageHandler" accept="image/*">
         </label>
     </div>
@@ -30,7 +30,7 @@ export default {
     data() {
         return {
             avatar: AvatarDefault,
-            fileName: 'No file selected'
+            fileName: 'Nenhum ficheiro selecionado'
         }
     },
     methods: {
