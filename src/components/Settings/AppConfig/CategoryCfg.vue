@@ -5,10 +5,10 @@
         <SubTitle SubTitle="Nova Categoria" class="pl-5" />
         <div class="mt-5 w-full flex flex-row gap-5 justify-between px-10">
             <div class="w-2/5">
-                <Input LabelTitle="Nova Categoria" type="text" required v-model="catName" />
+                <Input LabelTitle="Nova Categoria" type="text" required modelValue="" />
             </div>
             <div class="flex">
-                <ButtonSubmit textButton="Guardar" type="submit" @click="createCategory" class="mx-10" />
+                <ButtonSubmit textButton="Guardar" type="submit" @click="createCategory" class=""/>
             </div>
         </div>
         <hr class="my-5">
@@ -44,10 +44,10 @@ import ConfigGroup from '../../../layout/ConfigGroup.vue';
 import FormTitle from '../../Form/FormTitle.vue';
 import SubTitle from '../../Form/SubTitle.vue';
 import Input from '../../Form/Input.vue';
+import ButtonSubmit from '../../Form/ButtonSubmit.vue';
 import { CategoriesService } from '../../../Services/CategoriesService';
 
 const categories = ref([]);
-const selectedCategory = ref(null);
 
 onBeforeMount(async () => {
     await loadData();
@@ -64,14 +64,5 @@ const loadData = async () => {
 const createCategory = () => {
     CategoriesService.createCategory({ name: category.value });
 };
-
-// const handleCategoryDropdown = (value) => {
-//   category.value.forEach((cat) => {
-//     if (cat.id === parseInt(value)) {
-//       selected.category = cat;
-//     }
-//   });
-// };
-
 
 </script>

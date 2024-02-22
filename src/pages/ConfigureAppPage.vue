@@ -1,7 +1,7 @@
 <template>
     <div class="md:flex w-full h-full">
-        
-        <div class="flex flex-col w-[75%] p-8">
+        <div class="flex flex-col w-full p-8">
+            <FormTitle Title="Configurações da APP" class="text-blue mb-5"/>
             <div class="overflow-y-auto">
                 <ConfigureApp />
             </div>
@@ -9,13 +9,7 @@
     </div>
 </template>
 
-<script>
-import SettingsBar from '../components/Settings/SettingsBar.vue';
+<script setup>
 import ConfigureApp from '../components/Settings/AppConfig/ConfigureApp.vue';
-export default {
-    components: {
-        SettingsBar,
-        ConfigureApp
-    },
-}
+import FormTitle from '../components/Form/FormTitle.vue';
 </script>

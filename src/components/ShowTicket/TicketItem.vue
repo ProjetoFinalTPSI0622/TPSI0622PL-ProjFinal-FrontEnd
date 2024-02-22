@@ -20,8 +20,8 @@ const showTicketModal = (technicianID, oldValue) => {
 </script>
 
 <template>
-    <tr class="border-b-black border-b-opacity-30 border-b border-solid hoverGrey">
-        <td class="hidden sm:flex pl-5">
+    <tr class="border-b-black border-b-opacity-30 border-b border-solid hoverGrey flex justify-between pl-3 h-fit">
+        <td class="hidden sm:flex w-1/4 sm:w-1/5">
             <div class="flex gap-2.5 min-w-fit">
                 <img loading="lazy" :src="ticket.createdby.user_info.profile_picture_path"
                     class="aspect-square object-cover object-center w-12 overflow-hidden shrink-0 max-w-full rounded-[50%]" />
@@ -35,20 +35,18 @@ const showTicketModal = (technicianID, oldValue) => {
                 </div>
             </div>
         </td>
-        <td class="text-black text-opacity-80 text-sm sm:text-lg">
-            <div class="flex justify-center sm:justify-start">
-                {{ ticket.title }}
-            </div>
+        <td
+            class="text-black text-opacity-80 text-sm sm:text-lg w-1/4 sm:w-1/5 self-center sm:whitespace-nowrap sm:overflow-hidden sm:overflow-ellipsis">
+            {{ ticket.title }}
         </td>
-        <td class="text-black text-opacity-80 text-sm sm:text-lg">
-            <div class="flex justify-center sm:justify-start sm:w-40">
-
+        <td class="text-black text-opacity-80 text-sm sm:text-lg w-1/4 sm:w-1/5">
+            <div class="">
                 <SimpleSelect :currentValue="ticket.assignedto" :newValues="technicians" @show-modal="showTicketModal" />
             </div>
         </td>
-        <td class="text-white text-xs sm:text-base">
-            <div class="flex justify-center sm:block">
-                <div :style="{ backgroundColor: ticket.status.color }" class="py-2 px-4 rounded-3xl w-fit">
+        <td class="text-white text-xs sm:text-base w-1/4 sm:w-1/5">
+            <div class="">
+                <div :style="{ backgroundColor: ticket.status.color }" class="py-2 px-1.5 sm:px-4 rounded-2xl w-fit">
                     {{ ticket.status.name }}
                 </div>
             </div>

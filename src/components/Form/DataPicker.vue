@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="flex grow basis-[0%] flex-col">
-      <label class="text-black text-xs mb-2 pl-2">{{ LabelTitle }}</label>
+      <label class="text-pink text-xs mb-2 pl-2">{{ LabelTitle }}</label>
       <flat-pickr
           class="form-control border border-solid border-purple py-1.5 rounded-lg text-center"
           v-model="selectedDate"

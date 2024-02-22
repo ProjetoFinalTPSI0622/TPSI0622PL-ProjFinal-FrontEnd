@@ -6,16 +6,16 @@ const props = defineProps({
     show: Boolean,
 });
 
-const emit = defineEmits(['Confirm', 'Cancel']);
+const emit = defineEmits(['confirm', 'cancel']);
 
 const { triggerToast } = ToastStore();
 
 const handleConfirm = () => {
-    emit('Confirm');
+    emit('confirm');
 };
 
 const handleCancel = () => {
-    emit('Cancel');
+    emit('cancel');
 };
 </script>
 

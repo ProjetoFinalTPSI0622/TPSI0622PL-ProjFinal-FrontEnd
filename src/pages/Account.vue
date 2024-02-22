@@ -1,33 +1,33 @@
 <template>
   <div class="md:flex w-full">
     <SettingsBar />
-    <div class="flex flex-col h-fit w-full md:mr-10 items-end">
-      <ShowUserForm :myuser="currentUser" />
+    <div class="w-full align-middle">
+      <div class="flex justify-center h-full items-center">
+        <ShowUserForm :myuser="myuser" class="w-full"/>
+      </div>
     </div>
   </div>
 </template>
 
-<script>
-  import SettingsBar from '@/components/Settings/SettingsBar.vue';
-  // import EditUserForm from '@/components/settings/Account/EditUserForm.vue';
+<script setup>
+import { ref, onBeforeMount } from 'vue';
+import { UserService } from "@/Services/UserService.js";
+import SettingsBar from '@/components/Settings/SettingsBar.vue';
 import ShowUserForm from '@/components/Users/ShowUserForm.vue';
-export default {
-  components: {
-    SettingsBar,
-    ShowUserForm,
-  },
-  data() {
-    return {
-      currentUser: null,
-      async created() {
-        try {
-          const response = await UserService.getAuthedUser();
-          this.currentUser = response.data;
-        } catch (error) {
-          console.error('Erro ao obter usuário autenticado:', error);
-        }
-      },
+
+const myuser = ref({});
+
+onBeforeMount(async () => {
+  try {
+    const response = await UserService.getAuthedUser();
+    if (response.success) {
+      myuser.value = response.data;
+    } else {
+      console.error('Invalid response structure:', response);
     }
+  } catch (error) {
+    console.error('Error fetching tickets:', error);
   }
-}
+});
+
 </script>

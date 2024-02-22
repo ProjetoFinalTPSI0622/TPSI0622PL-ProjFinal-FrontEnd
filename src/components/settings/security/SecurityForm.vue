@@ -2,20 +2,20 @@
   <form @submit="changePassword" class="bg-grey rounded-md border-b-opacity-50 border-b lg:mx-10 xl:mx-0 p-8">
 
     <div class="flex flex-col w-full">
-      <FormTitle FormTitle="Change Password" class="ml-5" />
+      <FormTitle Title="Alterar Password" class="ml-5" />
     </div>
 
     <div class="flex flex-col w-full my-5 md:items-center">
       <div class="flex flex-col gap-5 md:w-2/3 ">
-        <Input LabelTitle="Current Password" type="password" placeholder="Insert your current password" required
+        <Input LabelTitle="Password Atual" type="password" placeholder="Insert your current password" required
           v-model="currentPassword" />
-        <Input LabelTitle="New Password" type="password" placeholder="Insert new password" required
+        <Input LabelTitle="Nova Password" type="password" placeholder="Insert new password" required
           v-model="newPassword" />
-        <Input LabelTitle="Confirm Password" type="password" placeholder="Confirm password" required
+        <Input LabelTitle="Confirmar Nova Password" type="password" placeholder="Confirm password" required
           v-model="newPassword_confirmation" />
       </div>
     </div>
-    <ButtonSubmit textButton="Update Information" type="submit" />
+    <ButtonSubmit textButton="Atualizar Informação" type="submit" />
   </form>
 </template>
 

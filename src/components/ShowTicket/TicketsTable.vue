@@ -24,15 +24,15 @@ const clickHandler = (id) => {
     <table class="table-auto">
 
         <thead>
-            <tr class="border-b-black border-b-opacity-30 border-b border-solid">
-                <th class="hidden sm:flex pl-5">CRIADO POR</th>
-                <th>TITULO</th>
-                <th>TÉCNICO</th>
-                <th>ESTADO</th>
+            <tr class="border-b-black border-b-opacity-30 border-b border-solid flex justify-between">
+                <th class="hidden sm:block pl-5 w-1/5">CRIADO POR</th>
+                <th class="w-1/4 sm:w-1/5">TITULO</th>
+                <th class="w-1/4 sm:w-1/5">TÉCNICO</th>
+                <th class="w-1/4 sm:w-1/5">ESTADO</th>
             </tr>
         </thead>
 
-        <div class="max-h-[56vh] overflow-y-auto">
+        <div class="max-h-[53vh] sm:max-h-[58vh] lg:max-h-[60vh] overflow-y-auto">
             <tbody>
                 <TicketItem @click="clickHandler(ticket.id)" v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"
                     :technicians="technicians" />
