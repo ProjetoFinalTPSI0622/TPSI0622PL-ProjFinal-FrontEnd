@@ -15,9 +15,9 @@ import FilterDropdown from '@/components/ShowTicket/FilterDropdown.vue';
         </router-link>
     </span>
 
-    <div class="flex flex-row justify-between p-3 border-b-black border-b-opacity-30 border-b border-solid items-start">
-        <div class="flex flex-col sm:flex-row items-center gap-2">
-            <FilterDropdown />
+    <div class="flex flex-row justify-end lg:justify-between p-3 border-b-black border-b-opacity-30 border-b border-solid items-start">
+        <div class="hidden lg:flex flex-col sm:flex-row items-center gap-2">
+            <FilterDropdown/>
         </div>
 
         <SearchBox />
