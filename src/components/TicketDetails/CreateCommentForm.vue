@@ -24,7 +24,6 @@ const handleUpdateAttachedFiles = (newFiles) => {
 
 onBeforeMount(async () => {
     await getCommentTypes();
-    await authedUserStore.fetchAuthedUser();
 });
 
 const getCommentTypes = async () => {

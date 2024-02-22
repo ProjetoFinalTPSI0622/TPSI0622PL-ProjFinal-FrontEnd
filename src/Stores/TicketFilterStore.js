@@ -61,6 +61,7 @@ export const useTicketFilterStore = defineStore({
             const filteredTickets = tickets.filter(ticket => {
                 const searchTermLower = this.filter.searchTerm.toLowerCase();
                 if (this.filter.searchTerm &&
+                    !ticket.createdby?.name.toLowerCase().includes(searchTermLower) &&
                     !ticket.title.toLowerCase().includes(searchTermLower) &&
                     !(ticket.assignedto?.name.toLowerCase() || '').includes(searchTermLower) &&
                     !ticket.status.name.toLowerCase().includes(searchTermLower)) {
@@ -90,7 +91,6 @@ export const useTicketFilterStore = defineStore({
 
                 return true;
             });
-            console.log(this.filter);
             return filteredTickets;
         }
     },

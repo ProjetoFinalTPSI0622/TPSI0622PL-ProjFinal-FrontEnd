@@ -54,6 +54,10 @@ export const TicketsService = {
         return AxiosService.makeRequest('put', `tickets/${ticketId}/status/${statusId}`);
     },
 
+    updatePriority: async (ticketId, priorityId) => {
+        return AxiosService.makeRequest('put', `tickets/${ticketId}/priority/${priorityId}`);
+    },
+
     closeTicket: async (ticketId) => {
         return AxiosService.makeRequest('put', `tickets/${ticketId}/close`);
     },

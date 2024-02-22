@@ -1,5 +1,5 @@
 <template>
-    <FormShell @formSubmit="CreateUser">
+    <FormShell @formSubmit="openModal">
         <template v-slot:AvatarCard>
             <AvatarCard @avatar="ImageHandler" />
         </template>
@@ -45,7 +45,7 @@
                             <input type="checkbox" v-model="isChecked" @change="handleCheckboxChange" class="size-6">
                         </div>
                     </div>
-                    <Input LabelTitle="Phone Number:" type="number" v-model="userInfo.phone_number" />
+                    <Input LabelTitle="Phone Number:" type="text" v-model="userInfo.phone_number" />
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row ">
                     <Input LabelTitle="Address:" type="address" v-model="userInfo.address" />
@@ -65,6 +65,19 @@
             <ButtonSubmit textButton="Create User" type="submit" />
         </template>
     </FormShell>
+
+    <Modal :show="showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
+      <template #title>
+        Criar utilizador?
+      </template>
+
+      <template #content>
+        <p class="flex">Esta prestes a criar&nbsp;
+        <div class="font-bold">{{ user.name }}</div>,&nbsp;pretende prosseguir?</p>
+      </template>
+
+    </Modal>
+
 </template>
 
 <script setup>
@@ -76,14 +89,29 @@ import Dropdown from '../Form/Dropdown.vue';
 import DatePicker from '../Form/DataPicker.vue';
 import ButtonSubmit from '../../components/Form/ButtonSubmit.vue';
 import { UserService } from '../../Services/UserService';
-import {onBeforeMount, onMounted, ref} from "vue";
+import {onBeforeMount, ref} from "vue";
 import router from "../../router.js";
+import ToastStore from '../../Stores/ToastStore.js';
+import Modal from '../Modal.vue';
 
-
+const showModal = ref(false);
 const roles = ref([]);
 const genders = ref([]);
 const countries = ref([]);
 const isChecked = ref(false);
+
+const openModal = () => {
+  if(user.value.name != '' && user.value.email != '' && user.value.password != '' && user.value.internalcode != '' && userInfo.value.birthday_date != '' && userInfo.value.nif != ''){
+  showModal.value = true;
+  } else {
+    ToastStore().triggerToast('Preencha os campos obrigatórios marcados com *', 'error');
+  }
+};
+
+const handleCancelModal = () => {
+  showModal.value = false;
+};
+
 const user = ref({
     name: '',
     email: '',
@@ -134,31 +162,49 @@ const handleCheckboxChange = () => {
   }
 }
 
-const CreateUser = () => {
-  console.log(userInfo.value)
-
+const handleConfirmModal = async () => {
+  showModal.value = false;
   if (isChecked.value) {
     user.value.password = userInfo.value.nif.toString();
   }
 
-  UserService.createUser(user.value)
-      .then((response) => {
-        userInfo.value.user_id = response.data;
-        UserService.createUserInfo(userInfo.value)
-            .then((response) => {
-              console.log(response);
-              router.push({
+  UserService.createUser(user.value).then((response) => {
+
+          if (response.success) {
+
+            userInfo.value.user_id = response.data;
+            UserService.createUserInfo(userInfo.value).then((response) => {
+            
+              if (response.success) {
+                ToastStore().triggerToast(`Utilizador ${user.value.name}, criado com sucesso!`, 'success');
+                router.push({
                 name: 'userDetails',
-                params: { userId: userInfo.value.user_id }
-              });
-            })
-            .catch((error) => {
-              console.log('Error: ', error.response);
+                  params: { userId: userInfo.value.user_id }
+                });
+
+              } else {
+                const myerros = response.message;
+
+                Object.keys(myerros).forEach((key) => {
+                  ToastStore().triggerToast(` ${myerros[key][0]}`, 'error');
+                });
+              }
+
+            }).catch((error) => {
+              ToastStore().triggerToast(`Erro ao tentar criar utilizador`, 'error');
             });
-      })
-      .catch((error) => {
-        console.log('Error: ', error.response);
-      });
+
+          } else {
+            const myerros = response.message;
+
+            Object.keys(myerros).forEach((key) => {
+              ToastStore().triggerToast(` ${myerros[key][0]}`, 'error');
+            });
+          }
+
+  }).catch((error) => {
+    ToastStore().triggerToast(`Erro ao tentar criar utilizador`, 'error');
+  });
 };
 
 const handleDropdownChange = (value) => {

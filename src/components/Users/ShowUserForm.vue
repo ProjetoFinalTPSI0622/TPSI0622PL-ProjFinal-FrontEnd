@@ -95,7 +95,11 @@ const handleDropdownChange = (value) => {
 };
 
 const openModal = () => {
+    if(user.value.name != '' && user.value.email != '' && user.value.password != '' && user.value.internalcode != '' && userInfo.value.birthday_date != '' && userInfo.value.nif != ''){
   showModal.value = true;
+  } else {
+    ToastStore().triggerToast('Preencha os campos obrigatórios marcados com *', 'error');
+  }
 };
 
 const handleConfirmModal = async () => {
@@ -107,6 +111,7 @@ const handleCancelModal = () => {
 };
 
 const UpdateUser = async () => {
+    showModal.value = false;
     const formData = new FormData();
 
     if (file.value) {
@@ -127,22 +132,40 @@ const UpdateUser = async () => {
     formData.append('country_id', userInfo.value.country_id);
     formData.append('_method', 'PUT');
 
-    try {
-        await UserService.updateUser(user.value);
-        console.log('User updated successfully');
-        await UserService.updateUserInfo(formData).then((response) => {
+
+    UserService.updateUser(user.value).then((response) => {
+
+        if (response.success) {
+            UserService.updateUserInfo(formData).then((response) => {
             
-            if (response.success) {
-                window.dispatchEvent(new Event('user-updated'));
-                showModal.value = false;
-                router.push({ name: 'Users' });
-                ToastStore().triggerToast(`Utilizador actualizado com sucesso!`, 'success');
-            }
-            
-        });
-    } catch (error) {
-        console.error('Error: ', error.response);
-    }
+                if (response.success) {
+                    window.dispatchEvent(new Event('user-updated'));
+                    ToastStore().triggerToast(`Utilizador ${user.value.name} actualizado com sucesso!`, 'success');
+                    router.push({ name: 'Users' });
+
+                } else {
+                    const myerros = response.message;
+
+                    Object.keys(myerros).forEach((key) => {
+                    ToastStore().triggerToast(` ${myerros[key][0]}`, 'error');
+                    });
+                }
+
+            }).catch((error) => {
+              ToastStore().triggerToast(`Erro ao tentar atualizar dados do utilizador 1`, 'error');
+            });
+
+        } else {
+            const myerros = response.message;
+
+            Object.keys(myerros).forEach((key) => {
+              ToastStore().triggerToast(` ${myerros[key][0]}`, 'error');
+            });
+        }
+
+    }).catch((error) => {
+    ToastStore().triggerToast(`Erro ao tentar atualizar dados do utilizador 2`, 'error');
+  });
 };
 </script>
 

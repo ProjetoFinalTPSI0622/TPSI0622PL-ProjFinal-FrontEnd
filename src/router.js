@@ -7,7 +7,7 @@ const routes = [
 
   {
     path: "/",
-    name: "home",
+    name: "layout",
     component: () => import('@/pages/Layout.vue'),
     meta: { requiresAuth: true },
 
@@ -17,6 +17,12 @@ const routes = [
         name: 'Account',
         component: () => import('@/pages/Account.vue'),
         meta: { requiresAuth: true }
+      },
+      {
+        path: "/",
+        name: "home",
+        component: () => import('@/pages/HomePage.vue'),
+        meta: { requiresAuth: true },
       },
       {
         path: '/settings/security',
