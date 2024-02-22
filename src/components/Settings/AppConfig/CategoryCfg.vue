@@ -8,7 +8,7 @@
                 <Input LabelTitle="Nova Categoria" type="text" required modelValue="" />
             </div>
             <div class="flex">
-                <ButtonSubmit textButton="Guardar" type="submit" @click="createCategory" class=""/>
+                <CreateButton type="submit" textButton="Criar Categoria" @click="createCategory"/>
             </div>
         </div>
         <hr class="my-5">
@@ -25,10 +25,8 @@
                                 {{ category.name }}
                             </div>
                             <div class="flex gap-2.5">
-                                <button class="text-xs bg-green-400 rounded-lg px-2 py-1.5"
-                                    @click="editStatus">Editar</button>
-                                <button class="text-xs bg-red-400 rounded-lg px-2 py-1.5"
-                                    @click="deleteStatus">Apagar</button>
+                                <UpdateButton type="submit" textButton="Editar" @click="editStatus"/>
+                                <DeleteButton type="submit" textButton="Apagar" @click="deleteStatus"/>
                             </div>
                         </div>
                     </li>
@@ -44,7 +42,9 @@ import ConfigGroup from '../../../layout/ConfigGroup.vue';
 import FormTitle from '../../Form/FormTitle.vue';
 import SubTitle from '../../Form/SubTitle.vue';
 import Input from '../../Form/Input.vue';
-import ButtonSubmit from '../../Form/ButtonSubmit.vue';
+import CreateButton from '../../Buttons/CreateButton.vue';
+import UpdateButton from '../../Buttons/UpdateButton.vue';
+import DeleteButton from '../../Buttons/DeleteButton.vue';
 import { CategoriesService } from '../../../Services/CategoriesService';
 
 const categories = ref([]);

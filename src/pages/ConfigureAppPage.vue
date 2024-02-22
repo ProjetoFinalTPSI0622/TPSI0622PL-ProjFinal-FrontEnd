@@ -1,6 +1,6 @@
 <template>
     <div class="md:flex w-full h-full">
-        <div class="flex flex-col w-full p-8">
+        <div class="flex flex-col w-full p-4 md:p-8">
             <FormTitle Title="Configurações da APP" class="text-blue mb-5"/>
             <div class="overflow-y-auto">
                 <ConfigureApp />
