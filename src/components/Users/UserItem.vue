@@ -84,7 +84,7 @@ const handleCancelModal = () => {
       </button>
       <button @click.stop="openModal(user, modalAction = 'reset')"
         class="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-red-700 transition duration-300 text-xs sm:text-lg">
-        Reset Password
+        Repor password
       </button>
     </td>
 
