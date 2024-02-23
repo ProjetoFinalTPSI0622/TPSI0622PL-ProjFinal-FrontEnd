@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .hoverBlue {
-  @apply hover:bg-blue hover:cursor-pointer;
+  @apply hover:bg-blue hover:text-white hover:cursor-pointer;
 }
 
 .hoverPurpleLight {
