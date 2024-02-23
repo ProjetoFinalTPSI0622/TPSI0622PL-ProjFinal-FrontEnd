@@ -98,14 +98,14 @@ watch(searchTerm, () => {
                     <div class="text-black text-opacity-60 sm:text-xl">{{ TicketFilter.filteredTickets.length }} Tickets
                     </div>
                     <div class="flex gap-1 sm:gap-2.5">
-                        <select v-model="ticketsPerPage" @change="changePage(1)">
+                        <select v-model="ticketsPerPage" @change="changePage(1)" class="cursor-pointer">
                             <option value="5">5 por pagina</option>
                             <option value="10">10 por pagina</option>
                             <option value="20">20 por pagina</option>
                             <option value="All">All</option>
                         </select>
                         <span v-for="page in totalPages" :class="['text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer',
-                            { 'bg-purple text-white': page === currentPage, 'aspect-[0.8148148148148148]': true }]"
+                            { 'bg-purple text-white hoverBlue': page === currentPage, 'aspect-[0.8148148148148148]': true }]"
                             :key="page" @click="changePage(page)">
                             {{ page }}
                         </span>

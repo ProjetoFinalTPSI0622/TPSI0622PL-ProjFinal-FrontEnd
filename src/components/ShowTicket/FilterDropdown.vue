@@ -78,7 +78,7 @@ watch(() => ticketFilterStore.sideFilterChange, resetSelectedOptions);
 
 <template>
     <div class="relative">
-        <button @click="toggleDropdown" class="justify-center bg-purple flex gap-2.5 px-3 py-[5.5px] rounded-xl">
+        <button @click="toggleDropdown" class="justify-center bg-purple flex gap-2.5 px-3 py-[5.5px] rounded-xl hoverBlue">
             <img loading="lazy" src="@/assets/plus.svg" class="self-center">
             <div class="text-white sm:text-lg">Filtros</div>
         </button>
@@ -87,7 +87,7 @@ watch(() => ticketFilterStore.sideFilterChange, resetSelectedOptions);
             class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
             <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                 <a v-for="item in state.dropdownItems" :key="item.id" :href="item.href" @click.prevent="selectOption(item)"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+                    class="block px-4 py-2 text-sm hoverBlue"
                     role="menuitem">{{
                         item.name }}</a>
             </div>
@@ -95,7 +95,7 @@ watch(() => ticketFilterStore.sideFilterChange, resetSelectedOptions);
     </div>
 
     <div v-for="option in state.selectedOptions" :key="option.id"
-        class="relative bg-purple text-white px-2 py-1 rounded-xl">
+        class="relative bg-purple text-white px-2 py-1 rounded-xl hoverBlue">
         <button @click="option.isOpen = !option.isOpen">
             <div class="flex gap-1">
                 <img loading="lazy" src="@/assets/remove.svg" class="self-center hoverRed rounded-md"
@@ -114,7 +114,7 @@ watch(() => ticketFilterStore.sideFilterChange, resetSelectedOptions);
                     {{ item.name }}
                 </option>
             </select>
-            <button class="w-full text-center py-2 bg-purple text-white" @click="selectNestedOption(option)">Done</button>
+            <button class="w-full text-center py-2 bg-purple text-white hoverBlue" @click="selectNestedOption(option)">Done</button>
         </div>
 
         <!-- Selected nested options -->

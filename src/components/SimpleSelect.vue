@@ -27,7 +27,7 @@ const handleMousedown = () => {
 <template>
     <select ref="selectbox" @change.prevent="showTicketModal($event.target.value)" @click.stop @mousedown="handleMousedown"
         v-bind:style="{ appearance: authedUserStore.userRole !== 'admin' ? 'none' : 'auto' }"
-        class="border bg-white w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20"
+        class="border bg-white w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20 cursor-pointer"
         :disabled="authedUserStore.userRole !== 'admin'">
         <option selected>
             {{ currentValue ? currentValue.name : 'Sem Técnico' }}

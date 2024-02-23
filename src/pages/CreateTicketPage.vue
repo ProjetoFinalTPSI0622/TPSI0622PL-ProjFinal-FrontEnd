@@ -89,7 +89,7 @@ onBeforeMount(async () => {
                         Categoria
                     </label>
                     <select v-model="category.selectedCategory" @change="testeChange"
-                        class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+                        class="cursor-pointer border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
                         <option disabled selected>Escolha uma categoria</option>
                         <option v-for="category in category.categories" :key="category.id" :value="category.id">
                             {{ category.name }}
@@ -101,7 +101,7 @@ onBeforeMount(async () => {
                         Urgência
                     </label>
                     <select v-model="priority.selectedPriority" @change="testeChange"
-                        class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+                        class="cursor-pointer border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
                         <option disabled selected>Escolha a urgência</option>
                         <option v-for="priority in priority.priorities" :key="priority.id" :value="priority.id">
                             {{ priority.name }}

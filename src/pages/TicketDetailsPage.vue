@@ -17,6 +17,7 @@ import CreateCommentForm from "@/components/TicketDetails/CreateCommentForm.vue"
 import { CommentsService } from "@/Services/CommentsService.js";
 import { useAuthedUserStore } from '@/Stores/UserStore.js';
 import ToastStore from '@/Stores/ToastStore.js';
+import LoadingSpinner from '@/components/Loading.vue';
 
 
 const authedUserStore = useAuthedUserStore();
@@ -127,7 +128,7 @@ const handleShowModalTech = (technicianName, oldValue) => {
 
 const handleShowModalPriority = (priority, oldValue) => {
   ticketStore.handleShowModalPriority(priority, ticket.value.id, oldValue);
-}; 
+};
 
 const handleCancelModal = () => {
   ticketStore.handleCancelModal();
@@ -148,11 +149,9 @@ const reopenTicket = async () => {
 </script>
 
 <template>
-  <div v-if="isloading" class="flex h-full w-full justify-center items-center">
-    <div
-      class="flex h-20 w-20 animate-spin rounded-full border-8 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]">
-    </div>
-  </div>
+
+  <LoadingSpinner v-if="isloading" />
+
   <div v-if="!isloading" class="flex h-[84vh] sm:h-full w-full">
     <SideSection :ticket="ticket">
       <SideSectionTop>Detalhes do Ticket</SideSectionTop>

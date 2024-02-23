@@ -31,7 +31,6 @@ const visiblePages = computed(() => {
   return pages;
 });
 
-//Obtem os usuários que serão exibidos na página atual
 const displayedUsers = computed(() => {
   const filteredUsers = users.value.filter((user) => {
     return user.name?.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
@@ -53,17 +52,15 @@ const loadUsers = async () => {
   }
 };
 
-//Obtem os usuários da API
 onBeforeMount(async () => {
   await loadUsers();
+  usersPerPage.value = users.value.length;
 });
 
-//Obtem o número total de páginas
 const totalPages = computed(() => {
   return Math.ceil(users.value.length / usersPerPage.value);
 });
 
-//Muda a página atual
 const changePage = (page) => {
   currentPage.value = Math.max(1, Math.min(page, totalPages.value));
 };
