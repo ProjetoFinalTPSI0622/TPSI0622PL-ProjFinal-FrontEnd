@@ -13,7 +13,7 @@ const props = defineProps({
             class="aspect-[1.5] object-contain object-center" />
         <input type="text"
             class="bg-transparent text-gray-900 focus:outline-none focus-visible:outline-none rounded-lg w-full lg:p-2.5"
-            placeholder="Search all... "
+            placeholder="Procurar... "
             :value="searchTerm"
             @input="$emit('update:searchTerm', $event.target.value)">
     </span>
