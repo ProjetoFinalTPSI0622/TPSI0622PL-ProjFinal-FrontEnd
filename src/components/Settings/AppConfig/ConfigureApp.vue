@@ -2,9 +2,9 @@
   <div>
     <StatusCfg class="mt-5"/>
 
-    <!-- <CategoryCfg class="mt-5"/> -->
+    <CategoryCfg class="mt-5"/>
 
-    <!-- <LocationCfg class="mt-5"/> -->
+    <LocationCfg class="mt-5"/>
   </div>
 </template>
   

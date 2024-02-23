@@ -7,8 +7,8 @@ export const LocationsService = {
     createLocation:async (location) => {
         return await AxiosService.makeRequest('post', '/locations', location);
     },
-    updateLocation: async (location) => {
-        return AxiosService.makeRequest('put', `/locations/${location.id}`, location);
+    updateLocation: async (id, location) => {
+        return AxiosService.makeRequest('put', `/locations/${id}`, location);
     },
     deleteLocation:async (id) => {
         return await AxiosService.makeRequest('delete', `/locations/${id}`);

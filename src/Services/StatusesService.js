@@ -7,8 +7,8 @@ export const StatusesService = {
     createStatus:async (status) => {
         return await AxiosService.makeRequest('post', '/statuses', status);
     },
-    updateStatus: async (status) => {
-        return AxiosService.makeRequest('put', `/statuses/${status.id}`, status);
+    updateStatus: async (id, status) => {
+        return AxiosService.makeRequest('put', `/statuses/${id}`, status);
     },
     deleteStatus:async (id) => {
         return await AxiosService.makeRequest('delete', `/statuses/${id}`);
