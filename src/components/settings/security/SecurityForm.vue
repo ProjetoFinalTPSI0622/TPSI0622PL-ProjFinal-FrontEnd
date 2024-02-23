@@ -1,5 +1,5 @@
 <template>
-  <form @submit="changePassword" class="bg-grey rounded-md border-b-opacity-50 border-b lg:mx-10 xl:mx-0 p-8">
+  <form @submit.prevent="changePassword" class="bg-grey rounded-md border-b-opacity-50 border-b lg:mx-10 xl:mx-0 p-8">
 
     <div class="flex flex-col w-full">
       <FormTitle Title="Alterar Password" class="ml-5" />
@@ -33,17 +33,17 @@ const newPassword_confirmation = ref('');
 
 
 const changePassword = async () => {
+  console.log('changePassword');
   try {
     if (newPassword.value !== newPassword_confirmation.value) {
       console.error("New password and confirm password don't match");
       return;
     }
-
     console.log({
       currentPassword: currentPassword.value,
       newPassword: newPassword.value,
       newPassword_confirmation: newPassword_confirmation.value
-    })
+    });
     const response = await UserService.changePassword({
       currentPassword: currentPassword.value,
       newPassword: newPassword.value,
