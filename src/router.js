@@ -52,7 +52,7 @@ const routes = [
         path: '/tickets/:ticketId',
         name: 'ticketDetails',
         component: () => import('@/pages/TicketDetailsPage.vue'),
-        meta: { requiresAuth: true, requiredRole: ['admin', 'technician'] }    //// TODO: add created by user role
+        meta: { requiresAuth: true }
       },
       {
         path: '/users',

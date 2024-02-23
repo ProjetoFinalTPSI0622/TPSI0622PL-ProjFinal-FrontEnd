@@ -141,7 +141,7 @@ const UpdateUser = async () => {
                 if (response.success) {
                     window.dispatchEvent(new Event('user-updated'));
                     ToastStore().triggerToast(`Utilizador ${user.value.name} actualizado com sucesso!`, 'success');
-                    router.push({ name: 'Users' });
+                    window.location.reload();
 
                 } else {
                     const myerros = response.message;
