@@ -1,47 +1,43 @@
 <template>
-  <div class="w-full flex flex-col items-center justify-start min-h-screen bg-gray-100">
-    <div id="animated-text">
-  <span class="letter">C</span>
-  <span class="letter">e</span>
-  <span class="letter">s</span>
-  <span class="letter">a</span>
-  <span class="letter">e</span>
-  <span class="letter">D</span>
-  <span class="letter">e</span>
-  <span class="letter">s</span>
-  <span class="letter">k</span>
-</div>
-    <h1 v-if="!currentUser.isLoading" class="text-4xl lg:text-6xl font-bold mt-8">
-      
-      Bem-Vindo, <span style="color: #8a2be2;">{{ currentUser.user.name }}!</span>
-    </h1>
-    <div class="p-50">
-      ULTIMOS TICKETS
+  <div class="w-full p-5 overflow-auto">
+    <div class="w-full flex flex-col items-center justify-start min-h-screen bg-grey mb-20 md:mb-0">
+      <TextAnimation />
+      <div class="items-center my-3">
+        <h1 v-if="!currentUser.isLoading" class="text-4xl lg:text-5xl font-bold text-purple">
+          Bem-Vindo, <span class="text-blue">{{ currentUser.user.name }}!</span>
+        </h1>
+      </div>
 
-      <TicketsTable :tickets="displayedTickets" :technicians="technicians"/>
+      <div v-if="authedUserStore.userRole === 'admin' || authedUserStore.userRole === 'technician'"
+        class="pl-3">
+        ULTIMOS TICKETS
+        <TicketsTable :tickets="displayedTickets" :technicians="technicians" />
+      </div>
+
+      <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
+        <template #title>
+          Assign Technician
+        </template>
+        <template #content>
+          You are about to assign {{ ticketStore.selectedTechnician }} to this ticket, are you sure?
+        </template>
+      </Modal>
+
     </div>
-
-    <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
-                    <template #title>
-                        Assign Technician
-                    </template>
-                    <template #content>
-                        You are about to assign {{ ticketStore.selectedTechnician }} to this ticket, are you sure?
-                    </template>
-                </Modal>
-
   </div>
 </template>
   
 <script setup>
-import { ref, onBeforeMount,computed, watch } from 'vue';
+import { ref, onBeforeMount, computed, watch } from 'vue';
 import { UserService } from "@/Services/UserService.js";
 import TicketsTable from "@/components/ShowTicket/TicketsTable.vue";
 import { useTicketStore } from '@/Stores/TicketStore.js';
 import { useTicketFilterStore } from '@/Stores/TicketFilterStore.js';
 import Modal from '@/components/Modal.vue';
+import { useAuthedUserStore } from '@/Stores/UserStore.js';
+import TextAnimation from '../layout/TextAnimation.vue';
 
-
+const authedUserStore = useAuthedUserStore();
 
 const currentUser = ref({
   user: null,
@@ -54,75 +50,72 @@ const currentPage = ref(1);
 const ticketsPerPage = ref(5);
 const searchTerm = ref('');
 
-
 const ticketStore = useTicketStore();
 const TicketFilter = useTicketFilterStore();
 
-
 const fetchUser = async () => {
-    currentUser.value.user = (await UserService.getAuthedUser()).data;
-    currentUser.value.isLoading = false;
-    console.log(currentUser.value.name);
+  currentUser.value.user = (await UserService.getAuthedUser()).data;
+  currentUser.value.isLoading = false;
 };
 
 onBeforeMount(async () => {
-    await fetchUser();
-    await fetchTickets();
-    await getTechnicians();
+  await fetchUser();
+  await fetchTickets();
+  await getTechnicians();
 });
 
 const handleCancelModal = () => {
-    ticketStore.handleCancelModal();
+  ticketStore.handleCancelModal();
 };
 
 const handleConfirmModal = () => {
-    ticketStore.handleConfirmModal();
+  ticketStore.handleConfirmModal();
 };
 
 const fetchTickets = async () => {
-    try {
-        tickets.value = await TicketFilter.getTickets();
-    } catch (error) {
-        console.error("Error fetching tickets:", error);
-    }
+  try {
+    tickets.value = await TicketFilter.getTickets();
+  } catch (error) {
+    console.error("Error fetching tickets:", error);
+  }
 };
 
 const getTechnicians = async () => {
-    try {
-        const response = (await UserService.getTechnicians());
-        if (response.success) {
-            technicians.value = response.data;
-        } else {
-            console.error('Invalid response structure:', response);
-        }
-    } catch (error) {
-        console.error('Error fetching technicians:', error);
+  try {
+    const response = (await UserService.getTechnicians());
+    if (response.success) {
+      technicians.value = response.data;
+    } else {
+      console.error('Invalid response structure:', response);
     }
+  } catch (error) {
+    console.error('Error fetching technicians:', error);
+  }
 };
 
 const displayedTickets = computed(() => {
-    const filteredTickets = TicketFilter.filteredTickets;
-    const startIndex = (currentPage.value - 1) * ticketsPerPage.value;
-    const endIndex = startIndex + ticketsPerPage.value;
-    return filteredTickets.slice(startIndex, endIndex);
+  const filteredTickets = TicketFilter.filteredTickets;
+  const startIndex = (currentPage.value - 1) * ticketsPerPage.value;
+  const endIndex = startIndex + ticketsPerPage.value;
+  return filteredTickets.slice(startIndex, endIndex);
 });
 
 const totalPages = computed(() => {
-    return Math.ceil(TicketFilter.filteredTickets.length / ticketsPerPage.value);
+  return Math.ceil(TicketFilter.filteredTickets.length / ticketsPerPage.value);
 });
 
 const changePage = (page) => {
-    currentPage.value = page;
+  currentPage.value = page;
 };
 
 watch(searchTerm, () => {
-    currentPage.value = 1;
+  currentPage.value = 1;
 });
 
 </script>
   
-  <style>
- #animated-text {
+<style>
+#animated-text {
   font-size: 36px;
 }
 
@@ -137,10 +130,10 @@ watch(searchTerm, () => {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
-
-  </style>
+</style>
   
