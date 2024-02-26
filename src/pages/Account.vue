@@ -3,7 +3,7 @@
     <SettingsBar />
     <div class="w-full align-middle">
       <div class="flex justify-center h-full items-center">
-        <ShowUserForm :myuser="myuser" :isDisabled="true" class="w-full"/>
+        <ShowUserForm :myuser="myuser" :isDisabled="true" />
       </div>
     </div>
   </div>
