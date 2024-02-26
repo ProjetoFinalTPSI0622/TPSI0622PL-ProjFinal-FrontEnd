@@ -241,7 +241,7 @@ const toggleSideSection = () => {
                 Localização
               </label>
               <div class="flex justify-between lg:w-full">
-                <SimpleSelect :currentValue="locations.status" :newValues="locations" />
+                <SimpleSelect :currentValue="ticket.location" :newValues="locations" />
               </div>
             </div>
             <SimpleButton @click="closeTicket"

@@ -43,7 +43,7 @@ const submitHandler = async () => {
     formData.append("description", ticketDescription.value);
     formData.append("priority", priority.value.selectedPriority);
     formData.append("category", category.value.selectedCategory);
-    formData.append("location ", location.value.selectedLocation);
+    formData.append("location", location.value.selectedLocation);
 
     attachedFiles.value.forEach((fileObj, index) => {
         formData.append(`files[${index}]`, fileObj.file);
