@@ -71,7 +71,7 @@ onBeforeMount(async () => {
 
 <template>
     <div class="flex w-full">
-        <SideSection>
+        <SideSection class="hidden">
             <SideSectionTop>Novo Ticket</SideSectionTop>
             <div class="flex flex-col p-2 xl:p-5 gap-4">
                 <div class="flex flex-col gap-3">
