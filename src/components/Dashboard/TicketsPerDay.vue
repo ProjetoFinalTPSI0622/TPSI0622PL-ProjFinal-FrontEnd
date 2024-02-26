@@ -1,9 +1,11 @@
 <template>
-    <select v-model="groupBy" @change="fetchChartData">
-        <option value="day">Diário</option>
-        <option value="month">Mensal</option>
-    </select>
-    <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+    <div>
+        <select v-model="groupBy" @change="fetchChartData">
+            <option value="day">Diário</option>
+            <option value="month">Mensal</option>
+        </select>
+        <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+    </div>
 </template>
   
 <script>
