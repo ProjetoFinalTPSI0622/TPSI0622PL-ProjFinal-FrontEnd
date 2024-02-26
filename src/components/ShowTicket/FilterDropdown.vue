@@ -53,15 +53,17 @@ const selectNestedOption = (option) => {
 
     ticketFilterStore.handleFilterChange(option.id, option.selectedNestedOptions.map(o => o.name));
     ticketFilterStore.resetSideFilter();
+    console.log(option.selectedNestedOptions);
 };
 
 const removeNestedOption = (option, nestedOption) => {
-    option.selectedNestedOptions = option.selectedNestedOptions.filter(o => o.id !== nestedOption.id);
+    option.selectedNestedOptions.pop(nestedOption);
+    console.log(option.selectedNestedOptions);
 
     if (option.selectedNestedOptions.length === 0) {
         ticketFilterStore.handleFilterChange(option.id, 'all');
     } else {
-        ticketFilterStore.handleFilterChange(option.id, option.selectedNestedOptions.map(o => o.id));
+        ticketFilterStore.handleFilterChange(option.id, option.selectedNestedOptions.map(o => o.name));
     }
 };
 

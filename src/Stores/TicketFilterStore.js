@@ -63,14 +63,13 @@ export const useTicketFilterStore = defineStore({
                 if (this.filter.searchTerm &&
                     !ticket.createdby?.name.toLowerCase().includes(searchTermLower) &&
                     !ticket.title.toLowerCase().includes(searchTermLower) &&
+                    !ticket.createdby?.email.toLowerCase().includes(searchTermLower) &&
+                    !ticket.assignedto?.email.toLowerCase().includes(searchTermLower) &&
                     !(ticket.assignedto?.name.toLowerCase() || '').includes(searchTermLower) &&
                     !ticket.status.name.toLowerCase().includes(searchTermLower)) {
                     return false;
                 }
-                if (this.filter.user !== 'all' && ticket.createdby && !this.filter.user.includes(ticket.createdby.name)) {
-                    return false;
-                }
-                if (this.filter.technician !== 'all' && (!ticket.assignedto || ticket.assignedto.name !== this.filter.technician)) {
+                if ((this.filter.technician !== 'all' && ticket.assignedto && !this.filter.technician.includes(ticket.assignedto.name)) || (this.filter.technician !== 'all' && !ticket.assignedto)) {
                     return false;
                 }
                 if (this.filter.category !== 'all' && !this.filter.category.includes(ticket.category.name)) {
