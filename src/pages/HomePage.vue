@@ -10,7 +10,7 @@
 
       <div v-if="authedUserStore.userRole === 'admin' || authedUserStore.userRole === 'technician'"
         class="pl-3">
-        ULTIMOS TICKETS
+        <p class="underline">ULTIMOS TICKETS</p>
         <TicketsTable :tickets="displayedTickets" :technicians="technicians" />
       </div>
 

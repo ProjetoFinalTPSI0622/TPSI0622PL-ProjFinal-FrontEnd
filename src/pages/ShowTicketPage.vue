@@ -85,7 +85,7 @@ watch(searchTerm, () => {
 </script>
 
 <template>
-    <div class="flex w-full">
+    <div class="flex w-full overflow-auto">
         <div v-if="authedUserStore.isLoading"></div>
         <div v-else class="flex w-full">
             <SideFilter v-if="authedUserStore.userRole === 'technician' || authedUserStore.userRole === 'admin'" />
