@@ -6,6 +6,7 @@ import { UserService } from "@/Services/UserService";
 import { onBeforeMount, ref } from "vue";
 import router from "@/router.js";
 import TiptapEditor from '@/components/TicketDetails/TiptapEditor.vue';
+import { LocationsService } from "../Services/LocationsService";
 
 const attachedFiles = ref([]);
 
@@ -21,6 +22,11 @@ const priority = ref({
     priorities: [],
     selectedPriority: 1,
 });
+const location = ref({
+    locations: [],
+    selectedLocation: 1,
+});
+
 const isLoading = ref(true);
 const user = ref({});
 
@@ -37,6 +43,7 @@ const submitHandler = async () => {
     formData.append("description", ticketDescription.value);
     formData.append("priority", priority.value.selectedPriority);
     formData.append("category", category.value.selectedCategory);
+    formData.append("location ", location.value.selectedLocation);
 
     attachedFiles.value.forEach((fileObj, index) => {
         formData.append(`files[${index}]`, fileObj.file);
@@ -59,6 +66,7 @@ onBeforeMount(async () => {
     try {
         category.value.categories = (await TicketsService.getCategories()).data;
         priority.value.priorities = (await TicketsService.getPriorities()).data;
+        location.value.locations = (await LocationsService.getLocations()).data;
         user.value = (await UserService.getAuthedUser()).data;
     } catch (e) {
         console.log(e);
@@ -70,7 +78,8 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-    <div class="flex w-full">
+
+   <div class="flex w-full overflow-auto">
         <SideSection class="hidden">
             <SideSectionTop>Novo Ticket</SideSectionTop>
             <div class="flex flex-col p-2 xl:p-5 gap-4">
@@ -105,6 +114,18 @@ onBeforeMount(async () => {
                         <option disabled selected>Escolha a urgência</option>
                         <option v-for="priority in priority.priorities" :key="priority.id" :value="priority.id">
                             {{ priority.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <label class="text-pink-600 text-l xl:text-lg justify-center">
+                        Localização
+                    </label>
+                    <select v-model="location.selectedLocation" @change="testeChange"
+                        class="cursor-pointer border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-4 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+                        <option disabled selected>Escolha a Localização</option>
+                        <option v-for="location in location.locations" :key="location.id" :value="location.id">
+                            {{ location.name }}
                         </option>
                     </select>
                 </div>
