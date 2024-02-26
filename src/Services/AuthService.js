@@ -12,5 +12,9 @@ export const AuthService = {
     userLogout: async () => {
         return await AxiosService.makeRequest('get', '/auth/logout');
     },
+
+    recoverPassword: async (email) => {
+        return await AxiosService.makeRequest('post', '/auth/forgotPassword', { email });
+    }
     
 };
