@@ -3,7 +3,7 @@
     <div class="w-full flex flex-col items-center justify-start min-h-screen bg-grey mb-20 md:mb-0">
       <TextAnimation />
       <div class="items-center my-3">
-        <h1 v-if="!currentUser.isLoading" class="text-4xl lg:text-5xl font-bold text-purple">
+        <h1 v-if="!currentUser.isLoading" class="text-4xl lg:text-3xl font-bold text-purple">
           Bem-Vindo, <span class="text-blue">{{ currentUser.user.name }}!</span>
         </h1>
       </div>

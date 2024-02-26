@@ -2,9 +2,9 @@
     <div class="flex flex-col justify-center content-center w-full h-[50%]">
         <h1 class="text-center">
             <div class="animation">
-                <span class="first text-purple">Cesae</span>
+                <span class="first text-purple font-bold">Cesae</span>
                 <span class="overflow-hidden inline-flex">
-                    <span class="second text-pink">Desk</span>
+                    <span class="second text-pink font-semibold">Desk</span>
                 </span>
             </div>
         </h1>
@@ -33,7 +33,6 @@
 
 .second {
     animation: secondSpan 1.5s forwards cubic-bezier(0.785, 0.135, 0.15, 0.86);
-    font-weight: 100;
     z-index: -1;
     display: inline-block;
     transition: color 0.5s ease;
