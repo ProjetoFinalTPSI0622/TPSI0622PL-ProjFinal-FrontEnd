@@ -1,11 +1,47 @@
 <script setup>
 import { ref, defineEmits } from 'vue'
+import { AuthService } from '@/Services/AuthService.js';
+import router from "@/router.js";
+import ToastStore from '@/Stores/ToastStore.js';
+
+const emailInputData = ref(null);
+const isSubmitting = ref(false);
 
 const emit = defineEmits(['back']);
 
 const backHandler = () => {
     emit('back');
 }
+
+const submitHandler = async (event) => {
+    event.preventDefault();
+
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+
+    if (!emailInputData.value ) {
+        ToastStore().triggerToast(`Email é obrigatórios!`, 'warning');
+    } else {
+        if (!emailRegex.test(emailInputData.value)) {
+            ToastStore().triggerToast(`Email inválido!`, 'warning');
+        }
+    }
+
+    isSubmitting.value = true;
+
+    try {
+        const authResult = await AuthService.recoverPassword(emailInputData.value);
+        if (authResult.success) {
+            router.push({ name: 'Login' }).then();
+            isSubmitting.value = false;
+        }
+    } finally {
+        setTimeout(() => {
+            isSubmitting.value = false;
+        }, 500);
+
+    }
+}
+
 </script>
 
 <template>
@@ -17,7 +53,6 @@ const backHandler = () => {
         <!-- EMAIL/PASSWORD INPUT -->
         <div>
             <label for="email" class="block mb-2 text-sm font-medium">Email de recuperação
-                <slot />
             </label>
             <input type="email" v-model="emailInputData" name="email" id="email"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-2 focus:border-2 block w-full p-2.5"
