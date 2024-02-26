@@ -52,7 +52,9 @@ const editor = useEditor({
 })
 
 watch(() => props.modelValue, (newValue) => {
-    editor.value.commands.setContent(newValue);
+    if (editor.value.getHTML() !== newValue) {
+        editor.value.commands.setContent(newValue);
+    }
 })
 
 const toggleEmojiPicker = () => {
