@@ -63,22 +63,22 @@ const handleConfirmModal = () => {
 };
 
 const visiblePages = computed(() => {
-  let pages = [];
-  const total = totalPages.value;
-  const current = currentPage.value;
-  let startPage = Math.max(current - 2, 1);
-  let endPage = startPage + 4;
+    let pages = [];
+    const total = totalPages.value;
+    const current = currentPage.value;
+    let startPage = Math.max(current - 1, 1);
+    let endPage = startPage + 2;
 
-  if (endPage > total) {
-    endPage = total;
-    startPage = Math.max(1, endPage - 4);
-  }
+    if (endPage > total) {
+        endPage = total;
+        startPage = Math.max(1, endPage - 2);
+    }
 
-  for (let page = startPage; page <= endPage; page++) {
-    pages.push(page);
-  }
+    for (let page = startPage; page <= endPage; page++) {
+        pages.push(page);
+    }
 
-  return pages;
+    return pages;
 });
 
 const displayedTickets = computed(() => {
@@ -126,23 +126,12 @@ watch(searchTerm, () => {
                             <option value="All">All</option>
                         </select>
 
-                        <button v-if="currentPage > 1" @click="changePage(currentPage - 1)"
-                            class="text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer">
-                            <Previous />
-                        </button>
-
                         <span v-for="page in visiblePages"
                             :class="['text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer',
                                 { 'bg-purple text-white hoverBlue': page === currentPage, 'aspect-[0.8148148148148148]': true }]" :key="page"
                             @click="changePage(page)">
                             {{ page }}
                         </span>
-
-                        <button v-if="currentPage < totalPages" @click="changePage(currentPage + 1)"
-                            class="text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer">
-                            <Next />
-                        </button>
-
                     </div>
                 </span>
 
