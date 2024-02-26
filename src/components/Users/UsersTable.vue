@@ -34,11 +34,10 @@ const DeleteUser = () => {
         <th class="w-1/4 self-center">NOME</th>
         <th class="hidden sm:block w-1/4 self-center">TURMA</th>
         <th class="hidden lg:block w-1/4 self-center">CÓDIGO INTERNO</th>
-        <th class="w-1/4 self-center">ACÇÕES</th>
       </tr>
     </thead>
 
-    <div class="max-h-[55vh] sm:max-h-[59vh] overflow-y-auto">
+    <div class="max-h-[57vh] sm:max-h-[58vh] overflow-y-auto">
       <tbody>
         <UserItem @click.stop="clickHandler(user.id)" v-for="user in users" :key="user.id" :user="user"
           @userDeleted="DeleteUser" />

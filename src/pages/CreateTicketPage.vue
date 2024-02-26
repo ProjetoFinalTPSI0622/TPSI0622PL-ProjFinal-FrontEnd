@@ -139,23 +139,20 @@ onBeforeMount(async () => {
                     class="bg-grey text-black text-opacity-60 text-xl w-full pt-2 pb-1.5 px-3 rounded-xl border border-solid border-black border-opacity-20" />
             </span>
             <span
-                class="text-purple flex sm:text-2xl text-xl h-[50vh] whitespace-nowrap justify-between p-3 border-b-purple border-b-opacity-30 border-b border-solid items-start">
+                class="text-purple sm:text-2xl text-xl overflow-auto h-80 sm:h-[53vh] justify-between sm:pl-4 sm:pr-12 px-14 items-start border-b-purple border-b-opacity-30 border-b border-solid">
             </span>
 
 
-            <div
-                class="text-purple flex flex-col gap-4 sm:text-2xl text-xl h-[30vh] whitespace-nowrap justify-between p-3 items-start">
-
+            <div class="text-purple flex w-full flex-col p-3 gap-3 sm:text-2xl text-xl items-start">
                 <div class="flex justify-between text-xl gap-2 w-full">
-                    <div class="flex">
+                    <div class="flex gap-2">
                         <img src="../assets/corner-up-left.svg" />
-                        <span class="flex px-2">Descrição do seu problema</span>
+                        <span class="flex items-center">Descrição</span>
                     </div>
                     <button type="submit" @click.prevent="submitHandler" :disabled="isSubmitting"
                         class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverBlue">
                         Criar Ticket
                     </button>
-
                 </div>
 
                 <form class="w-full border border-solid border-black border-opacity-20 rounded-lg bg-grey">

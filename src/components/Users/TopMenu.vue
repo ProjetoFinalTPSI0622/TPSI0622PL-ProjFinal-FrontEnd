@@ -14,10 +14,10 @@ const emit = defineEmits(['update:searchTerm']);
 <template>
     <span
         class="text-purple flex sm:text-2xl text-xl whitespace-nowrap justify-between p-4 border-b-purple border-b-opacity-30 border-b border-solid items-start">
-        <div>Todos os Utilizadors</div>
+        <div>Todos os Users</div>
 
         <RouterLink to="/users/create">
-            <SimpleButton> + Adicionar Utilizador </SimpleButton>
+            <SimpleButton> + Novo User</SimpleButton>
         </RouterLink>
     </span>
     <div class="flex flex-row justify-end p-3 border-b-black border-b-opacity-30 border-b border-solid items-start">

@@ -32,7 +32,7 @@ const clickHandler = (id) => {
             </tr>
         </thead>
 
-        <div class="max-h-[53vh] sm:max-h-[58vh] lg:max-h-[60vh] overflow-y-auto">
+        <div class="max-h-[57vh] sm:max-h-[58vh] lg:max-h-[60vh] overflow-y-auto">
             <tbody>
                 <TicketItem @click="clickHandler(ticket.id)" v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"
                     :technicians="technicians" />
