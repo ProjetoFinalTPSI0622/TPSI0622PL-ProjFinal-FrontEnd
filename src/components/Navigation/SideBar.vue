@@ -11,8 +11,8 @@
         <router-link v-if="authedUserStore.userRole === 'admin'" to="/settings/configurations" class="lg:w-full w-6"><img
                 src="../../assets/settings.svg"></router-link>
         
-        <div class="lg:w-full w-6 md:hidden min-w-4" ref="secondIconRef" @click.stop="toggleSecondDropdown">
-            <img src="../../assets/Ellipse 5.svg">
+        <div v-if="user" class="lg:w-full w-6 md:hidden min-w-4" ref="secondIconRef" @click.stop="toggleSecondDropdown">
+            <img :src="user.user_info.profile_picture_path">
             <div v-if="showSecondDropdown" @click.stop="toggleSecondDropdown" ref="secondDropdownRef"
                 class="absolute top-full right-0 mt-2.5 py-2 w-44 bg-white rounded-md shadow-xl z-20 border border-black border-opacity-20">
                 <ul class="block text-right">
@@ -32,15 +32,18 @@
 import { RouterLink } from 'vue-router';
 import { useAuthedUserStore } from '@/Stores/UserStore.js';
 import { ref, reactive, onBeforeMount } from 'vue';
+import { UserService } from '@/services/UserService.js';
 
 const authedUserStore = useAuthedUserStore();
 const showSecondDropdown = ref(false);
 const secondDropdownRef = ref(null);
 const secondIconRef = ref(null);
+const user = ref(null);
 
 
 onBeforeMount(async () => {
     await authedUserStore.fetchAuthedUser();
+    user.value = (await UserService.getUser(authedUserStore.currentUser.id)).data;
 });
 
 const dropdownItems = reactive([
