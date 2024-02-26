@@ -18,7 +18,7 @@ import { CommentsService } from "@/Services/CommentsService.js";
 import { useAuthedUserStore } from '@/Stores/UserStore.js';
 import ToastStore from '@/Stores/ToastStore.js';
 import LoadingSpinner from '@/components/Loading.vue';
-
+import { LocationsService } from "@/Services/LocationsService.js";
 
 const authedUserStore = useAuthedUserStore();
 
@@ -30,6 +30,7 @@ const technicians = ref([]);
 const ticketStore = useTicketStore();
 const statuses = ref([]);
 const priorities = ref([]);
+const locations = ref([]);
 
 //COMMENTS
 const comments = ref([]);
@@ -49,12 +50,28 @@ onBeforeMount(async () => {
   await getTechnicians();
   await getStatuses();
   await getPriorities();
+  await getLocations();
   isloading.value = false;
 });
 
 const viewState = reactive({
   showComments: false,
 });
+
+const getLocations = async () => {
+  try {
+    const response = (await LocationsService.getLocations());
+    if (response.success) {
+      locations.value = response.data;
+      console.log(locations.value);
+    } else {
+      console.error('Invalid response structure:', response);
+    }
+  } catch (error) {
+    console.error('Error fetching priorities:', error);
+  }
+};
+
 
 const getPriorities = async () => {
   try {
@@ -152,10 +169,20 @@ const reopenTicket = async () => {
 
   <LoadingSpinner v-if="isloading" />
 
-  <div v-if="!isloading" class="flex h-[84vh] sm:h-full w-full">
+  <div v-if="!isloading" class="flex h-[84vh] sm:h-full w-full overflow-auto">
     <SideSection :ticket="ticket">
       <SideSectionTop>Detalhes do Ticket</SideSectionTop>
       <div class="flex flex-col p-2 xl:p-5 gap-4">
+        <SimpleButton @click="closeTicket"
+          v-if="authedUserStore.userRole === 'admin' && ticket.status.name !== 'Completo'" class="w-full py-1 mt-4">
+          <img class="self-center" src="../assets/remove.svg" />
+          Fechar ticket
+        </SimpleButton>
+        <SimpleButton @click="reopenTicket"
+          v-if="authedUserStore.userRole === 'admin' && ticket.status.name === 'Completo'" class="w-full py-1 mt-4">
+          <img class="self-center" src="../assets/redo.svg" />
+          Reabrir ticket
+        </SimpleButton>
         <div class="flex flex-col gap-3">
           <label class="text-pink-600 text-l xl:text-lg justify-center">
             Criado por:
@@ -201,16 +228,14 @@ const reopenTicket = async () => {
             <SimpleSelect :currentValue="ticket.status" :newValues="statuses" @show-modal="handleShowModalStatus" />
           </div>
         </div>
-        <SimpleButton @click="closeTicket"
-          v-if="authedUserStore.userRole === 'admin' && ticket.status.name !== 'Completo'" class="w-full py-1 mt-4">
-          <img class="self-center" src="../assets/remove.svg" />
-          Fechar ticket
-        </SimpleButton>
-        <SimpleButton @click="reopenTicket"
-          v-if="authedUserStore.userRole === 'admin' && ticket.status.name === 'Completo'" class="w-full py-1 mt-4">
-          <img class="self-center" src="../assets/redo.svg" />
-          Reabrir ticket
-        </SimpleButton>
+        <div class="flex flex-col gap-3">
+          <label class="text-pink-600 text-l xl:text-lg justify-center">
+            Localização
+          </label>
+          <div class="flex justify-between w-40 lg:w-full">
+            <SimpleSelect :currentValue="locations.status" :newValues="locations"/>
+          </div>
+        </div>
       </div>
     </SideSection>
 
