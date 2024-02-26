@@ -2,6 +2,7 @@
     <div class=" flex grow basis-[0%] flex-col">
         <label class="text-pink text-xs mb-2 pl-2">{{ LabelTitle }}</label>
         <input 
+            :disabled="isDisabled"
             :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
             :type="type"
@@ -24,6 +25,10 @@ export default {
             type: String,
             required: true
         },
+        isDisabled: {
+            type: Boolean,
+            default: false
+        }
 
     },
 }

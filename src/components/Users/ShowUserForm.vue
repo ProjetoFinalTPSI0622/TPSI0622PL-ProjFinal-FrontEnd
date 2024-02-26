@@ -13,7 +13,8 @@ import Modal from '@/components/Modal.vue';
 import ToastStore from '@/Stores/ToastStore.js';
 
 const props = defineProps({
-    myuser: Object
+    myuser: Object,
+    isDisabled: Boolean
 });
 
 const showModal = ref(false);
@@ -187,13 +188,14 @@ const UpdateUser = async () => {
                 </div>
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
-                    <Input LabelTitle="Codigo Interno: *" type="text" required v-model="user.internalcode" />
-                    <Input LabelTitle="Turma:" type="text" v-model="userInfo.class" />
+                    <Input LabelTitle="Codigo Interno: *" type="text" required v-model="user.internalcode" :isDisabled="isDisabled" />
+                    <Input LabelTitle="Turma:" type="text" v-model="userInfo.class" :isDisabled="isDisabled" />
                 </div>
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
                     <Dropdown 
                         LabelTitle="Role:" 
+                        :isDisabled="isDisabled"
                         :options="roles" 
                         v-model="user.role"
                         :modelValue="user.role"
@@ -235,7 +237,7 @@ const UpdateUser = async () => {
                 </div>
             </div>
 
-            <ButtonSubmit @click="openModal(user)" textButton="Atualizar Informação" />
+            <ButtonSubmit @click="openModal(user)" textButton="Atualizar Informação" type="button" />
         </template>
     </FormShell>
 
