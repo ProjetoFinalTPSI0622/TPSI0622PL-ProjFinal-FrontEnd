@@ -78,8 +78,9 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-    <div class="flex w-full overflow-auto">
-        <SideSection>
+
+   <div class="flex w-full overflow-auto">
+        <SideSection class="hidden">
             <SideSectionTop>Novo Ticket</SideSectionTop>
             <div class="flex flex-col p-2 xl:p-5 gap-4">
                 <div class="flex flex-col gap-3">

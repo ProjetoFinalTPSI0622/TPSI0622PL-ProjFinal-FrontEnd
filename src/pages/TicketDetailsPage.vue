@@ -3,7 +3,7 @@ import SideSection from "@/components/SideSection.vue";
 import SideSectionTop from "@/components/SideSectionTop.vue";
 import { TicketsService } from "@/Services/TicketsService";
 import { UserService } from "@/Services/UserService.js";
-import { onBeforeMount, reactive, ref, watch } from 'vue';
+import { onBeforeMount, reactive, ref, watch, onMounted } from 'vue';
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import SimpleButton from '@/components/SimpleButton.vue';
 import DescriptionView from '@/components/TicketDetails/DescriptionView.vue';
@@ -21,6 +21,7 @@ import LoadingSpinner from '@/components/Loading.vue';
 import { LocationsService } from "@/Services/LocationsService.js";
 
 const authedUserStore = useAuthedUserStore();
+const isSideSectionVisible = ref(false);
 
 //TICKET
 const route = useRoute();
@@ -52,6 +53,14 @@ onBeforeMount(async () => {
   await getPriorities();
   await getLocations();
   isloading.value = false;
+});
+
+onMounted(() => {
+  const mediaQuery = window.matchMedia('(min-width: 1024px)');
+  isSideSectionVisible.value = mediaQuery.matches;
+  mediaQuery.addEventListener('change', (e) => {
+    isSideSectionVisible.value = e.matches;
+  });
 });
 
 const viewState = reactive({
@@ -163,10 +172,13 @@ const reopenTicket = async () => {
   await ticketStore.reopenTicket(ticket.value.id);
 };
 
+const toggleSideSection = () => {
+  isSideSectionVisible.value = !isSideSectionVisible.value;
+};
+
 </script>
 
 <template>
-
   <LoadingSpinner v-if="isloading" />
 
   <div v-if="!isloading" class="flex h-[84vh] sm:h-full w-full overflow-auto">
@@ -192,24 +204,97 @@ const reopenTicket = async () => {
             <!--                     TODO: ADICIONAR FOTO DO USER AFTER-->
             {{ ticket.createdby ? ticket.createdby.name : 'N/A' }}
 
-          </div>
-        </div>
-        <div class="flex flex-col gap-3">
-          <label class="text-pink-600 text-l xl:text-lg justify-center">
-            Técnico
-          </label>
-          <div class="flex justify-between w-40 lg:w-full">
-            <SimpleSelect :currentValue="ticket.assignedto" :newValues="technicians" @show-modal="handleShowModalTech" />
-          </div>
-        </div>
+    <button class="fixed top-[50%] z-50 sm:hidden bg-purple text-white px-1"
+      :class="isSideSectionVisible ? 'right-0 rounded-l-lg' : 'left-0 rounded-r-lg'" @click="toggleSideSection">
+      {{ isSideSectionVisible ? '<<' : '>>' }} </button>
 
-        <div class="flex flex-col gap-3">
-          <label class="text-pink-600 text-l xl:text-lg justify-center">
-            Categoria
-          </label>
-          <div
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-            {{ ticket.category ? ticket.category.name : 'N/A' }}
+        <SideSection :ticket="ticket" v-show="isSideSectionVisible" class="fixed inset-0 z-40 lg:static lg:z-auto">
+          <SideSectionTop>Detalhes do Ticket</SideSectionTop>
+          <div class="flex flex-col py-2 px-16 xl:p-5 gap-4">
+            <div class="flex flex-col gap-3">
+              <label class="text-pink-600 text-l xl:text-lg justify-center">
+                Criado por:
+              </label>
+              <div
+                class="border bg-white flex justify-between lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+                <!--                     TODO: ADICIONAR FOTO DO USER AFTER-->
+                {{ ticket.createdby ? ticket.createdby.name : 'N/A' }}
+
+              </div>
+            </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-pink-600 text-l xl:text-lg justify-center">
+                Técnico
+              </label>
+              <div class="flex justify-between lg:w-full">
+                <SimpleSelect :currentValue="ticket.assignedto" :newValues="technicians"
+                  @show-modal="handleShowModalTech" />
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-3">
+              <label class="text-pink-600 text-l xl:text-lg justify-center">
+                Categoria
+              </label>
+              <div
+                class="border bg-white flex justify-between lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+                {{ ticket.category ? ticket.category.name : 'N/A' }}
+              </div>
+            </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-pink-600 text-l xl:text-lg justify-center">
+                Urgência
+              </label>
+              <div class="flex justify-between lg:w-full">
+                <SimpleSelect :currentValue="ticket.priority" :newValues="priorities"
+                  @show-modal="handleShowModalPriority" />
+              </div>
+            </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-pink-600 text-l xl:text-lg justify-center">
+                Estado
+              </label>
+              <div class="flex justify-between lg:w-full">
+                <SimpleSelect :currentValue="ticket.status" :newValues="statuses" @show-modal="handleShowModalStatus" />
+              </div>
+            </div>
+            <SimpleButton @click="closeTicket"
+              v-if="authedUserStore.userRole === 'admin' && ticket.status.name !== 'Completo'" class="w-full py-1 mt-4">
+              <img class="self-center" src="../assets/remove.svg" />
+              Fechar ticket
+            </SimpleButton>
+            <SimpleButton @click="reopenTicket"
+              v-if="authedUserStore.userRole === 'admin' && ticket.status.name === 'Completo'" class="w-full py-1 mt-4">
+              <img class="self-center" src="../assets/redo.svg" />
+              Reabrir ticket
+            </SimpleButton>
+          </div>
+        </SideSection>
+
+        <div class="flex flex-col w-full lg:w-[80%]">
+
+          <div class="justify-center flex flex-col py-2 px-5 h-[12vh] sm:h-[9vh] border-b-black border-b border-solid">
+            <span class="justify-between flex flex-col sm:flex-row gap-2 xl:gap-5">
+              <div class="text-purple text-2xl">
+                {{ ticket.title ? ticket.title : 'N/A' }}
+              </div>
+              <div class="flex justify-end">
+                <SimpleButton @click="viewState.showComments = !viewState.showComments">
+                  {{ viewState.showComments ? 'Descrição' : 'Comentários' }}
+                  <img :src="viewState.showComments ? descriptionImg : chatImg">
+                </SimpleButton>
+              </div>
+            </span>
+          </div>
+
+          <div class="text-purple sm:text-2xl text-xl overflow-auto justify-between sm:pl-4 sm:pr-12 px-14 py-4 items-start"
+            :class="{ 'h-[80vh]': !viewState.showComments, 'h-[53vh] border-b-purple border-b-opacity-30 border-b border-solid': viewState.showComments }">
+            <div v-if="viewState.showComments" v-for="comment in comments" :key="comment.id">
+              <CommentsView :comment="comment" />
+            </div>
+            <div v-else>
+              <DescriptionView :myTicket="ticket" />
+            </div>
           </div>
         </div>
         <div class="flex flex-col gap-3">
@@ -251,33 +336,20 @@ const reopenTicket = async () => {
               {{ viewState.showComments ? 'Descrição' : 'Comentários' }}
               <img :src="viewState.showComments ? descriptionImg : chatImg">
             </SimpleButton>
+
+          <div v-if="viewState.showComments">
+            <CreateCommentForm :ticket="ticket" @refreshComments="fetchComments" />
           </div>
-        </span>
-      </div>
 
-      <div class="text-purple sm:text-2xl text-xl overflow-auto justify-between pl-6 pr-12 py-4 items-start"
-        :class="{ 'h-[80vh]': !viewState.showComments, 'h-[53vh] border-b-purple border-b-opacity-30 border-b border-solid': viewState.showComments }">
-        <div v-if="viewState.showComments" v-for="comment in comments" :key="comment.id">
-          <CommentsView :comment="comment" />
         </div>
-        <div v-else>
-          <DescriptionView :myTicket="ticket" />
-        </div>
-      </div>
-
-      <div v-if="viewState.showComments">
-        <CreateCommentForm :ticket="ticket" @refreshComments="fetchComments" />
-      </div>
-
-    </div>
-    <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
-      <template #title>
-        Assign Technician
-      </template>
-      <template #content>
-        You are about to assign {{ ticketStore.selectedTechnician }} to this ticket, are you sure?
-      </template>
-    </Modal>
+        <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
+          <template #title>
+            Assign Technician
+          </template>
+          <template #content>
+            You are about to assign {{ ticketStore.selectedTechnician }} to this ticket, are you sure?
+          </template>
+        </Modal>
   </div>
 </template>
 

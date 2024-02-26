@@ -46,7 +46,7 @@ watch(() => ticketFilterStore.filteredTickets, () => {
 </script>
 
 <template>
-    <SideSection>
+    <SideSection class="hidden">
         <SideSectionTop>Tickets</SideSectionTop>
 
         <div class="flex flex-col py-2 gap-4">
