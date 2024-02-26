@@ -10,6 +10,8 @@ import TopMenu from '@/components/ShowTicket/TopMenu.vue';
 import TicketsTable from '@/components/ShowTicket/TicketsTable.vue';
 import Modal from '@/components/Modal.vue';
 import SimpleButton from '@/components/SimpleButton.vue';
+import Previous from 'vue-material-design-icons/ChevronleftCircleOutline.vue'
+import Next from 'vue-material-design-icons/ChevronRightCircleOutline.vue'
 
 const tickets = ref([]);
 const technicians = ref([]);
@@ -60,6 +62,25 @@ const handleConfirmModal = () => {
     ticketStore.handleConfirmModal();
 };
 
+const visiblePages = computed(() => {
+  let pages = [];
+  const total = totalPages.value;
+  const current = currentPage.value;
+  let startPage = Math.max(current - 2, 1);
+  let endPage = startPage + 4;
+
+  if (endPage > total) {
+    endPage = total;
+    startPage = Math.max(1, endPage - 4);
+  }
+
+  for (let page = startPage; page <= endPage; page++) {
+    pages.push(page);
+  }
+
+  return pages;
+});
+
 const displayedTickets = computed(() => {
     const filteredTickets = TicketFilter.filteredTickets;
     const startIndex = (currentPage.value - 1) * (ticketsPerPage.value === "All" ? filteredTickets.length : ticketsPerPage.value);
@@ -104,11 +125,23 @@ watch(searchTerm, () => {
                             <option value="20">20 por pagina</option>
                             <option value="All">All</option>
                         </select>
-                        <span v-for="page in totalPages" :class="['text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer',
-                            { 'bg-purple text-white hoverBlue': page === currentPage, 'aspect-[0.8148148148148148]': true }]"
-                            :key="page" @click="changePage(page)">
+
+                        <button v-if="currentPage > 1" @click="changePage(currentPage - 1)"
+                            class="text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer">
+                            <Previous />
+                        </button>
+
+                        <span v-for="page in visiblePages"
+                            :class="['text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer',
+                                { 'bg-purple text-white hoverBlue': page === currentPage, 'aspect-[0.8148148148148148]': true }]" :key="page"
+                            @click="changePage(page)">
                             {{ page }}
                         </span>
+
+                        <button v-if="currentPage < totalPages" @click="changePage(currentPage + 1)"
+                            class="text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer">
+                            <Next />
+                        </button>
 
                     </div>
                 </span>
