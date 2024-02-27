@@ -249,12 +249,12 @@ const exportToPdf = () => {
               </div>
             </div>
             <SimpleButton @click="closeTicket"
-              v-if="authedUserStore.userRole === 'admin' && ticket.status.name !== 'Completo'" class="w-full py-1 mt-2">
+              v-if="(authedUserStore.userRole === 'admin' || authedUserStore.userRole === 'technician') && ticket.status.name !== 'Completo'" class="w-full py-1">
               <img class="self-center" src="../assets/remove.svg" />
               Fechar ticket
             </SimpleButton>
             <SimpleButton @click="reopenTicket"
-              v-if="authedUserStore.userRole === 'admin' && ticket.status.name === 'Completo'" class="w-full py-1 mt-2">
+              v-if="ticket.status.name === 'Completo'" class="w-full py-1">
               <img class="self-center" src="../assets/redo.svg" />
               Reabrir ticket
             </SimpleButton>
