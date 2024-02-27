@@ -135,9 +135,8 @@ onBeforeMount(async () => {
 
             <span
                 class="text-purple flex sm:text-2xl text-xl h-[9vh] whitespace-nowrap justify-between p-3 border-b-purple border-b-opacity-30 border-b border-solid items-start">
-                <input type="text" placeholder="Titulo" v-model="ticketTitle"
-                    class="bg-grey text-black text-opacity-60 text-xl w-full pt-2 pb-1.5 px-3 rounded-xl border border-solid border-black border-opacity-20" />
-            </span>
+                <input type="text" placeholder="Titulo" v-model="ticketTitle" maxlength="50"
+                    class="bg-grey text-black text-opacity-60 text-xl w-full pt-2 pb-1.5 px-3 rounded-xl border border-solid border-black border-opacity-20" /></span>
             <span
                 class="text-purple sm:text-2xl text-xl overflow-auto h-80 sm:h-[53vh] justify-between sm:pl-4 sm:pr-12 px-14 items-start border-b-purple border-b-opacity-30 border-b border-solid">
             </span>

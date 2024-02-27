@@ -58,7 +58,6 @@ const selectNestedOption = (option) => {
 
 const removeNestedOption = (option, nestedOption) => {
     option.selectedNestedOptions.pop(nestedOption);
-    console.log(option.selectedNestedOptions);
 
     if (option.selectedNestedOptions.length === 0) {
         ticketFilterStore.handleFilterChange(option.id, 'all');
