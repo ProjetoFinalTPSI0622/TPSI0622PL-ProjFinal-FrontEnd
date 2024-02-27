@@ -175,6 +175,10 @@ const toggleSideSection = () => {
   isSideSectionVisible.value = !isSideSectionVisible.value;
 };
 
+const exportToPdf = () => {
+    ticketStore.convertSingleTicketToPDF(ticket.value);
+};
+
 </script>
 
 <template>
@@ -245,23 +249,24 @@ const toggleSideSection = () => {
               </div>
             </div>
             <SimpleButton @click="closeTicket"
-              v-if="authedUserStore.userRole === 'admin' && ticket.status.name !== 'Completo'" class="w-full py-1">
+              v-if="authedUserStore.userRole === 'admin' && ticket.status.name !== 'Completo'" class="w-full py-1 mt-2">
               <img class="self-center" src="../assets/remove.svg" />
               Fechar ticket
             </SimpleButton>
             <SimpleButton @click="reopenTicket"
-              v-if="authedUserStore.userRole === 'admin' && ticket.status.name === 'Completo'" class="w-full py-1">
+              v-if="authedUserStore.userRole === 'admin' && ticket.status.name === 'Completo'" class="w-full py-1 mt-2">
               <img class="self-center" src="../assets/redo.svg" />
               Reabrir ticket
             </SimpleButton>
+            <SimpleButton @click="exportToPdf" class="w-full py-1 mt-2">Exportar para pdf</SimpleButton>
           </div>
         </SideSection>
 
         <div class="flex flex-col w-full lg:w-[80%]">
 
-          <div class="justify-center flex flex-col py-8 px-5 h-[12vh] sm:h-[9vh] border-b-black border-b border-solid">
+          <div class="justify-center flex flex-col py-8 px-5 h-[20vh] sm:h-[9vh] border-b-black border-b border-solid">
             <span class="justify-between flex flex-col sm:flex-row gap-2 xl:gap-5">
-              <div class="text-purple text-2xl">
+              <div class="text-purple text-xl lg:text-2xl">
                 {{ ticket.title ? ticket.title : 'N/A' }}
               </div>
               <div class="flex justify-end">

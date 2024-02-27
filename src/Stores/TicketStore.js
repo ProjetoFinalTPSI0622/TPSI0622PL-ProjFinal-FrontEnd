@@ -127,13 +127,25 @@ export const useTicketStore = defineStore({
         async convertTicketsToPDF() {
             const store = useTicketFilterStore();
             let container = document.createElement('div');
-        
+
             store.filteredTickets.forEach((ticket, index) => {
                 if (index % 4 === 0) {
                     let header = document.createElement('div');
-                    header.textContent = 'Header Text';
-                    header.style.textAlign = 'center';
+                    header.style.display = 'flex';
+                    header.style.justifyContent = 'space-between';
                     header.style.marginBottom = '20px';
+
+                    let cesae = document.createElement('div');
+                    cesae.textContent = 'CesaeDesk';
+                    cesae.style.textAlign = 'left';
+                    header.appendChild(cesae);
+
+                    let date = document.createElement('div');
+                    let today = new Date();
+                    date.textContent = today.toISOString().split('T')[0];
+                    date.style.textAlign = 'right';
+                    header.appendChild(date);
+
                     container.appendChild(header);
                 }
 
@@ -165,12 +177,6 @@ export const useTicketStore = defineStore({
                 container.appendChild(ticketDiv);
 
                 if ((index + 1) % 4 === 0 || index === this.tickets.length - 1) {
-                    let footer = document.createElement('div');
-                    footer.textContent = 'Footer Text';
-                    footer.style.textAlign = 'center';
-                    footer.style.marginTop = '20px';
-                    container.appendChild(footer);
-
                     if (index !== this.tickets.length - 1) {
                         let pageBreak = document.createElement('div');
                         pageBreak.style.pageBreakAfter = 'always';
@@ -184,6 +190,85 @@ export const useTicketStore = defineStore({
             let opt = {
                 margin: 1,
                 filename: 'Tickets.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(container).save().then(() => {
+                document.body.removeChild(container);
+            });
+        },
+
+        async convertSingleTicketToPDF(ticket) {
+            let container = document.createElement('div');
+
+            let header = document.createElement('div');
+            header.style.display = 'flex';
+            header.style.justifyContent = 'space-between';
+            header.style.marginBottom = '20px';
+
+            let cesae = document.createElement('div');
+            cesae.textContent = 'CesaeDesk';
+            cesae.style.textAlign = 'left';
+            header.appendChild(cesae);
+
+            let date = document.createElement('div');
+            let today = new Date();
+            date.textContent = today.toISOString().split('T')[0];
+            date.style.textAlign = 'right';
+            header.appendChild(date);
+
+            container.appendChild(header);
+
+            let ticketDiv = document.createElement('div');
+            ticketDiv.style.display = 'flex';
+            ticketDiv.style.flexDirection = 'column';
+            ticketDiv.style.padding = '20px';
+            ticketDiv.style.gap = '10px';
+            ticketDiv.style.border = '1px solid #ddd';
+            ticketDiv.style.backgroundColor = '#f8f8f8';
+            ticketDiv.style.marginBottom = '20px';
+
+            let createdBy = document.createElement('p');
+            createdBy.textContent = `Created by: ${ticket.createdby.email}`;
+            ticketDiv.appendChild(createdBy);
+
+            let title = document.createElement('p');
+            title.textContent = `Title: ${ticket.title}`;
+            ticketDiv.appendChild(title);
+
+            let description = document.createElement('p');
+            let text = ticket.description.replace(/<[^>]*>/g, '');
+            description.textContent = `Description: ${text}`;
+            ticketDiv.appendChild(description);
+
+            let assignedTo = document.createElement('p');
+            assignedTo.textContent = `Technician: ${ticket.assignedto ? ticket.assignedto.name : "No Technician"}`;
+            ticketDiv.appendChild(assignedTo);
+
+            let category = document.createElement('p');
+            category.textContent = `Category: ${ticket.category.name}`;
+            ticketDiv.appendChild(category);
+
+            let priority = document.createElement('p');
+            priority.textContent = `Priority: ${ticket.priority.name}`;
+            ticketDiv.appendChild(priority);
+
+            let status = document.createElement('p');
+            status.textContent = `Status: ${ticket.status.name}`;
+            ticketDiv.appendChild(status);
+
+            let location = document.createElement('p');
+            location.textContent = `Location: ${ticket.location}`;
+            ticketDiv.appendChild(location);
+
+            container.appendChild(ticketDiv);
+
+            document.body.appendChild(container);
+
+            let opt = {
+                margin: 1,
+                filename: 'Ticket.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2 },
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
