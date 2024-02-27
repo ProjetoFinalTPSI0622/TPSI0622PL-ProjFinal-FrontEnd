@@ -5,17 +5,17 @@
         </template>
 
         <template v-slot:Form>
-            <FormTitle FormTitle="Create User" />
+            <FormTitle Title="Criar User" />
 
             <div class="flex flex-col w-full my-5">
                 <div class="flex flex-col gap-5 md:flex-row">
-                    <Input LabelTitle="Full Name: *" type="name" required v-model="user.name" />
+                    <Input LabelTitle="Nome Completo: *" type="name" required v-model="user.name" />
                     <Input LabelTitle="Email: *" type="email" required v-model="user.email" />
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
-                  <Input LabelTitle="Internal Code: *" type="text" required v-model="user.internalcode" />
-                    <Input LabelTitle="Class:" type="text" v-model="userInfo.class" />
-                    <Input LabelTitle="Password: *" type="password" required v-model="user.password" />
+                  <Input LabelTitle="Codigo Interno: *" type="text" required v-model="user.internalcode" />
+                    <Input LabelTitle="Turma:" type="text" v-model="userInfo.class" />
+                    <Input LabelTitle="Palavra-Passe: *" type="password" required v-model="user.password" />
                 </div>
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
@@ -29,40 +29,40 @@
 
 
                   <Dropdown
-                      LabelTitle="Gender:"
+                      LabelTitle="Gênero:"
                       :options="genders"
                       v-model="userInfo.gender"
                       :modelValue="userInfo.gender"
                       @update:modelValue="handleDropdownChange" />
 
-                      <DatePicker LabelTitle="Birthday Date: *" required v-model="userInfo.birthday_date" :modelValue="userInfo.birthday_date"/>
+                      <DatePicker LabelTitle="Data de Nascimento: *" required v-model="userInfo.birthday_date" :modelValue="userInfo.birthday_date"/>
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
                     <div class="flex flex-col md:flex-row md:items-end gap-3 lg:w-2/4">
                         <Input LabelTitle="NIF: *" type="number" required v-model="userInfo.nif" />
                         <div class="flex flex-row mb-2 gap-2 ">
-                            <label class="text-purple text-sm">Set NIF as password</label>
+                            <label class="text-pink text-sm">Set NIF as password</label>
                             <input type="checkbox" v-model="isChecked" @change="handleCheckboxChange" class="size-6">
                         </div>
                     </div>
-                    <Input LabelTitle="Phone Number:" type="text" v-model="userInfo.phone_number" />
+                    <Input LabelTitle="Número de telefone:" type="text" v-model="userInfo.phone_number" />
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row ">
-                    <Input LabelTitle="Address:" type="address" v-model="userInfo.address" />
-                    <Input LabelTitle="Zip Code:" type="text" v-model="userInfo.postal_code" />
+                    <Input LabelTitle="Morada:" type="address" v-model="userInfo.address" />
+                    <Input LabelTitle="Código Postal:" type="text" v-model="userInfo.postal_code" />
                 </div>
                 <div class="flex flex-col gap-5 mt-5 md:flex-row md:mt-5">
-                  <Input LabelTitle="State/Province:" type="text" v-model="userInfo.district" />
-                    <Input LabelTitle="City:" type="text" v-model="userInfo.city" />
+                  <Input LabelTitle="Localidade:" type="text" v-model="userInfo.district" />
+                    <Input LabelTitle="Cidade:" type="text" v-model="userInfo.city" />
                   <Dropdown
-                      LabelTitle="Country:"
+                      LabelTitle="País"
                       :options="countries"
                       v-model="userInfo.country"
                       @update:model-value="handleDropdownChange"/>
                 </div>
             </div>
 
-            <ButtonSubmit textButton="Create User" type="submit" />
+            <ButtonSubmit textButton="Criar User" type="submit" />
         </template>
     </FormShell>
 

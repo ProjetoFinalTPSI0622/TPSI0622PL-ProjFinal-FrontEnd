@@ -14,7 +14,7 @@
         <div v-if="user" class="lg:w-full w-6 md:hidden min-w-4" ref="secondIconRef" @click.stop="toggleSecondDropdown">
             <img :src="user.user_info.profile_picture_path" class="rounded-2xl">
             <div v-if="showSecondDropdown" @click.stop="toggleSecondDropdown" ref="secondDropdownRef"
-                class="absolute top-full right-0 mt-2.5 py-2 w-44 bg-white rounded-md shadow-xl z-20 border border-black border-opacity-20">
+            class="relative top-full right-32 mt-[-10rem] sm:left-10 sm:mt-[-7rem] py-2 w-44 bg-white rounded-md shadow-xl z-20 border border-black border-opacity-20">
                 <ul class="block text-right">
                     <li v-for="item in dropdownItems" :key="item.id">
                         <router-link :to="{ name: item.routeName }" class="block px-3 py-2 text-gray-700 hoverBlue">

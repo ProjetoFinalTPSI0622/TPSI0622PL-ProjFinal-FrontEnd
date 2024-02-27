@@ -282,7 +282,7 @@ const exportToPdf = () => {
             class="text-purple sm:text-2xl text-xl overflow-auto justify-between sm:pl-4 sm:pr-12 px-14 py-4 items-start"
             :class="{ 'h-[80vh]': !viewState.showComments, 'h-[53vh] border-b-purple border-b-opacity-30 border-b border-solid': viewState.showComments }">
             <div v-if="viewState.showComments" v-for="comment in comments" :key="comment.id">
-              <CommentsView :comment="comment" />
+              <CommentsView :comment="comment" @refreshComments="fetchComments" />
             </div>
             <div v-else>
               <DescriptionView :myTicket="ticket" />
