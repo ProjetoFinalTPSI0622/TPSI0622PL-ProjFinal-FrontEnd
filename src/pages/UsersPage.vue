@@ -77,7 +77,7 @@ watch(searchTerm, () => {
       <TopMenu :searchTerm="searchTerm" @update:searchTerm="searchTerm = $event" />
 
       <span class="flex justify-between px-5 py-2 border-b-black border-b-opacity-30 border-b border-solid">
-        <div class="text-black text-opacity-60 sm:text-xl">{{ users.length }} Utilizadores</div>
+        <div class="text-black text-opacity-60 sm:text-xl">{{ users.length }} Users</div>
         <div class="flex gap-1 sm:gap-2.5">
 
           <select v-model="usersPerPage" @change="changePage(1)">

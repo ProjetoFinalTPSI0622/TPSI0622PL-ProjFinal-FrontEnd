@@ -7,11 +7,11 @@
 
     <div class="flex flex-col w-full my-5 md:items-center">
       <div class="flex flex-col gap-5 md:w-2/3 ">
-        <Input LabelTitle="Password Atual" type="password" placeholder="Insert your current password" required
+        <Input LabelTitle="Palavra-Passe Atual" type="password"  required
           v-model="currentPassword" />
-        <Input LabelTitle="Nova Password" type="password" placeholder="Insert new password" required
+        <Input LabelTitle="Nova Palavra-Passe" type="password"  required
           v-model="newPassword" />
-        <Input LabelTitle="Confirmar Nova Password" type="password" placeholder="Confirm password" required
+        <Input LabelTitle="Confirmar Nova Palavra-Passe" type="password" required
           v-model="newPassword_confirmation" />
       </div>
     </div>

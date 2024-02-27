@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="$emit('formSubmit')" class="flex flex-col w-full h-full md:overflow-y-scroll 2xl:overflow-hidden md:p-3 xl:w-10/12" enctype="multipart/form-data">
+    <form @submit.prevent="$emit('formSubmit')" class="flex flex-col w-full h-full md:overflow-y-scroll 2xl:overflow-hidden md:p-3 xl:px-20" enctype="multipart/form-data">
         <div class="bg-grey rounded-md border-b-opacity-50 border-b my-5 lg:mx-10 xl:mx-0 xl:mt-0">
             <slot name="AvatarCard"/>
         </div>
