@@ -13,7 +13,7 @@ const emits = defineEmits(['exportToPdf']);
         class="text-purple flex sm:text-2xl text-xl whitespace-nowrap justify-between p-4 h-[9vh] border-b-purple border-b-opacity-30 border-b border-solid items-start">
         <div>Todos os Tickets</div>
         <div class="flex gap-4">
-            <SimpleButton @click="emits('exportToPdf')">Exportar Para PDF</SimpleButton>
+            <SimpleButton class="hidden lg:block" @click="emits('exportToPdf')">Exportar Para PDF</SimpleButton>
             <router-link to="/tickets/create">
                 <SimpleButton> + Criar Ticket </SimpleButton>
             </router-link>

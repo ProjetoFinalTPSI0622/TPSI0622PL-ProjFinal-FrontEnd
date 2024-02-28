@@ -3,6 +3,7 @@ import ToastStore from '@/Stores/ToastStore.js';
 import { TicketsService } from '@/Services/TicketsService.js';
 import html2pdf from 'html2pdf.js';
 import { useTicketFilterStore } from '@/Stores/TicketFilterStore';
+import { LocationsService } from '@/Services/LocationsService.js';
 
 export const useTicketStore = defineStore({
     id: 'modal',
@@ -41,6 +42,15 @@ export const useTicketStore = defineStore({
             this.selectbox = selectbox;
         },
 
+        handleShowModalLocation(locationID, ticketID, oldValue, selectbox) {
+            this.showModal = true;
+            this.ticketID = ticketID;
+            this.oldValue = oldValue;
+            this.newValue = locationID;
+            this.type = 'location';
+            this.selectbox = selectbox;
+        },
+
         handleCancelModal() {
             this.showModal = false;
             this.selectbox.selectedIndex = this.oldValue;
@@ -57,8 +67,20 @@ export const useTicketStore = defineStore({
                 case 'priority':
                     await this.changePriority();
                     break;
+                case 'location':
+                    await this.changeLocation();
+                    break;
             }
             this.showModal = false;
+        },
+
+        async changeLocation() {
+            const response = await TicketsService.updateLocation(this.ticketID, this.newValue);
+            if (response.success) {
+                ToastStore().triggerToast(`A localização do ticket foi alterada !`, 'success');
+            } else {
+                ToastStore().triggerToast(`Erro ao alterar a localização do ticket !`, 'error');
+            }
         },
 
         async changeStatus() {

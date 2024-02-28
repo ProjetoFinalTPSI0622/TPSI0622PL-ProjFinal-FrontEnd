@@ -33,6 +33,12 @@ const statuses = ref([]);
 const priorities = ref([]);
 const locations = ref([]);
 
+//MODAL
+const modalContent = reactive({
+  title: '',
+  content: '',
+});
+
 //COMMENTS
 const comments = ref([]);
 
@@ -144,15 +150,27 @@ watch(
 )
 
 const handleShowModalStatus = (technicianName, oldValue, selectbox) => {
+  modalContent.title = 'Mudar Estado';
+  modalContent.content = 'Está prestes a mudar o estado deste ticket. Deseja continuar?';
   ticketStore.handleShowModalStatus(technicianName, ticket.value.id, oldValue, selectbox);
 };
 
 const handleShowModalTech = (technicianName, oldValue, selectbox) => {
+  modalContent.title = 'Atribuir técnico';
+  modalContent.content = 'Está prestes a atribuir um técnico a este ticket. Deseja continuar?';
   ticketStore.handleShowModalTech(technicianName, ticket.value.id, oldValue, selectbox);
 };
 
 const handleShowModalPriority = (priority, oldValue, selectbox) => {
+  modalContent.title = 'Mudar Urgência';
+  modalContent.content = 'Está prestes a mudar a urgência deste ticket. Deseja continuar?';
   ticketStore.handleShowModalPriority(priority, ticket.value.id, oldValue, selectbox);
+};
+
+const handleShowModalLocation = (location, oldValue, selectbox) => {
+  modalContent.title = 'Mudar Localização';
+  modalContent.content = 'Está prestes a mudar a localização deste ticket. Deseja continuar?';
+  ticketStore.handleShowModalLocation(location, ticket.value.id, oldValue, selectbox);
 };
 
 const handleCancelModal = () => {
@@ -245,7 +263,7 @@ const exportToPdf = () => {
                 Localização
               </label>
               <div class="flex justify-between lg:w-full">
-                <SimpleSelect :currentValue="ticket.location" :newValues="locations" />
+                <SimpleSelect :currentValue="ticket.location" :newValues="locations" @show-modal="handleShowModalLocation" />
               </div>
             </div>
             <SimpleButton @click="closeTicket"
@@ -296,10 +314,10 @@ const exportToPdf = () => {
         </div>
         <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
           <template #title>
-            Assign Technician
+            {{ modalContent.title }}
           </template>
           <template #content>
-            You are about to assign {{ ticketStore.selectedTechnician }} to this ticket, are you sure?
+            {{ modalContent.content }}
           </template>
         </Modal>
   </div>
