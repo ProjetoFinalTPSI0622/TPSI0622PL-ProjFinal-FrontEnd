@@ -1,0 +1,1 @@
+import{_ as t,e as s,f as o,s as r}from"./index-oqzXqftB.js";const n={},c={class:"text-white text-md sm:text-xl justify-center bg-purple py-0.5 px-3 rounded-xl flex gap-2 w-fit hoverBlue"};function l(e,a){return s(),o("span",c,[r(e.$slots,"default")])}const f=t(n,[["render",l]]);export{f as S};

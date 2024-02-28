@@ -43,7 +43,7 @@ export const TicketsService = {
     },
 
     assignTechnician: async (ticketId, technicianId) => {
-        return AxiosService.makeRequest('put', `tickets/${ticketId}/assign/${technicianId}`);
+        return AxiosService.makeRequest('put', `tickets/${ticketId}/assign/${technicianId}`, null, 'multipart/form-data');
     },
 
     getStatuses: async () => {
