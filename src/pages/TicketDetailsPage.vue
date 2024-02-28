@@ -143,16 +143,16 @@ watch(
   }
 )
 
-const handleShowModalStatus = (technicianName, oldValue) => {
-  ticketStore.handleShowModalStatus(technicianName, ticket.value.id, oldValue);
+const handleShowModalStatus = (technicianName, oldValue, selectbox) => {
+  ticketStore.handleShowModalStatus(technicianName, ticket.value.id, oldValue, selectbox);
 };
 
-const handleShowModalTech = (technicianName, oldValue) => {
-  ticketStore.handleShowModalTech(technicianName, ticket.value.id, oldValue);
+const handleShowModalTech = (technicianName, oldValue, selectbox) => {
+  ticketStore.handleShowModalTech(technicianName, ticket.value.id, oldValue, selectbox);
 };
 
-const handleShowModalPriority = (priority, oldValue) => {
-  ticketStore.handleShowModalPriority(priority, ticket.value.id, oldValue);
+const handleShowModalPriority = (priority, oldValue, selectbox) => {
+  ticketStore.handleShowModalPriority(priority, ticket.value.id, oldValue, selectbox);
 };
 
 const handleCancelModal = () => {

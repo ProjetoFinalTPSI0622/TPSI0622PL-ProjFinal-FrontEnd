@@ -13,32 +13,37 @@ export const useTicketStore = defineStore({
         oldValue: 0,
         type: '',
         tickets: [],
+        selectbox: null,
     }),
     actions: {
-        handleShowModalStatus(technicianID, ticketID, oldValue) {
+        handleShowModalStatus(technicianID, ticketID, oldValue, selectbox) {
             this.showModal = true;
             this.ticketID = ticketID;
             this.oldValue = oldValue;
             this.newValue = technicianID;
             this.type = 'status';
+            this.selectbox = selectbox;
         },
-        handleShowModalTech(technicianID, ticketID, oldValue) {
+        handleShowModalTech(technicianID, ticketID, oldValue, selectbox) {
             this.showModal = true;
             this.ticketID = ticketID;
             this.oldValue = oldValue;
             this.newValue = technicianID;
             this.type = 'technician';
+            this.selectbox = selectbox;
         },
-        handleShowModalPriority(priority, ticketID, oldValue) {
+        handleShowModalPriority(priority, ticketID, oldValue, selectbox) {
             this.showModal = true;
             this.ticketID = ticketID;
             this.oldValue = oldValue;
             this.newValue = priority;
             this.type = 'priority';
+            this.selectbox = selectbox;
         },
 
         handleCancelModal() {
             this.showModal = false;
+            this.selectbox.selectedIndex = this.oldValue;
         },
 
         async handleConfirmModal() {

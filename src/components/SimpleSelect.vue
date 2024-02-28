@@ -14,7 +14,7 @@ defineProps({
 const emit = defineEmits(['show-modal']);
 
 const showTicketModal = (selectedID) => {
-    emit('show-modal', selectedID, oldValue);
+    emit('show-modal', selectedID, oldValue, selectbox);
 };
 
 const handleMousedown = () => {
