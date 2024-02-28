@@ -1,0 +1,1 @@
+import{_ as e,e as o,f as r,t as s}from"./index-OHFFj_LP.js";const n={props:{Title:{type:String,required:!0}}},a={class:"text-purple text-2xl font-bold max-md:max-w-full"};function c(l,i,t,p,_,f){return o(),r("h1",a,s(t.Title),1)}const x=e(n,[["render",c]]);export{x as F};
