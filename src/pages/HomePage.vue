@@ -8,7 +8,7 @@
         </h1>
       </div>
 
-      <div v-if="authedUserStore.userRole === 'admin' || authedUserStore.userRole === 'technician'"
+      <div
         class="pl-3">
         <p class="underline">ULTIMOS TICKETS</p>
         <TicketsTable :tickets="displayedTickets" :technicians="technicians" />
