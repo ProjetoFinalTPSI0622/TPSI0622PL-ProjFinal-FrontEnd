@@ -29,7 +29,7 @@ const handleConfirmModal = async () => {
         ToastStore().triggerToast(`Utilizador ${userData.value.name}, apagado com sucesso!`, 'success');
         emit("userDeleted");
       } else {
-        console.error("Error deleting user:", response.message);
+        ToastStore().triggerToast(`Erro ao apagar utilizador!`, 'error');
       }
     }
   }
