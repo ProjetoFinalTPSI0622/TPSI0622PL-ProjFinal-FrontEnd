@@ -1,101 +1,44 @@
 <script setup>
-import { onMounted, ref, computed, watch, onBeforeMount } from 'vue';
-import { TicketsService } from '../Services/TicketsService.js';
-import { UserService } from '../Services/UserService';
+import { ref, computed, watch, onBeforeMount } from 'vue';
+import { UserService } from '@/Services/UserService';
+import { useTicketFilterStore } from '@/Stores/TicketFilterStore.js';
+import { useAuthedUserStore } from '@/Stores/UserStore.js';
+import { useTicketStore } from '@/Stores/TicketStore.js';
 
-import SideFilter from '../components/ShowTicket/SideFilter.vue';
-import TopMenu from '../components/ShowTicket/TopMenu.vue';
-import TicketsTable from '../components/ShowTicket/TicketsTable.vue';
-import Modal from '../components/Modal.vue';
-
-import { useTicketStore } from '../Stores/TicketStore.js';
+import SideFilter from '@/components/ShowTicket/SideFilter.vue';
+import TopMenu from '@/components/ShowTicket/TopMenu.vue';
+import TicketsTable from '@/components/ShowTicket/TicketsTable.vue';
+import Modal from '@/components/Modal.vue';
+import SimpleButton from '@/components/SimpleButton.vue';
+import Previous from 'vue-material-design-icons/ChevronleftCircleOutline.vue'
+import Next from 'vue-material-design-icons/ChevronRightCircleOutline.vue'
 
 const tickets = ref([]);
 const technicians = ref([]);
 const currentPage = ref(1);
-const ticketsPerPage = ref(5);
+const ticketsPerPage = ref("All");
 const searchTerm = ref('');
-const status = ref('All');
-const creator = ref('All');
-const assignee = ref('All');
 
-let currentUser = ref(null);
+const authedUserStore = useAuthedUserStore();
 
 const ticketStore = useTicketStore();
+const TicketFilter = useTicketFilterStore();
+
+const printPDF = () => {
+    ticketStore.convertTicketsToPDF(tickets.value);
+};
 
 onBeforeMount(async () => {
-    try {
-        tickets.value = (await TicketsService.getTickets()).data;
-        currentUser.value = await UserService.getAuthedUser();
-    } catch (error) {
-        console.error("Erro ao procurar tickets:", error);
-    }
-
+    await fetchTickets();
     await getTechnicians();
 });
 
-const handleCancelModal = () => {
-    ticketStore.handleCancelModal();
-};
-
-const handleConfirmModal = () => {
-    ticketStore.handleConfirmModal();
-};
-
-const displayedTickets = computed(() => {
-    let filteredTickets = tickets.value.filter((ticket) => {
-        const title = ticket.title ? ticket.title.toLowerCase() : '';
-        const requester = ticket.createdby ? ticket.createdby.name.toLowerCase() : '';
-        const assignee = ticket.assignedto ? ticket.assignedto.name.toLowerCase() : '';
-
-        return title.includes(searchTerm.value.toLowerCase()) ||
-            requester.includes(searchTerm.value.toLowerCase()) ||
-            assignee.includes(searchTerm.value.toLowerCase());
-    });
-
-    if (status.value !== 'All') {
-        filteredTickets = filteredTickets.filter(ticket => ticket.status.status_name === status.value);
+const fetchTickets = async () => {
+    try {
+        tickets.value = await TicketFilter.getTickets();
+    } catch (error) {
+        console.error("Error fetching tickets:", error);
     }
-
-    if (creator.value === 'Me' && currentUser.value && currentUser.value.success) {
-        filteredTickets = filteredTickets.filter(ticket => ticket.createdby.id === currentUser.value.user.id);
-    }
-
-    if (assignee.value === 'Me' && currentUser.value && currentUser.value.success) {
-        filteredTickets = filteredTickets.filter(ticket => ticket.assignedto.id === currentUser.value.user.id);
-    }
-
-    const startIndex = (currentPage.value - 1) * ticketsPerPage.value;
-    const endIndex = startIndex + ticketsPerPage.value;
-    return filteredTickets.slice(startIndex, endIndex);
-});
-
-
-const totalPages = computed(() => {
-    return Math.ceil(displayedTickets.value.length / ticketsPerPage.value);
-});
-
-const changePage = (page) => {
-    currentPage.value = page;
-};
-
-watch(searchTerm, () => {
-    currentPage.value = 1;
-});
-
-const updateStatus = (newStatus) => {
-    status.value = newStatus;
-    currentPage.value = 1;
-};
-
-const updateCreator = (newCreator) => {
-    creator.value = newCreator === 'Me' ? 'Me' : 'All';
-    currentPage.value = 1;
-};
-
-const updateAssignee = (newAssignee) => {
-    assignee.value = newAssignee === 'Me' ? 'Me' : 'All';
-    currentPage.value = 1;
 };
 
 const getTechnicians = async () => {
@@ -111,39 +54,102 @@ const getTechnicians = async () => {
     }
 };
 
+const handleCancelModal = () => {
+    ticketStore.handleCancelModal();
+};
+
+const handleConfirmModal = () => {
+    ticketStore.handleConfirmModal();
+};
+
+const visiblePages = computed(() => {
+    let pages = [];
+    const total = totalPages.value;
+    const current = currentPage.value;
+    let startPage = Math.max(current - 1, 1);
+    let endPage = startPage + 2;
+
+    if (endPage > total) {
+        endPage = total;
+        startPage = Math.max(1, endPage - 2);
+    }
+
+    for (let page = startPage; page <= endPage; page++) {
+        pages.push(page);
+    }
+
+    return pages;
+});
+
+const displayedTickets = computed(() => {
+    const filteredTickets = TicketFilter.filteredTickets;
+    const startIndex = (currentPage.value - 1) * (ticketsPerPage.value === "All" ? filteredTickets.length : ticketsPerPage.value);
+    const endIndex = startIndex + (ticketsPerPage.value === "All" ? filteredTickets.length : ticketsPerPage.value);
+    return filteredTickets.slice(startIndex, endIndex);
+});
+
+const totalPages = computed(() => {
+    return ticketsPerPage.value === "All" ? 1 : Math.ceil(TicketFilter.filteredTickets.length / ticketsPerPage.value);
+});
+
+const changePage = (page) => {
+    currentPage.value = page;
+    if (ticketsPerPage.value !== "All") {
+        ticketsPerPage.value = Number(ticketsPerPage.value);
+    }
+};
+
+watch(searchTerm, () => {
+    currentPage.value = 1;
+});
+
+const convertTicketsToPDF = () => {
+    ticketStore.convertTicketsToPDF();
+};
+
 </script>
 
 <template>
-    <div class="flex w-full">
+    <div class="flex w-full overflow-auto">
+        <div v-if="authedUserStore.isLoading"></div>
+        <div v-else class="flex w-full">
+            <SideFilter v-if="authedUserStore.userRole === 'technician' || authedUserStore.userRole === 'admin'" />
 
-        <SideFilter @update:status="updateStatus" @update:creator="updateCreator" @update:assignee="updateAssignee" />
+            <span class="flex flex-col w-full">
 
-        <span class="flex flex-col w-full lg:w-[80%]">
+                <TopMenu @exportToPdf="convertTicketsToPDF" />
 
-            <TopMenu :searchTerm="searchTerm" @update:searchTerm="searchTerm = $event" />
+                <span class="flex justify-between px-5 py-2 border-b-black border-b-opacity-30 border-b border-solid">
+                    <div class="text-black text-opacity-60 sm:text-xl">{{ TicketFilter.filteredTickets.length }} Tickets
+                    </div>
+                    <div class="flex gap-1 sm:gap-2.5">
+                        <select v-model="ticketsPerPage" @change="changePage(1)" class="cursor-pointer">
+                            <option value="5">5 por pagina</option>
+                            <option value="10">10 por pagina</option>
+                            <option value="20">20 por pagina</option>
+                            <option value="All">All</option>
+                        </select>
 
-            <span class="flex justify-between px-5 py-2 border-b-black border-b-opacity-30 border-b border-solid">
-                <div class="text-black text-opacity-60 sm:text-xl">{{ tickets.length }} Tickets</div>
-                <div class="flex sm:gap-2.5">
+                        <span v-for="page in visiblePages"
+                            :class="['text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer',
+                                { 'bg-purple text-white hoverBlue': page === currentPage, 'aspect-[0.8148148148148148]': true }]" :key="page"
+                            @click="changePage(page)">
+                            {{ page }}
+                        </span>
+                    </div>
+                </span>
 
-                    <span v-for="page in totalPages" :class="['text-black sm:text-xl justify-center px-1.5 py-0.5 rounded-md self-start cursor-pointer',
-                        { 'bg-purple text-white': page === currentPage, 'aspect-[0.8148148148148148]': true }]"
-                        :key="page" @click="changePage(page)">
-                        {{ page }}
-                    </span>
+                <TicketsTable id="ticketsTable" :tickets="displayedTickets" :technicians="technicians" />
 
-                </div>
+                <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
+                    <template #title>
+                        Atribuir técnico
+                    </template>
+                    <template #content>
+                        Está prestes a atribuir um técnico a este ticket. Deseja continuar?
+                    </template>
+                </Modal>
             </span>
-
-            <TicketsTable :tickets="displayedTickets" :technicians="technicians" />
-            <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
-                <template #title>
-                    Assign Technician
-                </template>
-                <template #content>
-                    You are about to assign {{ ticketStore.selectedTechnician }} to this ticket, are you sure?
-                </template>
-            </Modal>
-        </span>
+        </div>
     </div>
 </template>

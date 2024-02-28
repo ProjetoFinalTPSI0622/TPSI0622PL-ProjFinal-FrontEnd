@@ -1,16 +1,16 @@
 <template>
   <div class="md:flex w-full">
     <SettingsBar />
-    <div class="flex flex-col h-fit w-full">
+    <div class="flex flex-col w-full my-5 md:m-10">
       <SecurityForm />
     </div>
   </div>
 </template>
   
 <script>
-import SettingsBar from '../components/Settings/SettingsBar.vue';
+import SettingsBar from '@/components/Settings/SettingsBar.vue';
 
-import SecurityForm from '../components/settings/security/SecurityForm.vue';
+import SecurityForm from '@/components/settings/security/SecurityForm.vue';
 export default {
   components: {
     SettingsBar,

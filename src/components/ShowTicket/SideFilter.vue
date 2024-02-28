@@ -1,91 +1,91 @@
 <script setup>
+import { ref, reactive, onMounted, watch } from 'vue';
 import SideSection from '../SideSection.vue';
 import SideSectionTop from '../SideSectionTop.vue';
+import { useTicketFilterStore } from '@/Stores/TicketFilterStore';
+import { useAuthedUserStore } from '@/Stores/UserStore';
 
-const emit = defineEmits(['update:status', 'update:creator', 'update:assignee'])
+const ticketFilterStore = useTicketFilterStore();
+const authedUserStore = useAuthedUserStore();
+let state = reactive({ selected: null });
 
-const updateStatus = (status) => {
-    emit('update:status', status)
-}
+const showAllTickets = () => {
+    ticketFilterStore.handleFilterReset();
+    state.selected = 'Todos os tickets';
+    emitFilterChange();
+};
 
-const updateCreator = (creator) => {
-    emit('update:creator', creator)
-}
+const toggleAssignedToMe = () => {
+    ticketFilterStore.handleFilterReset();
+    ticketFilterStore.handleFilterChange('technician', authedUserStore.currentUser.name);
+    state.selected = 'Assignados a mim';
+    emitFilterChange();
+};
 
-const updateAssignee = (assignee) => {
-    emit('update:assignee', assignee)
-}
+const toggleMyTickets = () => {
+    ticketFilterStore.handleFilterReset();
+    ticketFilterStore.handleFilterChange('user', authedUserStore.currentUser.name);
+    state.selected = 'Os meus tickets';
+    emitFilterChange();
+};
+
+const toggleStatus = (status) => {
+    ticketFilterStore.handleFilterReset();
+    ticketFilterStore.handleFilterChange('status', status);
+    state.selected = status;
+    emitFilterChange();
+};
+
+const emitFilterChange = () => {
+    ticketFilterStore.handleSideFilterChange();
+};
+
+watch(() => ticketFilterStore.filteredTickets, () => {
+    state.selected = null;
+});
 </script>
 
 <template>
-    <SideSection>
+    <SideSection class="hidden">
         <SideSectionTop>Tickets</SideSectionTop>
 
         <div class="flex flex-col py-2 gap-4">
             <div class=" flex flex-col px-4 gap-2 xl:gap-4">
-                <span @click="updateStatus('All'), updateCreator('All'), updateAssignee('All')"
+                <span @click="showAllTickets" :class="{ 'bg-greyDark': state.selected === 'Todos os tickets' }"
                     class="hoverGreyDark rounded-t-lg text-pink-600 text-l xl:text-lg justify-center py-3.5 px-2 border-b-purple border-b-opacity-30 border-b border-solid">
                     Todos os tickets
                 </span>
-                <div class="hoverGreyDark rounded-t-lg justify-center py-3.5 px-2 flex flex-col border-b-purple border-b-opacity-30 border-b border-solid">
-                    <span class="justify-between flex">
-                        <div class="text-purple text-l xl:text-lg whitespace-nowrap pr-2">
-                            Assignados a mim
-                        </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
-                    </span>
+                <div @click="toggleAssignedToMe" :class="{ 'bg-greyDark': state.selected === 'Assignados a mim' }"
+                    class="hoverGreyDark rounded-t-lg justify-center py-3.5 px-2 flex flex-col border-b-purple border-b-opacity-30 border-b border-solid">
+                    <div class="text-purple text-l xl:text-lg whitespace-nowrap pr-2">
+                        Assignados a mim
+                    </div>
                 </div>
-                <div @click="updateCreator('Me')" class="hoverGreyDark rounded-t-lg justify-center py-3.5 px-2 flex flex-col border-b-purple border-b-opacity-30 border-b border-solid">
-                    <span class="justify-between flex">
-                        <div class="text-purple text-l xl:text-lg whitespace-nowrap pr-2">
-                            Os meus tickets
-                        </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
-                    </span>
+                <div @click="toggleMyTickets" :class="{ 'bg-greyDark': state.selected === 'Os meus tickets' }"
+                    class="hoverGreyDark rounded-t-lg justify-center py-3.5 px-2 flex flex-col border-b-purple border-b-opacity-30 border-b border-solid">
+                    <div class="text-purple text-l xl:text-lg whitespace-nowrap pr-2">
+                        Os meus tickets
+                    </div>
                 </div>
                 <div class="justify-center flex flex-col pt-2">
-                    <span @click="updateStatus('Pending'), updateCreator('All'), updateAssignee('All')" class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
+                    <span @click="toggleStatus('Pendente')" :class="{ 'bg-greyDark': state.selected === 'Pendente' }"
+                        class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
                         <div class="text-purple text-l xl:text-lg whitespace-nowrap">
-                            Pending
+                            Pendente
                         </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
-                    <span @click="updateStatus('Unassigned'), updateCreator('All'), updateAssignee('All')" class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
-                        <div class="text-purple text-l xl:text-lg">
-                            Unassigned</div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
-                    </span>
-                    <span @click="updateStatus('Assigned'), updateCreator('All'), updateAssignee('All')" class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
+                    <span @click="toggleStatus('Em Progresso')"
+                        :class="{ 'bg-greyDark': state.selected === 'Em Progresso' }"
+                        class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
                         <div class="text-purple text-l xl:text-lg whitespace-nowrap">
-                            Assigned
+                            Em Progresso
                         </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
-                    <span @click="updateStatus('In Progress'), updateCreator('All'), updateAssignee('All')" class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
+                    <span @click="toggleStatus('Completo')" :class="{ 'bg-greyDark': state.selected === 'Completo' }"
+                        class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
                         <div class="text-purple text-l xl:text-lg whitespace-nowrap">
-                            In Progress
+                            Completo
                         </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
-                    </span>
-                    <span @click="updateStatus('Completed'), updateCreator('All'), updateAssignee('All')" class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
-                        <div class="text-purple text-l xl:text-lg whitespace-nowrap">
-                            Completed
-                        </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
-                    </span>
-                    <span @click="updateStatus('Solved'), updateCreator('All'), updateAssignee('All')" class="justify-between flex py-3 px-2 hoverGreyDark rounded-lg">
-                        <div class="text-purple text-l xl:text-lg whitespace-nowrap">
-                            Solved
-                        </div>
-                        <span
-                            class="text-white text-l xl:text-lg whitespace-nowrap justify-center  bg-purple aspect-[1.5] px-2.5 rounded-3xl">10</span>
                     </span>
                 </div>
             </div>

@@ -30,18 +30,47 @@ const DeleteUser = () => {
   <table class="table-auto">
 
     <thead>
-      <tr class="border-b-black border-b-opacity-30 border-b border-solid">
-        <th class="pl-2.5 text-sm text-left py-2.5 sm:text-center">NOME</th>
-        <th class="hidden sm:table-cell">EMAIL</th>
-        <th>TURMA</th>
-        <th>CÓDIGO INTERNO</th>
-        <th>ACÇÕES</th>
+      <tr class="grid grid-cols-3 sm:grid-cols-4 pl-[10%] pr-[5%] sm:pl-[20%] sm:pr-[15%] border-b-black border-b-opacity-30 border-b border-solid">
+        <th class="w-1/4 self-center">NOME</th>
+        <th class="hidden sm:block w-1/4 self-center">TURMA</th>
+        <th class="hidden lg:block w-1/4 self-center">CÓDIGO INTERNO</th>
       </tr>
     </thead>
 
-    <tbody>
-      <UserItem @click.stop="clickHandler(user.id)" v-for="user in users" :key="user.id" :user="user" @userDeleted="DeleteUser" />
-    </tbody>
+    <div class="max-h-[57vh] sm:max-h-[58vh] overflow-y-auto">
+      <tbody>
+        <UserItem @click.stop="clickHandler(user.id)" v-for="user in users" :key="user.id" :user="user"
+          @userDeleted="DeleteUser" />
+      </tbody>
+    </div>
 
   </table>
 </template>
+
+<style scoped>
+th {
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  @apply sm:text-left;
+}
+
+tbody:hover {
+  cursor: pointer;
+}
+
+table {
+  display: block;
+  width: 100%;
+}
+
+thead {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+tbody {
+  display: table;
+  width: 100%;
+}
+</style>

@@ -1,29 +1,33 @@
 <script setup>
-import { defineProps, ref } from 'vue';
-import SelectAssign from '../SelectAssign.vue';
+import { defineProps, onBeforeMount, ref } from 'vue';
+import SimpleSelect from '../SimpleSelect.vue';
 import { useTicketStore } from '../../Stores/TicketStore.js';
 
-defineProps({
+
+
+const props = defineProps({
     ticket: Object,
     technicians: Array
 });
 
-const ticketStore = useTicketStore(); 
+const ticketStore = useTicketStore();
 
-const showTicketModal = (technicianName, selectbox, oldValue) => {
-    ticketStore.handleShowModal(technicianName, selectbox, oldValue); 
+const showTicketModal = (technicianID, oldValue, selectbox) => {
+    const ticketID = props.ticket.id;
+    ticketStore.handleShowModalTech(technicianID, ticketID, oldValue, selectbox);
 };
+
 </script>
 
 <template>
-    <tr class="border-b-black border-b-opacity-30 border-b border-solid hoverGrey">
-        <td class="hidden sm:flex pl-5">
+    <tr class="border-b-black border-b-opacity-30 border-b border-solid hoverGrey flex justify-between pl-3 h-fit">
+        <td class="hidden sm:flex w-1/4 sm:w-1/5">
             <div class="flex gap-2.5 min-w-fit">
-                <img loading="lazy" src="../../assets/MoNengue.jpg"
+                <img loading="lazy" :src="ticket.createdby.user_info.profile_picture_path"
                     class="aspect-square object-cover object-center w-12 overflow-hidden shrink-0 max-w-full rounded-[50%]" />
                 <div class="flex flex-col h-full justify-center">
-                    <div class="hidden sm:block text-black text-opacity-80 text-sm sm:text-lg">
-                        {{ ticket.createdby.name }}
+                    <div class="hidden sm:block text-black text-opacity-80 text-sm sm:text-lg whitespace-nowrap whitespace-ellipsis">
+                        {{ ticket.createdby.name.slice(0,30) }}
                     </div>
                     <div class="hidden lg:block text-black text-opacity-50 text-sm sm:text-lg whitespace-nowrap">
                         {{ ticket.createdby.email }}
@@ -31,20 +35,19 @@ const showTicketModal = (technicianName, selectbox, oldValue) => {
                 </div>
             </div>
         </td>
-        <td class="text-black text-opacity-80 text-sm sm:text-lg">
-            <div class="flex justify-center sm:justify-start">
-                {{ ticket.title }}
+        <td
+            class="text-black text-opacity-80 text-sm sm:text-lg w-1/4 sm:w-1/5 self-center sm:whitespace-nowrap sm:overflow-hidden sm:overflow-ellipsis">
+            {{ ticket.title }}
+        </td>
+        <td class="text-black text-opacity-80 text-sm sm:text-lg w-1/4 sm:w-1/5">
+            <div class="">
+                <SimpleSelect :currentValue="ticket.assignedto" :newValues="technicians" @show-modal="showTicketModal" />
             </div>
         </td>
-        <td class="text-black text-opacity-80 text-sm sm:text-lg">
-            <div class="flex justify-center sm:justify-start sm:w-40">
-                <SelectAssign :assignedto="ticket.assignedto" :technicians="technicians" @show-modal="showTicketModal" />
-            </div>
-        </td>
-        <td class="text-white text-xs sm:text-lg">
-            <div class="flex justify-center sm:block">
-                <div class="bg-red-600 py-2 px-4 rounded-3xl w-fit">
-                    {{ ticket.status.status_name }}
+        <td class="text-white text-xs sm:text-base w-1/4 sm:w-1/5">
+            <div class="">
+                <div :style="{ backgroundColor: ticket.status.color }" class="py-2 px-1.5 sm:px-4 rounded-2xl w-fit">
+                    {{ ticket.status.name }}
                 </div>
             </div>
         </td>

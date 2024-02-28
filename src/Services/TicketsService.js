@@ -1,4 +1,4 @@
-import { AxiosService } from './AxiosService';
+import { AxiosService } from '@/Services/AxiosService';
 
 export const TicketsService = {
 
@@ -11,7 +11,7 @@ export const TicketsService = {
     },
 
     createTicket: async (ticketData) => {
-        return AxiosService.makeRequest('post', 'tickets', ticketData);
+        return AxiosService.makeRequest('post', 'tickets', ticketData, 'multipart/form-data');
     },
 
     updateTicket: async (ticketData) => {
@@ -34,10 +34,39 @@ export const TicketsService = {
         return AxiosService.makeRequest('get', 'priorities');
     },
 
+    getStatus : async () => {
+        return AxiosService.makeRequest('get', 'status');
+    },
+
     getMyTickets: async (id) => {
         return AxiosService.makeRequest('get', `tickets/user/${id}`);
     },
 
+    assignTechnician: async (ticketId, technicianId) => {
+        return AxiosService.makeRequest('put', `tickets/${ticketId}/assign/${technicianId}`);
+    },
 
+    getStatuses: async () => {
+        return AxiosService.makeRequest('get', 'status');
+    },
 
+    updateStatus : async (ticketId, statusId) => {
+        return AxiosService.makeRequest('put', `tickets/${ticketId}/status/${statusId}`);
+    },
+
+    updatePriority: async (ticketId, priorityId) => {
+        return AxiosService.makeRequest('put', `tickets/${ticketId}/priority/${priorityId}`);
+    },
+
+    updateLocation: async (ticketId, locationId) => {
+        return AxiosService.makeRequest('put', `tickets/${ticketId}/location/${locationId}`);
+    },
+
+    closeTicket: async (ticketId) => {
+        return AxiosService.makeRequest('put', `tickets/${ticketId}/close`);
+    },
+
+    reopenTicket: async (ticketId) => {
+        return AxiosService.makeRequest('put', `tickets/${ticketId}/reopen`);
+    },
 }

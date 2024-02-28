@@ -1,44 +1,105 @@
 <script setup>
-import SideSection from "../components/SideSection.vue";
-import SideSectionTop from "../components/SideSectionTop.vue";
-import { TicketsService } from "../Services/TicketsService";
-import { UserService } from "../Services/UserService.js";
-import {onBeforeMount, reactive, ref, watch, nextTick} from 'vue';
-import { useRoute } from 'vue-router';
-import SimpleButton from '../components/SimpleButton.vue';
-import DescriptionView from '../components/TicketDetails/DescriptionView.vue';
-import CommentsView from '../components/TicketDetails/CommentsView.vue';
-import chatImg from '../assets/chat.svg';
-import descriptionImg from '../assets/descriptionWhite.svg';
-import Modal from "../components/Modal.vue";
-import { useTicketStore } from '../Stores/TicketStore.js';
-import SelectAssign from '../components/SelectAssign.vue';
+import SideSection from "@/components/SideSection.vue";
+import SideSectionTop from "@/components/SideSectionTop.vue";
+import { TicketsService } from "@/Services/TicketsService";
+import { UserService } from "@/Services/UserService.js";
+import { onBeforeMount, reactive, ref, watch, onMounted } from 'vue';
+import { onBeforeRouteUpdate, useRoute } from 'vue-router';
+import SimpleButton from '@/components/SimpleButton.vue';
+import DescriptionView from '@/components/TicketDetails/DescriptionView.vue';
+import CommentsView from '@/components/TicketDetails/CommentsView.vue';
+import chatImg from '@/assets/chat.svg';
+import descriptionImg from '@/assets/descriptionWhite.svg';
+import Modal from "@/components/Modal.vue";
+import { useTicketStore } from '@/Stores/TicketStore.js';
+import SimpleSelect from '@/components/SimpleSelect.vue';
+import CreateCommentForm from "@/components/TicketDetails/CreateCommentForm.vue";
+import { CommentsService } from "@/Services/CommentsService.js";
+import { useAuthedUserStore } from '@/Stores/UserStore.js';
+import ToastStore from '@/Stores/ToastStore.js';
+import LoadingSpinner from '@/components/Loading.vue';
+import { LocationsService } from "@/Services/LocationsService.js";
 
-import {CommentsService} from "../Services/CommentsService.js";
+const authedUserStore = useAuthedUserStore();
+const isSideSectionVisible = ref(false);
 
 //TICKET
 const route = useRoute();
 const ticket = ref({});
+const isloading = ref(true);
 const technicians = ref([]);
 const ticketStore = useTicketStore();
+const statuses = ref([]);
+const priorities = ref([]);
+const locations = ref([]);
+
+//MODAL
+const modalContent = reactive({
+  title: '',
+  content: '',
+});
 
 //COMMENTS
-const commentBody = ref('');
-const commentTypes = ref(null);
-const selectedCommentType = ref(1);
 const comments = ref([]);
 
+onBeforeRouteUpdate((to, from, next) => {
+  getTicket(to.params.ticketId)
+    .then(() => next())
+    .catch(error => {
+      console.error('Error fetching ticket details:', error);
+      next(false);
+    });
+});
 
 
 onBeforeMount(async () => {
   await getTicket();
   await getTechnicians();
-  await getCommentTypes();
+  await getStatuses();
+  await getPriorities();
+  await getLocations();
+  isloading.value = false;
+});
+
+onMounted(() => {
+  const mediaQuery = window.matchMedia('(min-width: 1024px)');
+  isSideSectionVisible.value = mediaQuery.matches;
+  mediaQuery.addEventListener('change', (e) => {
+    isSideSectionVisible.value = e.matches;
+  });
 });
 
 const viewState = reactive({
   showComments: false,
 });
+
+const getLocations = async () => {
+  try {
+    const response = (await LocationsService.getLocations());
+    if (response.success) {
+      locations.value = response.data;
+      console.log(locations.value);
+    } else {
+      console.error('Invalid response structure:', response);
+    }
+  } catch (error) {
+    console.error('Error fetching priorities:', error);
+  }
+};
+
+const getPriorities = async () => {
+  try {
+    const response = (await TicketsService.getPriorities());
+    if (response.success) {
+      priorities.value = response.data;
+      console.log(priorities.value);
+    } else {
+      console.error('Invalid response structure:', response);
+    }
+  } catch (error) {
+    console.error('Error fetching priorities:', error);
+  }
+};
 
 const getTechnicians = async () => {
   try {
@@ -61,58 +122,55 @@ const getTicket = async () => {
   }
 };
 
-const getCommentTypes = async () => {
+const getStatuses = async () => {
   try {
-    commentTypes.value = (await CommentsService.getCommentTypes()).data;
+    const response = (await TicketsService.getStatuses()).data;
+    statuses.value = response.filter(status => status.name !== 'Completo');
   } catch (error) {
-    //TODO: DAR DISPLAY DA ERROR MESSAGE NUM TOAST OR SMT
-    console.error('Error fetching comment types:', error);
+    console.error('Error fetching statuses:', error);
   }
 };
-
-const postComment = async () => {
-
-  const commentData = {
-    comment_body: commentBody.value,
-    comment_type: selectedCommentType.value,
-    ticket_id: ticket.value.id
-  }
-  try {
-    const response = (await CommentsService.createComment(commentData));
-  } catch (error) {
-    console.error('Error posting comment:', error);
-  }
-  await nextTick(async () => {
-    await fetchComments();
-  });
-};
-
-const updateSelectedComment = (e) => {
-  selectedCommentType.value = e.target.value;
-};
-
 
 const fetchComments = async () => {
   try {
     comments.value = (await CommentsService.getComments(ticket.value.id)).data.comments;
-    console.log(comments.value)
   } catch (error) {
     console.error('Error fetching comments:', error);
   }
 };
 
 watch(
-    ()=> viewState.showComments,
-    async() => {
-      if (viewState.showComments) {
-        console.log('fetching comments')
-        await fetchComments();
-      }
+  () => viewState.showComments,
+  async () => {
+    if (viewState.showComments) {
+      console.log('fetching comments')
+      await fetchComments();
     }
+  }
 )
 
-const handleShowModal = (technicianName, selectbox, oldValue) => {
-  ticketStore.handleShowModal(technicianName, selectbox, oldValue);
+const handleShowModalStatus = (technicianName, oldValue, selectbox) => {
+  modalContent.title = 'Mudar Estado';
+  modalContent.content = 'Está prestes a mudar o estado deste ticket. Deseja continuar?';
+  ticketStore.handleShowModalStatus(technicianName, ticket.value.id, oldValue, selectbox);
+};
+
+const handleShowModalTech = (technicianName, oldValue, selectbox) => {
+  modalContent.title = 'Atribuir técnico';
+  modalContent.content = 'Está prestes a atribuir um técnico a este ticket. Deseja continuar?';
+  ticketStore.handleShowModalTech(technicianName, ticket.value.id, oldValue, selectbox);
+};
+
+const handleShowModalPriority = (priority, oldValue, selectbox) => {
+  modalContent.title = 'Mudar Urgência';
+  modalContent.content = 'Está prestes a mudar a urgência deste ticket. Deseja continuar?';
+  ticketStore.handleShowModalPriority(priority, ticket.value.id, oldValue, selectbox);
+};
+
+const handleShowModalLocation = (location, oldValue, selectbox) => {
+  modalContent.title = 'Mudar Localização';
+  modalContent.content = 'Está prestes a mudar a localização deste ticket. Deseja continuar?';
+  ticketStore.handleShowModalLocation(location, ticket.value.id, oldValue, selectbox);
 };
 
 const handleCancelModal = () => {
@@ -123,166 +181,161 @@ const handleConfirmModal = () => {
   ticketStore.handleConfirmModal();
 };
 
+const closeTicket = async () => {
+  await ticketStore.closeTicket(ticket.value.id);
+};
+
+const reopenTicket = async () => {
+  await ticketStore.reopenTicket(ticket.value.id);
+};
+
+const toggleSideSection = () => {
+  isSideSectionVisible.value = !isSideSectionVisible.value;
+};
+
+const exportToPdf = () => {
+    ticketStore.convertSingleTicketToPDF(ticket.value);
+};
+
 </script>
 
 <template>
-  <div class="flex w-full">
-    <SideSection :ticket="ticket">
-      <SideSectionTop>Ticket Details</SideSectionTop>
-      <div class="flex flex-col p-2 xl:p-5 gap-4">
-        <div class="flex flex-col gap-3">
-          <label class="text-pink-600 text-l xl:text-lg justify-center">
-            Requester
-          </label>
-          <div
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-            <!--                     TODO: ADICIONAR FOTO DO USER AFTER-->
-            {{ ticket.createdby ? ticket.createdby.name : 'N/A' }}
+  <LoadingSpinner v-if="isloading" />
 
-          </div>
-        </div>
-        <div class="flex flex-col gap-3">
-          <label class="text-pink-600 text-l xl:text-lg justify-center">
-            Assigned to
-          </label>
-          <div class="flex justify-between w-40 lg:w-full">
-            <SelectAssign :assignedto="ticket.assignedto" :technicians="technicians" @show-modal="handleShowModal" />
-          </div>
-        </div>
+  <div v-if="!isloading" class="flex h-[84vh] sm:h-full w-full">
 
-        <div class="flex flex-col gap-3">
-          <label class="text-pink-600 text-l xl:text-lg justify-center">
-            Categoria
-          </label>
-          <div
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-            {{ ticket.category ? ticket.category.category_name : 'N/A' }}
-          </div>
-        </div>
-        <div class="flex flex-col gap-3">
-          <label class="text-pink-600 text-l xl:text-lg justify-center">
-            Urgência
-          </label>
-          <div
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-            {{ ticket.priority ? ticket.priority.priority_name : 'N/A' }}
-          </div>
-        </div>
-        <div class="flex flex-col gap-3">
-          <label class="text-pink-600 text-l xl:text-lg justify-center">
-            Estado
-          </label>
-          <select
-            class="border bg-white flex justify-between w-40 lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
-            <option disabled selected>
-              {{ ticket.status ? ticket.status.status_name : 'N/A' }}
-            </option>
-          </select>
-        </div>
-        <SimpleButton class="w-full py-1 mt-4">
-          <img class="self-center" src="../assets/remove.svg" />
-          Close ticket
-        </SimpleButton>
-      </div>
-    </SideSection>
+    <button class="fixed top-[50%] z-50 sm:hidden bg-purple text-white px-1"
+      :class="isSideSectionVisible ? 'right-0 rounded-l-lg' : 'left-0 rounded-r-lg'" @click="toggleSideSection">
+      {{ isSideSectionVisible ? '<<' : '>>' }} </button>
 
-    <div class="flex flex-col w-full lg:w-[80%]">
+        <SideSection :ticket="ticket" v-show="isSideSectionVisible" class="fixed inset-0 z-40 lg:static lg:z-auto">
+          <SideSectionTop>Detalhes do Ticket</SideSectionTop>
+          <div class="flex flex-col py-2 px-16 lg:p-5 gap-4 overflow-auto no-scrollbar">
+            <div class="flex flex-col gap-3">
+              <label class="text-pink-600 text-l xl:text-lg justify-center">
+                Criado por:
+              </label>
+              <div
+                class="border bg-white flex justify-between lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+                <!--                     TODO: ADICIONAR FOTO DO USER AFTER-->
+                {{ ticket.createdby ? ticket.createdby.name : 'N/A' }}
 
-      <div class="justify-center flex flex-col px-5 h-[12vh] sm:h-[9vh] border-b-black border-b border-solid">
-        <span class="justify-between flex flex-col xl:flex-row gap-2 xl:gap-5">
-          <div class="text-purple text-2xl">
-            {{ ticket.title ? ticket.title : 'N/A' }}
-          </div>
-          <div class="flex justify-end">
-            <SimpleButton @click="viewState.showComments = !viewState.showComments">
-              {{ viewState.showComments ? 'Description' : 'Comments' }}
-              <img :src="viewState.showComments ? descriptionImg : chatImg">
-            </SimpleButton>
-          </div>
-        </span>
-      </div>
-
-      <div
-        class="text-purple flex sm:text-2xl text-xl h-[50vh] justify-between pl-6 pr-12 py-4 border-b-purple border-b-opacity-30 border-b border-solid items-start">
-        <div v-if="viewState.showComments" v-for="comment in comments" :key="comment.id">
-<!--          TODO: DANIEL POE ISTO COM FLEX :)-->
-          <CommentsView :comment="comment"/>
-        </div>
-        <div v-else>
-          <DescriptionView :description="ticket.description" />
-        </div>
-      </div>
-
-
-      <div
-        class="text-purple flex flex-col gap-4 sm:text-2xl text-xl h-[30vh] whitespace-nowrap justify-between p-3 items-start">
-
-        <div class="flex text-xl gap-2">
-          <div class="flex border-r-2 border-solid border-black border-opacity-30 pr-2">
-            <img src="../assets/corner-up-left.svg" />
-            <select class="flex px-2" v-model="selectedCommentType" @change="updateSelectedComment">
-              <option v-for="commentType in commentTypes" :key="commentType.id" :value="commentType.id">
-                {{ commentType.name }}
-              </option>
-            </select>
-          </div>
-
-          <div class="flex gap-4">
-            <p>To</p>
-            <div class="flex gap-1">
-              <img loading="lazy" src="../assets/MoNengue.jpg"
-                class="aspect-square object-cover object-center w-8 h-8 rounded-[50%]" />
-              <p>MoNengue</p>
-            </div>
-          </div>
-
-        </div>
-
-        <form class="w-full">
-          <div class="w-full border border-solid border-black border-opacity-20 rounded-lg bg-grey">
-            <div class="px-4 py-2 bg-grey rounded-t-lg">
-              <label for="comment" class="sr-only">Your comment</label>
-              <textarea id="comment" rows="4" v-model="commentBody" @input="testeInput"
-                class="w-full px-0 text-base text-gray-900 bg-grey focus:outline-none focus-visible:outline-none"
-                placeholder="Write here your comment..." required></textarea>
-            </div>
-            <div class="flex items-center justify-between px-3 py-2 border-t">
-              <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
-                <button type="button"
-                  class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
-                  <img src="../assets/text.svg" />
-                </button>
-                <button type="button"
-                  class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
-                  <img src="../assets/emoji.svg" />
-                </button>
-                <button type="button"
-                  class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100">
-                  <img src="../assets/attach.svg" />
-                </button>
               </div>
-              <button type="submit" @click.prevent="postComment"
-                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple rounded-lg hoverBlue">
-                Post comment
-              </button>
+            </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-pink-600 text-l xl:text-lg justify-center">
+                Técnico
+              </label>
+              <div class="flex justify-between lg:w-full">
+                <SimpleSelect :currentValue="ticket.assignedto" :newValues="technicians"
+                  @show-modal="handleShowModalTech" />
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-3">
+              <label class="text-pink-600 text-l xl:text-lg justify-center">
+                Categoria
+              </label>
+              <div
+                class="border bg-white flex justify-between lg:w-full py-1 lg:py-2 lg:px-2.5 rounded-lg border-solid border-black border-opacity-20">
+                {{ ticket.category ? ticket.category.name : 'N/A' }}
+              </div>
+            </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-pink-600 text-l xl:text-lg justify-center">
+                Urgência
+              </label>
+              <div class="flex justify-between lg:w-full">
+                <SimpleSelect :currentValue="ticket.priority" :newValues="priorities"
+                  @show-modal="handleShowModalPriority" />
+              </div>
+            </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-pink-600 text-l xl:text-lg justify-center">
+                Estado
+              </label>
+              <div class="flex justify-between lg:w-full">
+                <SimpleSelect :currentValue="ticket.status" :newValues="statuses" @show-modal="handleShowModalStatus" />
+              </div>
+            </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-pink-600 text-l xl:text-lg justify-center">
+                Localização
+              </label>
+              <div class="flex justify-between lg:w-full">
+                <SimpleSelect :currentValue="ticket.location" :newValues="locations" @show-modal="handleShowModalLocation" />
+              </div>
+            </div>
+            <SimpleButton @click="closeTicket"
+              v-if="(authedUserStore.userRole === 'admin' || authedUserStore.userRole === 'technician') && ticket.status.name !== 'Completo'" class="w-full py-1">
+              <img class="self-center" src="../assets/remove.svg" />
+              Fechar ticket
+            </SimpleButton>
+            <SimpleButton @click="reopenTicket"
+              v-if="ticket.status.name === 'Completo'" class="w-full py-1">
+              <img class="self-center" src="../assets/redo.svg" />
+              Reabrir ticket
+            </SimpleButton>
+            <SimpleButton @click="exportToPdf" class="w-full py-1 mt-2">Exportar para pdf</SimpleButton>
+          </div>
+        </SideSection>
+
+        <div class="flex flex-col w-full lg:w-[80%]">
+
+          <div class="justify-center flex flex-col py-8 px-5 h-[20vh] sm:h-[9vh] border-b-black border-b border-solid">
+            <span class="justify-between flex flex-col sm:flex-row gap-2 xl:gap-5">
+              <div class="text-purple text-xl lg:text-2xl">
+                {{ ticket.title ? ticket.title : 'N/A' }}
+              </div>
+              <div class="flex justify-end">
+                <SimpleButton @click="viewState.showComments = !viewState.showComments">
+                  {{ viewState.showComments ? 'Descrição' : 'Comentários' }}
+                  <img :src="viewState.showComments ? descriptionImg : chatImg">
+                </SimpleButton>
+              </div>
+            </span>
+          </div>
+
+          <div
+            class="text-purple sm:text-2xl text-xl overflow-auto justify-between sm:pl-4 sm:pr-12 px-14 py-4 items-start"
+            :class="{ 'h-[80vh]': !viewState.showComments, 'h-[53vh] border-b-purple border-b-opacity-30 border-b border-solid': viewState.showComments }">
+            <div v-if="viewState.showComments" v-for="comment in comments" :key="comment.id">
+              <CommentsView :comment="comment" @refreshComments="fetchComments" />
+            </div>
+            <div v-else>
+              <DescriptionView :myTicket="ticket" />
             </div>
           </div>
-        </form>
-      </div>
-    </div>
-    <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
-      <template #title>
-        Assign Technician
-      </template>
-      <template #content>
-        You are about to assign {{ ticketStore.selectedTechnician }} to this ticket, are you sure?
-      </template>
-    </Modal>
+
+          <div v-if="viewState.showComments">
+            <CreateCommentForm :ticket="ticket" @refreshComments="fetchComments" />
+          </div>
+
+        </div>
+        <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
+          <template #title>
+            {{ modalContent.title }}
+          </template>
+          <template #content>
+            {{ modalContent.content }}
+          </template>
+        </Modal>
   </div>
 </template>
 
 <style scoped>
 textarea {
   resize: none;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 </style>

@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
-import { UserService } from "../Services/UserService.js";
-import ShowUserForm from '../components/Users/ShowUserForm.vue';
+import { UserService } from "@/Services/UserService.js";
+import ShowUserForm from '@/components/Users/ShowUserForm.vue';
 
 const route = useRoute();
 const myuser = ref({});
@@ -26,6 +26,6 @@ onBeforeMount(async () => {
 
 <template>
   <div class="flex flex-col w-full xl:items-center">
-    <ShowUserForm :myuser="myuser" />
+    <ShowUserForm :myuser="myuser" :isDisabled="false" />
   </div>
 </template>

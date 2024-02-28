@@ -1,4 +1,4 @@
-import { AxiosService } from './AxiosService';
+import { AxiosService } from '@/Services/AxiosService';
 export const UserService = {
 
     getUsers: async () => {
@@ -12,6 +12,7 @@ export const UserService = {
     createUser: async (user) => {
         return AxiosService.makeRequest('post', '/users', user, );
     },
+
 
     createUserInfo: async (userInfo) => {
         return AxiosService.makeRequest('post', '/userInfo', userInfo, 'multipart/form-data');
@@ -52,5 +53,11 @@ export const UserService = {
 
     changePassword: async (passwords) => {
         return AxiosService.makeRequest('put', '/users/changePassword', passwords);
-    }
+    },
+    loadUserData: async (userId) => {
+        return AxiosService.makeRequest('get', `/users/${userId}`);
+    },
+    resetPassword: async (user) => {
+        return AxiosService.makeRequest('put', '/users/resetPassword', user);
+    },
 };

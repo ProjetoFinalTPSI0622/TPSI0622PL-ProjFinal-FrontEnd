@@ -1,4 +1,4 @@
-import { AxiosService } from './AxiosService';
+import { AxiosService } from '@/Services/AxiosService';
 export const AuthService = {
 
     login: async (email, password) => {
@@ -12,4 +12,9 @@ export const AuthService = {
     userLogout: async () => {
         return await AxiosService.makeRequest('get', '/auth/logout');
     },
+
+    recoverPassword: async (email) => {
+        return await AxiosService.makeRequest('post', '/auth/forgotPassword', { email });
+    }
+    
 };

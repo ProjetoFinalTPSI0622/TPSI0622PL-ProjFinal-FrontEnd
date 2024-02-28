@@ -1,11 +1,12 @@
 <template>
   <div class="flex grow basis-[0%] flex-col">
-    <label class="text-pink text-xs mb-2 pl-2">{{ LabelTitle }}*</label>
+    <label class="text-pink text-xs mb-2 pl-2">{{ LabelTitle }}</label>
     <select
+        :disabled="isDisabled"
         @change="handleChange"
         v-model="selectedOption"
         class="bg-white text-purple text-base text-wrap border border-solid border-purple pl-2.5 py-1.5 rounded-lg">
-      <option value="" disabled selected>Select the {{ LabelTitle }}</option>
+      <option value="" disabled selected>Selecione o {{ LabelTitle }}</option>
       <option v-for="option in props.options" :key="option.id" :value="option.id">
         {{ option.name }}
       </option>
@@ -13,8 +14,8 @@
   </div>
 </template>
 
-<script setup>
-import { ref, watch, } from "vue";
+<script setup >
+import { onMounted, ref, watch, } from "vue";
 
 const props = defineProps({
   LabelTitle: {
@@ -22,12 +23,16 @@ const props = defineProps({
     required: true
   },
   options: {
-    type: Array,
+    type: Array || string,
     required: true
   },
   modelValue: {
     type: [String, Number],
     required: true
+  },
+  isDisabled: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -41,5 +46,6 @@ watch(() => props.modelValue, (newValue) => {
 const handleChange = (event) => {
   selectedOption.value = event.target.value;
   emit('update:modelValue', selectedOption.value);
+
 };
 </script>

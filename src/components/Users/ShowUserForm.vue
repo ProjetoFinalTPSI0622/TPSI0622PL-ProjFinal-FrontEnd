@@ -1,19 +1,20 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-import FormShell from '../../layout/FormShell.vue';
-import AvatarCard from '../Form/AvatarCard.vue';
-import FormTitle from '../../components/Form/FormTitle.vue';
-import Input from '../../components/Form/Input.vue';
-import Dropdown from '../Form/Dropdown.vue';
-import DatePicker from '../Form/DataPicker.vue';
-import ButtonSubmit from '../../components/Form/ButtonSubmit.vue';
-import { UserService } from '../../Services/UserService';
-import router from "../../router.js";
-import Modal from '../Modal.vue';
-import ToastStore from '../../Stores/ToastStore.js';
+import FormShell from '@/layout/FormShell.vue';
+import AvatarCard from '@/components/Form/AvatarCard.vue';
+import FormTitle from '@/components/Form/FormTitle.vue';
+import Input from '@/components/Form/Input.vue';
+import Dropdown from '@/components/Form/Dropdown.vue';
+import DatePicker from '@/components/Form/DataPicker.vue';
+import ButtonSubmit from '@/components/Form/ButtonSubmit.vue';
+import { UserService } from '@/Services/UserService';
+import router from "@/router.js";
+import Modal from '@/components/Modal.vue';
+import ToastStore from '@/Stores/ToastStore.js';
 
 const props = defineProps({
-    myuser: Object
+    myuser: Object,
+    isDisabled: Boolean
 });
 
 const showModal = ref(false);
@@ -95,7 +96,11 @@ const handleDropdownChange = (value) => {
 };
 
 const openModal = () => {
+    if(user.value.name != '' && user.value.email != '' && user.value.password != '' && user.value.internalcode != '' && userInfo.value.birthday_date != '' && userInfo.value.nif != ''){
   showModal.value = true;
+  } else {
+    ToastStore().triggerToast('Preencha os campos obrigatórios marcados com *', 'error');
+  }
 };
 
 const handleConfirmModal = async () => {
@@ -107,6 +112,7 @@ const handleCancelModal = () => {
 };
 
 const UpdateUser = async () => {
+    showModal.value = false;
     const formData = new FormData();
 
     if (file.value) {
@@ -127,21 +133,40 @@ const UpdateUser = async () => {
     formData.append('country_id', userInfo.value.country_id);
     formData.append('_method', 'PUT');
 
-    try {
-        await UserService.updateUser(user.value);
-        console.log('User updated successfully');
-        await UserService.updateUserInfo(formData).then((response) => {
+
+    UserService.updateUser(user.value).then((response) => {
+
+        if (response.success) {
+            UserService.updateUserInfo(formData).then((response) => {
             
-            if (response.success) {
-                showModal.value = false;
-                router.push({ name: 'Users' });
-                ToastStore().triggerToast(`Utilizador actualizado com sucesso!`, 'success');
-            }
-            
-        });
-    } catch (error) {
-        console.error('Error: ', error.response);
-    }
+                if (response.success) {
+                    window.dispatchEvent(new Event('user-updated'));
+                    ToastStore().triggerToast(`Utilizador ${user.value.name} actualizado com sucesso!`, 'success');
+                    window.location.reload();
+
+                } else {
+                    const myerros = response.message;
+
+                    Object.keys(myerros).forEach((key) => {
+                    ToastStore().triggerToast(` ${myerros[key][0]}`, 'error');
+                    });
+                }
+
+            }).catch((error) => {
+              ToastStore().triggerToast(`Erro ao tentar atualizar dados do utilizador 1`, 'error');
+            });
+
+        } else {
+            const myerros = response.message;
+
+            Object.keys(myerros).forEach((key) => {
+              ToastStore().triggerToast(` ${myerros[key][0]}`, 'error');
+            });
+        }
+
+    }).catch((error) => {
+    ToastStore().triggerToast(`Erro ao tentar atualizar dados do utilizador 2`, 'error');
+  });
 };
 </script>
 
@@ -149,77 +174,70 @@ const UpdateUser = async () => {
 <template>
     <FormShell @formSubmit="openModal">
         <template v-slot:AvatarCard>
-            <AvatarCard @avatar="ImageHandler" v-model="userInfo.avatar" />
+            <AvatarCard @avatar="ImageHandler" v-model="userInfo.avatar" class="m-5"/>
         </template>
-
+        
         <template v-slot:Form>
-            <FormTitle FormTitle="Update User" />
+            <FormTitle Title="Editar Perfil" />
 
             <div class="flex flex-col w-full my-5">
                 
                 <div class="flex flex-col gap-5 md:flex-row">
-                    <Input LabelTitle="Full Name" type="name" required v-model="user.name" />
-                    <Input LabelTitle="Email" type="email" required v-model="user.email" />
+                    <Input LabelTitle="Nome Completo: *" type="name" required v-model="user.name" />
+                    <Input LabelTitle="Email: *" type="email" required v-model="user.email" />
                 </div>
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
-                    <Input LabelTitle="Internal Code" type="text" required v-model="user.internalcode" />
-                    <Input LabelTitle="Class" type="text" required v-model="userInfo.class" />
+                    <Input LabelTitle="Codigo Interno: *" type="text" required v-model="user.internalcode" :isDisabled="isDisabled" />
+                    <Input LabelTitle="Turma:" type="text" v-model="userInfo.class" :isDisabled="isDisabled" />
                 </div>
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row">
-
                     <Dropdown 
-                        LabelTitle="Role" 
+                        LabelTitle="Role:" 
+                        :isDisabled="isDisabled"
                         :options="roles" 
                         v-model="user.role"
                         :modelValue="user.role"
                         @update:modelValue="handleDropdownChange" />
-
-
                     <Dropdown 
-                        LabelTitle="Gender" 
+                        LabelTitle="Gênero:" 
                         :options="genders" 
                         v-model="userInfo.gender_id"
                         :modelValue="userInfo.gender_id"
                         @update:modelValue="handleDropdownChange" />
-
-
                     <DatePicker 
-                        LabelTitle="Birthday Date" 
+                        LabelTitle="Data de Nascimento: *" 
                         required 
                         v-model="userInfo.birthday_date" 
                         :modelValue="userInfo.birthday_date" />
-                        
                 </div>
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row ">
                     <div class="flex flex-col md:flex-row md:items-end gap-3 lg:w-2/4">
-                        <Input LabelTitle="NIF" type="text" required v-model="userInfo.nif" />
+                        <Input LabelTitle="NIF: *" type="text" required v-model="userInfo.nif" />
                     </div>
-                    <Input LabelTitle="Phone Number" type="text" required v-model="userInfo.phone_number" />
+                    <Input LabelTitle="Número de telefone:" type="text" v-model="userInfo.phone_number" />
                 </div>
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row ">
-                    <Input LabelTitle="Address" type="address" required v-model="userInfo.address" />
-                    <Input LabelTitle="Zip Code" type="text" required v-model="userInfo.postal_code" />
+                    <Input LabelTitle="Morada:" type="address" v-model="userInfo.address" />
+                    <Input LabelTitle="Código Postal:" type="text" v-model="userInfo.postal_code" />
                 </div>
 
                 <div class="flex flex-col gap-5 mt-5 md:flex-row md:mt-5">
-                    <Input LabelTitle="State/Province" type="text" required v-model="userInfo.district" />
-                    <Input LabelTitle="City" type="text" required v-model="userInfo.city" />
-
+                    <Input LabelTitle="Localidade:" type="text" v-model="userInfo.district" />
+                    <Input LabelTitle="Cidade:" type="text" v-model="userInfo.city" />
                     <Dropdown 
-                        LabelTitle="Country" 
+                        LabelTitle="País:" 
                         :options="countries" 
                         v-model="userInfo.country_id"
-                        @update:model-value="handleDropdownChange" />
-
+                        @update:model-value="handleDropdownChange" 
+                        class="md:w-1/5 xl:w-2/5"/>
                 </div>
-
             </div>
 
-            <ButtonSubmit @click="openModal(user)" textButton="Update User" />
+            <ButtonSubmit @click="openModal(user)" textButton="Atualizar Informação" type="button" />
         </template>
     </FormShell>
 

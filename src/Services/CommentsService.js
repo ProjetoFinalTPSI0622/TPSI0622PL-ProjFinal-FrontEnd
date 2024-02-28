@@ -1,4 +1,4 @@
-import { AxiosService } from './AxiosService';
+import { AxiosService } from '@/Services/AxiosService';
 
 export const CommentsService = {
 
@@ -7,7 +7,7 @@ export const CommentsService = {
     },
 
     createComment: async (commentData) => {
-        return AxiosService.makeRequest('post', 'comments', commentData);
+        return AxiosService.makeRequest('post', 'comments', commentData, 'multipart/form-data');
     },
 
     deleteComment: async (id) => {
