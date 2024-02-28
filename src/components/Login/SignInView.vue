@@ -36,6 +36,8 @@ const submitHandler = async (event) => {
         if (authResult.success) {
             router.push({ name: 'home' }).then();
             isSubmitting.value = false;
+        } else {
+            ToastStore().triggerToast(`Login incorreto!`, 'warning');
         }
     } finally {
         setTimeout(() => {

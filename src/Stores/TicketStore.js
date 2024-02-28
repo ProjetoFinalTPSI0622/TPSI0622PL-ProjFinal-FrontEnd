@@ -3,7 +3,6 @@ import ToastStore from '@/Stores/ToastStore.js';
 import { TicketsService } from '@/Services/TicketsService.js';
 import html2pdf from 'html2pdf.js';
 import { useTicketFilterStore } from '@/Stores/TicketFilterStore';
-import { LocationsService } from '@/Services/LocationsService.js';
 
 export const useTicketStore = defineStore({
     id: 'modal',

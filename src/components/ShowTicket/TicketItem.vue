@@ -12,9 +12,9 @@ const props = defineProps({
 
 const ticketStore = useTicketStore();
 
-const showTicketModal = (technicianID, oldValue) => {
+const showTicketModal = (technicianID, oldValue, selectbox) => {
     const ticketID = props.ticket.id;
-    ticketStore.handleShowModalTech(technicianID, ticketID, oldValue);
+    ticketStore.handleShowModalTech(technicianID, ticketID, oldValue, selectbox);
 };
 
 </script>

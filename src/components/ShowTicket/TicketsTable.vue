@@ -32,10 +32,14 @@ const clickHandler = (id) => {
             </tr>
         </thead>
 
-        <div class="max-h-[57vh] sm:max-h-[58vh] lg:max-h-[60vh] overflow-y-auto">
+        <div class="max-h-[57vh] sm:max-h-[58vh] lg:max-h-[62vh] overflow-y-auto">
             <tbody>
                 <TicketItem @click="clickHandler(ticket.id)" v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"
-                    :technicians="technicians" />
+                    :technicians="technicians" v-if="tickets.length > 0"/>
+                    <div v-else class="lg:h-[62vh] flex flex-col justify-center items-center gap-2">
+                        <p class="text-3xl font-bold opacity-80" >SEM TICKETS</p>
+                        <img src="@/assets/noTicket.svg" class="opacity-80" />
+                    </div>
             </tbody>
         </div>
 
