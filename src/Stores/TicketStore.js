@@ -98,7 +98,7 @@ export const useTicketStore = defineStore({
                 ToastStore().triggerToast(`O técnico foi assignado ao ticket !`, 'success');
                 const statusResponse = await TicketsService.updateStatus(this.ticketID, 2);
                 if (statusResponse.success) {
-                    ToastStore().triggerToast(` status do tiOcket foi alterado para "Em Progresso"!`, 'success');
+                    ToastStore().triggerToast(`O status do ticket foi alterado para "Em Progresso"!`, 'success');
                 } else {
                     ToastStore().triggerToast(`Erro ao alterar o status do ticket para "Em Progresso"!`, 'error');
                 }

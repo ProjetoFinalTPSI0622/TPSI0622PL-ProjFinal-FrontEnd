@@ -9,9 +9,6 @@ import SideFilter from '@/components/ShowTicket/SideFilter.vue';
 import TopMenu from '@/components/ShowTicket/TopMenu.vue';
 import TicketsTable from '@/components/ShowTicket/TicketsTable.vue';
 import Modal from '@/components/Modal.vue';
-import SimpleButton from '@/components/SimpleButton.vue';
-import Previous from 'vue-material-design-icons/ChevronleftCircleOutline.vue'
-import Next from 'vue-material-design-icons/ChevronRightCircleOutline.vue'
 
 const tickets = ref([]);
 const technicians = ref([]);
