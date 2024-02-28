@@ -1,0 +1,1 @@
+import{A as t}from"./index-OHFFj_LP.js";const s={getLocations:async()=>await t.makeRequest("get","/locations"),createLocation:async e=>await t.makeRequest("post","/locations",e),updateLocation:async(e,a)=>await t.makeRequest("put",`/locations/${e}`,a),deleteLocation:async e=>await t.makeRequest("delete",`/locations/${e}`)};export{s as L};
