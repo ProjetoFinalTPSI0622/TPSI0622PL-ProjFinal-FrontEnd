@@ -7,7 +7,7 @@ const axiosConfig = {
 };
 
 export const AxiosService = {
-    makeRequest: async (method, url, data = undefined, contentType = 'application/json') => {
+    makeRequest: async (method, url, data = undefined, contentType = 'multipart/form-data') => {
         try {
             const response = await axios({
                 method,

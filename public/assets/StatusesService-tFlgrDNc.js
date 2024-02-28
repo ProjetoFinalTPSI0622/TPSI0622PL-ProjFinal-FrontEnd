@@ -1,0 +1,1 @@
+import{A as e}from"./index-cL9glRiX.js";const u={getStatuses:async()=>await e.makeRequest("get","/statuses"),createStatus:async t=>await e.makeRequest("post","/statuses",t),updateStatus:async(t,s)=>e.makeRequest("put",`/statuses/${t}`,s),deleteStatus:async t=>await e.makeRequest("delete",`/statuses/${t}`)};export{u as S};
