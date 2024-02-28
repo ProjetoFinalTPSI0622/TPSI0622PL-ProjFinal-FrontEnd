@@ -1,1 +1,0 @@
-import{a8 as r}from"./index-M00oQ38T.js";function a(){const t=r();return{triggerToast:(o,e)=>{t[e](o,{position:"top-right",timeout:3e3,closeOnClick:!0,pauseOnFocusLoss:!0,pauseOnHover:!0,draggable:!0,draggablePercent:.6,showCloseButtonOnHover:!0,hideProgressBar:!0,closeButton:"button",icon:!0,rtl:!1})}}}export{a as u};

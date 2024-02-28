@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosConfig = {
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'https://api.cesaedesk.atec-porto.eu/',
     withCredentials: true,
     timeout: 30000,
 };
