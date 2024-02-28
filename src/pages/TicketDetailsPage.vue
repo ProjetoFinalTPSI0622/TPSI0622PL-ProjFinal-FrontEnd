@@ -194,7 +194,7 @@ const toggleSideSection = () => {
 };
 
 const exportToPdf = () => {
-    ticketStore.convertSingleTicketToPDF(ticket.value);
+  ticketStore.convertSingleTicketToPDF(ticket.value);
 };
 
 </script>
@@ -263,20 +263,23 @@ const exportToPdf = () => {
                 Localização
               </label>
               <div class="flex justify-between lg:w-full">
-                <SimpleSelect :currentValue="ticket.location" :newValues="locations" @show-modal="handleShowModalLocation" />
+                <SimpleSelect :currentValue="ticket.location" :newValues="locations"
+                  @show-modal="handleShowModalLocation" />
               </div>
             </div>
             <SimpleButton @click="closeTicket"
-              v-if="(authedUserStore.userRole === 'admin' || authedUserStore.userRole === 'technician') && ticket.status.name !== 'Completo'" class="w-full py-1">
+              v-if="(authedUserStore.userRole === 'admin' || authedUserStore.userRole === 'technician') && ticket.status.name !== 'Completo'"
+              class="w-full py-1">
               <img class="self-center" src="../assets/remove.svg" />
               Fechar ticket
             </SimpleButton>
-            <SimpleButton @click="reopenTicket"
-              v-if="ticket.status.name === 'Completo'" class="w-full py-1">
+            <SimpleButton @click="reopenTicket" v-if="ticket.status.name === 'Completo'" class="w-full py-1">
               <img class="self-center" src="../assets/redo.svg" />
               Reabrir ticket
             </SimpleButton>
-            <SimpleButton @click="exportToPdf" class="w-full py-1 mt-2">Exportar para pdf</SimpleButton>
+            <SimpleButton @click=" exportToPdf "
+              v-if="(authedUserStore.userRole === 'admin' || authedUserStore.userRole === 'technician')" class=" w-full
+              py-1 mt-2">Exportar para pdf</SimpleButton>
           </div>
         </SideSection>
 
@@ -290,7 +293,7 @@ const exportToPdf = () => {
               <div class="flex justify-end">
                 <SimpleButton @click="viewState.showComments = !viewState.showComments">
                   {{ viewState.showComments ? 'Descrição' : 'Comentários' }}
-                  <img :src="viewState.showComments ? descriptionImg : chatImg">
+                  <img :src=" viewState.showComments ? descriptionImg : chatImg ">
                 </SimpleButton>
               </div>
             </span>
@@ -298,21 +301,21 @@ const exportToPdf = () => {
 
           <div
             class="text-purple sm:text-2xl text-xl overflow-auto justify-between sm:pl-4 sm:pr-12 px-14 py-4 items-start"
-            :class="{ 'h-[80vh]': !viewState.showComments, 'h-[53vh] border-b-purple border-b-opacity-30 border-b border-solid': viewState.showComments }">
-            <div v-if="viewState.showComments" v-for="comment in comments" :key="comment.id">
-              <CommentsView :comment="comment" @refreshComments="fetchComments" />
+            :class=" { 'h-[80vh]': !viewState.showComments, 'h-[53vh] border-b-purple border-b-opacity-30 border-b border-solid': viewState.showComments } ">
+            <div v-if=" viewState.showComments " v-for=" comment  in  comments " :key=" comment.id ">
+              <CommentsView :comment=" comment " @refreshComments=" fetchComments " />
             </div>
             <div v-else>
-              <DescriptionView :myTicket="ticket" />
+              <DescriptionView :myTicket=" ticket " />
             </div>
           </div>
 
-          <div v-if="viewState.showComments">
-            <CreateCommentForm :ticket="ticket" @refreshComments="fetchComments" />
+          <div v-if=" viewState.showComments ">
+            <CreateCommentForm :ticket=" ticket " @refreshComments=" fetchComments " />
           </div>
 
         </div>
-        <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
+        <Modal :show=" ticketStore.showModal " @Cancel=" handleCancelModal " @Confirm=" handleConfirmModal ">
           <template #title>
             {{ modalContent.title }}
           </template>
@@ -330,12 +333,13 @@ textarea {
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-</style>
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}</style>

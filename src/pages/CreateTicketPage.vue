@@ -7,6 +7,7 @@ import { onBeforeMount, ref } from "vue";
 import router from "@/router.js";
 import TiptapEditor from '@/components/TicketDetails/TiptapEditor.vue';
 import { LocationsService } from "../Services/LocationsService";
+import ToastStore from '@/Stores/ToastStore.js';
 
 const attachedFiles = ref([]);
 
@@ -36,6 +37,10 @@ const ticketTitle = ref("");
 const isSubmitting = ref(false);
 
 const submitHandler = async () => {
+    if (!ticketTitle.value || !ticketDescription.value) {
+        ToastStore().triggerToast("Titulo e descrição são obrigatórios!", "warning");
+        return;
+    }
 
     const formData = new FormData();
 
