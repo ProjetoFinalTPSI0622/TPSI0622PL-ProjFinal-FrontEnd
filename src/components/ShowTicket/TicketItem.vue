@@ -26,8 +26,8 @@ const showTicketModal = (technicianID, oldValue) => {
                 <img loading="lazy" :src="ticket.createdby.user_info.profile_picture_path"
                     class="aspect-square object-cover object-center w-12 overflow-hidden shrink-0 max-w-full rounded-[50%]" />
                 <div class="flex flex-col h-full justify-center">
-                    <div class="hidden sm:block text-black text-opacity-80 text-sm sm:text-lg">
-                        {{ ticket.createdby.name }}
+                    <div class="hidden sm:block text-black text-opacity-80 text-sm sm:text-lg whitespace-nowrap whitespace-ellipsis">
+                        {{ ticket.createdby.name.slice(0,30) }}
                     </div>
                     <div class="hidden lg:block text-black text-opacity-50 text-sm sm:text-lg whitespace-nowrap">
                         {{ ticket.createdby.email }}

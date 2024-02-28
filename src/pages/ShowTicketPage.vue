@@ -143,10 +143,10 @@ const convertTicketsToPDF = () => {
 
                 <Modal :show="ticketStore.showModal" @Cancel="handleCancelModal" @Confirm="handleConfirmModal">
                     <template #title>
-                        Assign Technician
+                        Atribuir técnico
                     </template>
                     <template #content>
-                        You are about to assign {{ ticketStore.selectedTechnician }} to this ticket, are you sure?
+                        Está prestes a atribuir um técnico a este ticket. Deseja continuar?
                     </template>
                 </Modal>
             </span>

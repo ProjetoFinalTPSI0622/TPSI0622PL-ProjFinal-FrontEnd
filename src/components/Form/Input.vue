@@ -6,6 +6,7 @@
             :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
             :type="type"
+            maxlength="60"
         class="bg-white text-purple text-base text-wrap border border-solid border-purple pl-2.5 py-1.5 rounded-lg">
     </div>
 </template>
